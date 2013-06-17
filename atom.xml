@@ -4,7 +4,7 @@
   <title><![CDATA[Mnemnion]]></title>
   <link href="http://mnemnion.github.io/atom.xml" rel="self"/>
   <link href="http://mnemnion.github.io/"/>
-  <updated>2013-06-17T09:48:32-07:00</updated>
+  <updated>2013-06-17T09:51:53-07:00</updated>
   <id>http://mnemnion.github.io/</id>
   <author>
     <name><![CDATA[Sam Atman]]></name>
@@ -12,6 +12,17 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[test the second]]></title>
+    <link href="http://mnemnion.github.io/blog/2013/06/17/test-the-second/"/>
+    <updated>2013-06-17T09:50:00-07:00</updated>
+    <id>http://mnemnion.github.io/blog/2013/06/17/test-the-second</id>
+    <content type="html"><![CDATA[<h2>Another Hour</h2>
+
+<p>Another post</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ocotopress configuration]]></title>
