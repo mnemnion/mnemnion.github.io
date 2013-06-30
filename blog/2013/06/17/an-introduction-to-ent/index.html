@@ -1,24 +1,97 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Mnemnion]]></title>
-  <link href="http://mnemnion.github.io/atom.xml" rel="self"/>
-  <link href="http://mnemnion.github.io/"/>
-  <updated>2013-06-29T23:11:05-07:00</updated>
-  <id>http://mnemnion.github.io/</id>
-  <author>
-    <name><![CDATA[Sam Atman]]></name>
-    
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>An Introduction to Ent - Mnemnion</title>
+  <meta name="author" content="Sam Atman">
 
   
-  <entry>
-    <title type="html"><![CDATA[An Introduction to Ent]]></title>
-    <link href="http://mnemnion.github.io/blog/2013/06/17/an-introduction-to-ent/"/>
-    <updated>2013-06-17T10:11:00-07:00</updated>
-    <id>http://mnemnion.github.io/blog/2013/06/17/an-introduction-to-ent</id>
-    <content type="html"><![CDATA[<p>ent is a new approach to code creation. It is (will be) an editor and library that works on parse trees, rather than on files, and registers all changes as <a href="http://www.codecommit.com/blog/java/understanding-and-applying-operational-transformation">operational transformations</a>. It does so through the medium of familiar code files, but these may be thought of as an interface to the code, and as a product of it, similar to the executable binaries produced by a compiler. </p>
+  <meta name="description" content="ent is a new approach to code creation. It is (will be) an editor and library that works on parse trees, rather than on files, and registers all &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://mnemnion.github.io/blog/2013/06/17/an-introduction-to-ent">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Mnemnion" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Mnemnion</a></h1>
+  
+    <h2>A Unit of Analogy</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:mnemnion.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">An Introduction to Ent</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-17T10:11:00-07:00" pubdate data-updated="true">Jun 17<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>ent is a new approach to code creation. It is (will be) an editor and library that works on parse trees, rather than on files, and registers all changes as <a href="http://www.codecommit.com/blog/java/understanding-and-applying-operational-transformation">operational transformations</a>. It does so through the medium of familiar code files, but these may be thought of as an interface to the code, and as a product of it, similar to the executable binaries produced by a compiler. </p>
 
 <h3 id="toc_4">Parse Aware Editing of Structured Files</h3>
 
@@ -144,33 +217,112 @@ Note that the target has moved also.</p>
 <p>That said, there is often a clear division between fixing mistakes in code and extending / changing functionality. It is often the case that library updates will fix broken things and break working things, and careful use of ent can separate these concerns, by rewinding a local tree to the point where bad input was created and correcting the mistake. </p>
 
 <p>In the real world, code sometimes depends on buggy behavior, and in this case, you simply rewind the edit and are stuck in the familiar position of having to either freeze the library or change your local codebase. Either way, merely providing the distinction between &#39;this is as things always should have been&#39; and &#39;this is how we want things to be now&#39; can prove powerful. </p>
-]]></content>
-  </entry>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
   
-  <entry>
-    <title type="html"><![CDATA[test the second]]></title>
-    <link href="http://mnemnion.github.io/blog/2013/06/17/test-the-second/"/>
-    <updated>2013-06-17T09:50:00-07:00</updated>
-    <id>http://mnemnion.github.io/blog/2013/06/17/test-the-second</id>
-    <content type="html"><![CDATA[<h2 id="toc_3">Another Hour</h2>
 
-<p>Another post</p>
-]]></content>
-  </entry>
+<span class="byline author vcard">Posted by <span class="fn">Sam Atman</span></span>
+
+      
+
+
+
+
+
+
+
+
   
-  <entry>
-    <title type="html"><![CDATA[ocotopress configuration]]></title>
-    <link href="http://mnemnion.github.io/blog/2013/06/17/ocotopress-configuration/"/>
-    <updated>2013-06-17T09:39:00-07:00</updated>
-    <id>http://mnemnion.github.io/blog/2013/06/17/ocotopress-configuration</id>
-    <content type="html"><![CDATA[<h1 id="toc_0">This is a test.</h1>
 
-<h2 id="toc_1">This is only a test.</h2>
 
-<h3 id="toc_2">Do not adjust your browser.</h3>
+<time datetime="2013-06-17T10:11:00-07:00" pubdate data-updated="true">Jun 17<span>th</span>, 2013</time>
+      
 
-<p>This is a test post for the octopress config</p>
-]]></content>
-  </entry>
+
+    </p>
+    
+      <div class="sharing">
   
-</feed>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://mnemnion.github.io/blog/2013/06/17/an-introduction-to-ent/" data-via="" data-counturl="http://mnemnion.github.io/blog/2013/06/17/an-introduction-to-ent/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/06/17/test-the-second/" title="Previous Post: test the second">&laquo; test the second</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/06/17/an-introduction-to-ent/">An Introduction to Ent</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/17/test-the-second/">Test the Second</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/17/ocotopress-configuration/">Ocotopress Configuration</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Sam Atman -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
