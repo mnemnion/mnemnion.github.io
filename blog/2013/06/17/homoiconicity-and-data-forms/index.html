@@ -1,0 +1,250 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Homoiconicity and Data Forms - Mnemnion</title>
+  <meta name="author" content="Sam Atman">
+
+  
+  <meta name="description" content="Representation of Data in Structured Programs. Today we&#39;re going to discover a programming language. We&#39;re going to start by contemplating &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://mnemnion.github.io/blog/2013/06/17/homoiconicity-and-data-forms">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Mnemnion" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Mnemnion</a></h1>
+  
+    <h2>A Unit of Analogy</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:mnemnion.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Homoiconicity and Data Forms</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-17T14:52:00-07:00" pubdate data-updated="true">Jun 17<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h3 id="toc_6">Representation of Data in Structured Programs.</h3>
+
+<p>Today we&#39;re going to discover a programming language. We&#39;re going to start by contemplating the idea of code as data. </p>
+
+<p>LISP, and by the all-caps I mean the original flavours, had two fundamental forms: atoms, and lists. As Lisp grew up, the lists became able to represent any sort of data type, but at the expense of a certain homoiconicity. </p>
+
+<p>That&#39;s a controversial assertion, but hear me out. A list in a Lisp is a bunch of cons cells, it&#39;s a specific data structure used by default to do pretty much anything. Since the first position (first second third) has a function or a macro, you can fake, say a hash, by saying something like (hash a a-prime b b-prime) but here&#39;s the problem: that&#39;s not homoiconic to your data anymore. Not in a way that accords with modern expectations. </p>
+
+<p>Let&#39;s talk about JSON. Now, JSON is homoiconic to your data. <code>{}</code>? Object. <code>[]</code>? List. <code>&quot;&quot;</code>? String. <code>(1-9)(digits*)</code>? Number. And so on. </p>
+
+<!-- more -->
+
+<p>What makes this homoiconic, and Lisp less so? Strictly, it&#39;s that by the time you reach the data, you know what type of data it is. Before you get to the value of a string, you see the <code>&quot;</code>, before you get to an object, you see <code>{</code>, and so on. In paren-only Lisps, you see <code>(</code>, think &quot;list&quot;, then see a &quot;function&quot;, discover that it&#39;s actually &quot;hash&quot;, and reparse the whole thing as a new data type. This has a cost that adds up over time. Also, the data type is closed exactly like a list, which it isn&#39;t, so finding the close character in a sea of  parentheses is genuinely hard &#8211; though in Lisp, this matters less in practice than one might think.</p>
+
+<p>CL heads will staunchly and indignantly deny all this, and they&#39;re probably right for them: there are reader macros, paren bashing is a totally valid way to close structured data, and so on. But it&#39;s just not how we&#39;d do it now. So let&#39;s start with this JSON business and think through how we&#39;d make a language from it.  </p>
+
+<p>JSON is extracted from JavaScript, of course, so we could just add JavaScript back and call it a day. That&#39;s not the point of this exercise, the point of this exercise is to make a JSONian language from JSON. JSON is JavaScripty, but JavaScript is not JSONian. </p>
+
+<p>We&#39;ll add bare words back first. JSON supports only quoted strings, because JS uses bare symbols for all variables including functions, and JSON isn&#39;t supposed to be able to pass you executable code. But JSONian is all about executable code, so let&#39;s start by putting them back.</p>
+
+<p>But put them where? Inside curly braces? Right now, <code>{ &quot;foo&quot; : &quot;bar&quot; }</code>is what we&#39;re doing with curly braces. In JS that&#39;s a special form, the more normal use of curlies is <code>{ statement; statement; statement; }</code>. Do we want to allow that? </p>
+
+<p>From the JSONian perspective, this would be confusing syntactic overloading. Also, parentheses are not used yet. So we&#39;ll do the Lispy thing, and use them for <code>(function arg arg arg)</code>. It&#39;s simple, and that&#39;s a virtue in a data representation format. Also, unlike Lisp, it will be much less overloaded, because we have <code>[list, list, list]</code> for lists. But let&#39;s call them vectors now, since we now have Lispy lists and don&#39;t want to get confused. </p>
+
+<p>Let&#39;s also wave a magic wand and get rid of some strictures we don&#39;t need. No commas between list elements, no colon between key : value pairs. They aren&#39;t strictly necessary, as list elements are already separated by whitespace and objects won&#39;t compile if they have an odd number of elements. Let&#39;s be nice and let you add commas wherever you want, if it helps you keep track of something. Our language will ignore them.</p>
+
+<p>Furthermore, let&#39;s get rid of the silly strictures on numbers and just say that, to a first approximation, they behave like actual mathematical numbers. It might be nice to add imaginary/complex, but let&#39;s stay grounded: integers, rationals and reals. </p>
+
+<p>Are we done? We could be; this would be a fine language. But let&#39;s refine. One place we can improve: symbols need to resolve to something else or it&#39;s an error, while strings are opaque to the language, that is, the contents of a string is not meaningful to the compiler itself and we don&#39;t want to change that. A compiler won&#39;t know that &quot;foo&quot; isn&#39;t &quot;bar&quot; unless you compare them explicitly. Since we have a convenient colon left over from trimming the fat off our objects (let&#39;s just call them maps, since they are), we can define <code>:foo</code> and <code>:bar</code> as keywords, which always equal themselves. They&#39;re useful in our maps: <code>{:a a :b b}</code> could let us do something like <code>(:a {:a a :b b})</code>, where our keyword acts like a function and retrieves the <code>:a</code> value from the map. <code>(&quot;a&quot; {:a a :b b})</code> should be an error, because it makes no sense to &quot;literal string&quot; something. </p>
+
+<p>I could keep being coy, but that&#39;s not the point: this is Clojure, and this is why I think it&#39;s phenomenal and am convinced that Clojure is the branch from which all future Lisps of importance and duration will grow. </p>
+
+<p>Being homoiconic to your primary data types is important, I dare say crucial. For LISP, that was atoms and lists, and for its descendants that are not Clojure, this fundamental duality is expressed in the syntax. </p>
+
+<p>For FORTH, that is atoms and words. FORTH is also good stuff, but pg isn&#39;t out there telling you to learn it. Maybe he should, we would get a lot of very reliable and hackable embedded systems in the bargain. </p>
+
+<p>But the verdict is in: certain data types are just fundamental and we like having syntax that reflects this. Consider <code>$$$ foo bar baz bux $$$</code>, where <code>$$$</code> is our separator so that we don&#39;t get any hints. </p>
+
+<p>Is that a list, such that adding some <code>qux</code> will give <code>$$$ qux foo bar baz bux $$$</code> ? Is it a vector, such that adding <code>qux</code> gives <code>$$$ foo bar baz bux qux $$$</code>?<br>
+Perhaps a map, where adding qux wouldn&#39;t make sense, but adding <code>$$$ qux quux $$$</code> would give <code>$$$ foo bar, baz bux, qux quux $$$</code>? Or is it a set, where adding qux would give <code>$$$ foo qux baz bux bar $$$</code> (as an example order) but adding another foo would do nothing?</p>
+
+<p>In J. Random Lisp, this is easy: <code>(vec foo bar)</code> <code>(map foo bar)</code> <code>(set foo bar)</code>. Or wait, does map make a map or map a function over some values? Maybe it&#39;s hash, or wait, does hash create a SHA? Arse, where&#39;s my documentation? I think set dynamically binds argument one to argument two&#8230;. </p>
+
+<p>In Clojure, this is <code>(list foo)</code> <code>[vector foo]</code> <code>{:map foo}</code> <code>#{set foo}</code>. There are parenthetical forms of all of them, if necessary. </p>
+
+<p>Note that these are not type categories. If you need that kind of thing, there&#39;s Haskell. These are <em>form</em> categories. There are only so many ways to use linear order to represent data, and Clojure&#39;s set of those is, as far as I can determine, exhaustive. Since linear order is all we have as long as we&#39;re making our programs out of strings, we now have the right amount of expressive power, for my taste. </p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sam Atman</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-17T14:52:00-07:00" pubdate data-updated="true">Jun 17<span>th</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://mnemnion.github.io/blog/2013/06/17/homoiconicity-and-data-forms/" data-via="" data-counturl="http://mnemnion.github.io/blog/2013/06/17/homoiconicity-and-data-forms/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/06/17/an-introduction-to-ent/" title="Previous Post: An Introduction to Ent">&laquo; An Introduction to Ent</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/07/27/syntax-for-literal-strings/" title="Next Post: Syntax for Literal Strings">Syntax for Literal Strings &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/27/syntax-for-literal-strings/">Syntax for Literal Strings</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/17/homoiconicity-and-data-forms/">Homoiconicity and Data Forms</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/17/an-introduction-to-ent/">An Introduction to Ent</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Sam Atman -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

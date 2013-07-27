@@ -4,7 +4,7 @@
   <title><![CDATA[Mnemnion]]></title>
   <link href="http://mnemnion.github.io/atom.xml" rel="self"/>
   <link href="http://mnemnion.github.io/"/>
-  <updated>2013-06-29T23:11:05-07:00</updated>
+  <updated>2013-07-27T11:45:16-07:00</updated>
   <id>http://mnemnion.github.io/</id>
   <author>
     <name><![CDATA[Sam Atman]]></name>
@@ -14,13 +14,100 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Syntax for Literal Strings]]></title>
+    <link href="http://mnemnion.github.io/blog/2013/07/27/syntax-for-literal-strings/"/>
+    <updated>2013-07-27T10:09:00-07:00</updated>
+    <id>http://mnemnion.github.io/blog/2013/07/27/syntax-for-literal-strings</id>
+    <content type="html"><![CDATA[<p>I find it somewhat astonishing that the languages with which I&#39;m familiar still start and end strings with the same character. It is as though we used <code>|</code> for <code>{</code> and <code>}</code> in code blocks and relied on context to figure out if it was <code>begin</code> or <code>end</code>. </p>
+
+<p>Incidentally, it&#39;s quite possible to write a language this way, and an interesting exercise. <code>for | i = 0 ; i &lt; 2 ; i++ || codeBlock |</code> should parse just fine. Heaven help you if you misplace anything. </p>
+
+<p>Check out <a href="https://en.wikipedia.org/wiki/Delimiter#Bracket_delimiters">bracket delimiters</a> on the Wiki. Two of these things are not like the others. Those two are used preponderantly for strings. </p>
+
+<p>It&#39;s clear enough how it happened. A string has an obvious mapping to literary quotation: <code>&quot;That&#39;s what she said!&quot;</code>.  ASCII gives us exactly three options: <code>&#39;</code>, <code>`</code>, and <code>&quot;</code>. <a href="http://c-programming.itags.org/q_c-programming-language_16297.html">It turns out</a> that C was defined using 91 characters, and <code>`</code> was not among them. </p>
+
+<p>Meta enough, I&#39;m writing this in Markdown, and to type <code>`</code>, I must type <code>`` ` ``</code>. I will leave how I typed <code>`` ` ``</code> as an exercise for the reader. </p>
+
+<p>So C chose <code>&quot;</code> for string syntax, and <code>&#39;</code> for characters, and these decisions made sense, somewhere in the mists of time. C also initiated the proud tradition of string escaping, which wasn&#39;t invented to get around the delimiter problem, but which can be used for that purpose in a hacky way. String escaping is so you can say <code>\n</code> and get a newline, the incidental benefit is you can say <code>\&quot;</code> and get a <code>&quot;</code>, hence one can include any character in such a string. Two backslashes is of course <code>\\\\</code>. One gets used to it. </p>
+
+<p>Oh hey, just for fun, why not write a regex that will match such strings? Won&#39;t take you long, I promise. I&#39;ll be right here!</p>
+
+<p>To the point. In typography, we don&#39;t do this. We start quotations with <code>“</code> or <code>‟</code> and end them with <code>”</code>. On the <a href="http://en.wikipedia.org/wiki/%C2%AB">Continent</a>, <code>«</code> and <code>»</code> are used, and this would be my preference as they are much easier to tell apart and don&#39;t have two choices for the opening delimiter. If you follow the link, It turns out they are used both <code>«this way»</code> and <code>»this way«</code> and even <code>»this way»</code> by Finns (<a href="http://en.wikipedia.org/wiki/Finnish_language">of course</a>). We favor the first, because all other brackets in computer programming are inward facing <code>&lt;{[(like so)]}&gt;</code>.</p>
+
+<p>What&#39;s the point? They aren&#39;t on standard keyboards in the US; while any worthwhile editor can get around this, there&#39;s a pain point there. Some people will argue a virtue in using ASCII for source code, and while those people <a href="https://github.com/cgyarvin/urbit">have a point</a>, the ship sailed a long time ago. We use Unicode, and it isn&#39;t going anywhere. </p>
+
+<p>The point is that, without proper left-right matched strings, you cannot literally quote your own source code within your source code. This is damaged, for any language that lets you evaluate at runtime (the interesting ones IOW). If we use <code>«</code> and <code>»</code>, we can use bog-standard reference counting to assure that any properly-balanced literal strings in the source code get quoted. Since in this imaginary syntax a bare <code>»</code> not balanced on the left with a <code>«</code> is a syntax error, any correct program can be embedded. </p>
+
+<p>If, for any reason, you need a bare <code>»</code>, why not use the ISO standard SHA-1 hash of the Unicode value of <code>»</code>? Why not indeed. It then becomes impossible to literally quote that one hash, which is officially the point where it is perverse to pursue the matter further. Concatenate for that one. </p>
+
+<p>To be clear, <code>&quot;</code> for escaped strings is concise and well understood, and with enough convolutions one may write as one pleases. It&#39;s syntax such as <code>&#39;&#39;&#39;</code> for literal strings that grates against my sensibilities. </p>
+
+<p>Clojure has no syntax for literal, multi-line, unescaped strings. That&#39;s too bad; no one does syntax like Rich Hickey, and I suspect that the inadequacy of existing options plays a role here. He may not be willing to go off-keyboard, but I feel that the <code>«</code> and <code>»</code> syntax has a lot to offer. Certainly Europeans would be pleased. </p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Homoiconicity and Data Forms]]></title>
+    <link href="http://mnemnion.github.io/blog/2013/06/17/homoiconicity-and-data-forms/"/>
+    <updated>2013-06-17T14:52:00-07:00</updated>
+    <id>http://mnemnion.github.io/blog/2013/06/17/homoiconicity-and-data-forms</id>
+    <content type="html"><![CDATA[<h3 id="toc_6">Representation of Data in Structured Programs.</h3>
+
+<p>Today we&#39;re going to discover a programming language. We&#39;re going to start by contemplating the idea of code as data. </p>
+
+<p>LISP, and by the all-caps I mean the original flavours, had two fundamental forms: atoms, and lists. As Lisp grew up, the lists became able to represent any sort of data type, but at the expense of a certain homoiconicity. </p>
+
+<p>That&#39;s a controversial assertion, but hear me out. A list in a Lisp is a bunch of cons cells, it&#39;s a specific data structure used by default to do pretty much anything. Since the first position (first second third) has a function or a macro, you can fake, say a hash, by saying something like (hash a a-prime b b-prime) but here&#39;s the problem: that&#39;s not homoiconic to your data anymore. Not in a way that accords with modern expectations. </p>
+
+<p>Let&#39;s talk about JSON. Now, JSON is homoiconic to your data. <code>{}</code>? Object. <code>[]</code>? List. <code>&quot;&quot;</code>? String. <code>(1-9)(digits*)</code>? Number. And so on. </p>
+
+<!-- more -->
+
+<p>What makes this homoiconic, and Lisp less so? Strictly, it&#39;s that by the time you reach the data, you know what type of data it is. Before you get to the value of a string, you see the <code>&quot;</code>, before you get to an object, you see <code>{</code>, and so on. In paren-only Lisps, you see <code>(</code>, think &quot;list&quot;, then see a &quot;function&quot;, discover that it&#39;s actually &quot;hash&quot;, and reparse the whole thing as a new data type. This has a cost that adds up over time. Also, the data type is closed exactly like a list, which it isn&#39;t, so finding the close character in a sea of  parentheses is genuinely hard &#8211; though in Lisp, this matters less in practice than one might think.</p>
+
+<p>CL heads will staunchly and indignantly deny all this, and they&#39;re probably right for them: there are reader macros, paren bashing is a totally valid way to close structured data, and so on. But it&#39;s just not how we&#39;d do it now. So let&#39;s start with this JSON business and think through how we&#39;d make a language from it.  </p>
+
+<p>JSON is extracted from JavaScript, of course, so we could just add JavaScript back and call it a day. That&#39;s not the point of this exercise, the point of this exercise is to make a JSONian language from JSON. JSON is JavaScripty, but JavaScript is not JSONian. </p>
+
+<p>We&#39;ll add bare words back first. JSON supports only quoted strings, because JS uses bare symbols for all variables including functions, and JSON isn&#39;t supposed to be able to pass you executable code. But JSONian is all about executable code, so let&#39;s start by putting them back.</p>
+
+<p>But put them where? Inside curly braces? Right now, <code>{ &quot;foo&quot; : &quot;bar&quot; }</code>is what we&#39;re doing with curly braces. In JS that&#39;s a special form, the more normal use of curlies is <code>{ statement; statement; statement; }</code>. Do we want to allow that? </p>
+
+<p>From the JSONian perspective, this would be confusing syntactic overloading. Also, parentheses are not used yet. So we&#39;ll do the Lispy thing, and use them for <code>(function arg arg arg)</code>. It&#39;s simple, and that&#39;s a virtue in a data representation format. Also, unlike Lisp, it will be much less overloaded, because we have <code>[list, list, list]</code> for lists. But let&#39;s call them vectors now, since we now have Lispy lists and don&#39;t want to get confused. </p>
+
+<p>Let&#39;s also wave a magic wand and get rid of some strictures we don&#39;t need. No commas between list elements, no colon between key : value pairs. They aren&#39;t strictly necessary, as list elements are already separated by whitespace and objects won&#39;t compile if they have an odd number of elements. Let&#39;s be nice and let you add commas wherever you want, if it helps you keep track of something. Our language will ignore them.</p>
+
+<p>Furthermore, let&#39;s get rid of the silly strictures on numbers and just say that, to a first approximation, they behave like actual mathematical numbers. It might be nice to add imaginary/complex, but let&#39;s stay grounded: integers, rationals and reals. </p>
+
+<p>Are we done? We could be; this would be a fine language. But let&#39;s refine. One place we can improve: symbols need to resolve to something else or it&#39;s an error, while strings are opaque to the language, that is, the contents of a string is not meaningful to the compiler itself and we don&#39;t want to change that. A compiler won&#39;t know that &quot;foo&quot; isn&#39;t &quot;bar&quot; unless you compare them explicitly. Since we have a convenient colon left over from trimming the fat off our objects (let&#39;s just call them maps, since they are), we can define <code>:foo</code> and <code>:bar</code> as keywords, which always equal themselves. They&#39;re useful in our maps: <code>{:a a :b b}</code> could let us do something like <code>(:a {:a a :b b})</code>, where our keyword acts like a function and retrieves the <code>:a</code> value from the map. <code>(&quot;a&quot; {:a a :b b})</code> should be an error, because it makes no sense to &quot;literal string&quot; something. </p>
+
+<p>I could keep being coy, but that&#39;s not the point: this is Clojure, and this is why I think it&#39;s phenomenal and am convinced that Clojure is the branch from which all future Lisps of importance and duration will grow. </p>
+
+<p>Being homoiconic to your primary data types is important, I dare say crucial. For LISP, that was atoms and lists, and for its descendants that are not Clojure, this fundamental duality is expressed in the syntax. </p>
+
+<p>For FORTH, that is atoms and words. FORTH is also good stuff, but pg isn&#39;t out there telling you to learn it. Maybe he should, we would get a lot of very reliable and hackable embedded systems in the bargain. </p>
+
+<p>But the verdict is in: certain data types are just fundamental and we like having syntax that reflects this. Consider <code>$$$ foo bar baz bux $$$</code>, where <code>$$$</code> is our separator so that we don&#39;t get any hints. </p>
+
+<p>Is that a list, such that adding some <code>qux</code> will give <code>$$$ qux foo bar baz bux $$$</code> ? Is it a vector, such that adding <code>qux</code> gives <code>$$$ foo bar baz bux qux $$$</code>?<br>
+Perhaps a map, where adding qux wouldn&#39;t make sense, but adding <code>$$$ qux quux $$$</code> would give <code>$$$ foo bar, baz bux, qux quux $$$</code>? Or is it a set, where adding qux would give <code>$$$ foo qux baz bux bar $$$</code> (as an example order) but adding another foo would do nothing?</p>
+
+<p>In J. Random Lisp, this is easy: <code>(vec foo bar)</code> <code>(map foo bar)</code> <code>(set foo bar)</code>. Or wait, does map make a map or map a function over some values? Maybe it&#39;s hash, or wait, does hash create a SHA? Arse, where&#39;s my documentation? I think set dynamically binds argument one to argument two&#8230;. </p>
+
+<p>In Clojure, this is <code>(list foo)</code> <code>[vector foo]</code> <code>{:map foo}</code> <code>#{set foo}</code>. There are parenthetical forms of all of them, if necessary. </p>
+
+<p>Note that these are not type categories. If you need that kind of thing, there&#39;s Haskell. These are <em>form</em> categories. There are only so many ways to use linear order to represent data, and Clojure&#39;s set of those is, as far as I can determine, exhaustive. Since linear order is all we have as long as we&#39;re making our programs out of strings, we now have the right amount of expressive power, for my taste. </p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[An Introduction to Ent]]></title>
     <link href="http://mnemnion.github.io/blog/2013/06/17/an-introduction-to-ent/"/>
     <updated>2013-06-17T10:11:00-07:00</updated>
     <id>http://mnemnion.github.io/blog/2013/06/17/an-introduction-to-ent</id>
     <content type="html"><![CDATA[<p>ent is a new approach to code creation. It is (will be) an editor and library that works on parse trees, rather than on files, and registers all changes as <a href="http://www.codecommit.com/blog/java/understanding-and-applying-operational-transformation">operational transformations</a>. It does so through the medium of familiar code files, but these may be thought of as an interface to the code, and as a product of it, similar to the executable binaries produced by a compiler. </p>
 
-<h3 id="toc_4">Parse Aware Editing of Structured Files</h3>
+<h3 id="toc_0">Parse Aware Editing of Structured Files</h3>
 
 <p>ent&#39;s major rationale is parse-awareness. It will, in general, not allow you to type invalid code, though this can always be overridden. It will parse your code as you create it, storing the resulting file as a series of operational transformations on the parse tree. As a language is more thoroughly defined within ent, this enables REPL-like instant feedback and sophisticated refactoring. </p>
 
@@ -79,7 +166,7 @@ Note that the target has moved also.</p>
 
 <p>This flavor of convenience is well known to IDE users; ent generalizes this, but aims to do so in a way that has deep and far-reaching implications. </p>
 
-<h3 id="toc_5">Continuous Comprehension</h3>
+<h3 id="toc_1">Continuous Comprehension</h3>
 
 <p>As programmers, we want to stay close to our code as we work with it. The move from batch processing to interactive compile-run cycles was a boon, and the development of REPLs took us further, but we remain in a state where we interact with mutable flat files. </p>
 
@@ -87,7 +174,7 @@ Note that the target has moved also.</p>
 
 <p>What is holding us back is that flat files are the ubiquitous interface between tools in the programming chain, and they are mutable by default (indeed, to a fault). ent aims to do the least possible to allow the move to immutable tree-based code structure while maintaining flat files in a sensible state and allowing other tools to act on and transform those files as input into the code structure. </p>
 
-<h3 id="toc_6">Deep Waters</h3>
+<h3 id="toc_2">Deep Waters</h3>
 
 <p>This is not a trivial move. If we were free to design our own ball game, we could start with immutable data types, define transformations on them, and start snowballing. </p>
 
@@ -109,7 +196,7 @@ Note that the target has moved also.</p>
 
 <p>Importantly, even a poor or ambiguous grammar will work, as long as the parser&#39;s output is deterministic. The guarantee that ent will make you is that any tree it makes, if walked from left to right, will give you your string back. </p>
 
-<h3 id="toc_7">Branch and Merge</h3>
+<h3 id="toc_3">Branch and Merge</h3>
 
 <p>Because ent uses operational transformation, it provides great flexibility and control in branching and merging. OT is used in products like Google Docs so that, if network problems cause two user edit streams to diverge, the edits can be merged automatically into a single canonical document as soon as connectivity is restored. </p>
 
@@ -123,7 +210,7 @@ Note that the target has moved also.</p>
 
 <p>That&#39;s why we still use git within ent, for the record; when you start doing time travel, you start to wonder, sometimes, what reality used to look like. git, enslaved to ent, will serenely keep track of all this. </p>
 
-<h3 id="toc_8">Time travel</h3>
+<h3 id="toc_4">Time travel</h3>
 
 <p>Here&#39;s some unavoidable terminology: in ent world, there are two universes. In Universe A, time is entropic, irreversible, and can only be queried as to prior state (and only through the mechanism of recording that prior state). In Universe B, time is reversible and mutable, with a higher order that immutably tracks the paths of that mutation and can unwind the skein accordingly. </p>
 
@@ -133,7 +220,7 @@ Note that the target has moved also.</p>
 
 <p>Universe A is reality, as it happened. Universe B is reality as we wish it happened. They are a powerful team. </p>
 
-<h3 id="toc_9">Branch and Merge, again</h3>
+<h3 id="toc_5">Branch and Merge, again</h3>
 
 <p>The model is in principle no different when multiple authors work on one code base. ent tracks who made each change, in addition to what the change is, as part of the atomic transformation. </p>
 
@@ -144,32 +231,6 @@ Note that the target has moved also.</p>
 <p>That said, there is often a clear division between fixing mistakes in code and extending / changing functionality. It is often the case that library updates will fix broken things and break working things, and careful use of ent can separate these concerns, by rewinding a local tree to the point where bad input was created and correcting the mistake. </p>
 
 <p>In the real world, code sometimes depends on buggy behavior, and in this case, you simply rewind the edit and are stuck in the familiar position of having to either freeze the library or change your local codebase. Either way, merely providing the distinction between &#39;this is as things always should have been&#39; and &#39;this is how we want things to be now&#39; can prove powerful. </p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[test the second]]></title>
-    <link href="http://mnemnion.github.io/blog/2013/06/17/test-the-second/"/>
-    <updated>2013-06-17T09:50:00-07:00</updated>
-    <id>http://mnemnion.github.io/blog/2013/06/17/test-the-second</id>
-    <content type="html"><![CDATA[<h2 id="toc_3">Another Hour</h2>
-
-<p>Another post</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ocotopress configuration]]></title>
-    <link href="http://mnemnion.github.io/blog/2013/06/17/ocotopress-configuration/"/>
-    <updated>2013-06-17T09:39:00-07:00</updated>
-    <id>http://mnemnion.github.io/blog/2013/06/17/ocotopress-configuration</id>
-    <content type="html"><![CDATA[<h1 id="toc_0">This is a test.</h1>
-
-<h2 id="toc_1">This is only a test.</h2>
-
-<h3 id="toc_2">Do not adjust your browser.</h3>
-
-<p>This is a test post for the octopress config</p>
 ]]></content>
   </entry>
   

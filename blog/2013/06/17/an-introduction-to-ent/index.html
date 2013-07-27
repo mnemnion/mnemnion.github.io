@@ -93,7 +93,7 @@
 
 <div class="entry-content"><p>ent is a new approach to code creation. It is (will be) an editor and library that works on parse trees, rather than on files, and registers all changes as <a href="http://www.codecommit.com/blog/java/understanding-and-applying-operational-transformation">operational transformations</a>. It does so through the medium of familiar code files, but these may be thought of as an interface to the code, and as a product of it, similar to the executable binaries produced by a compiler. </p>
 
-<h3 id="toc_4">Parse Aware Editing of Structured Files</h3>
+<h3 id="toc_0">Parse Aware Editing of Structured Files</h3>
 
 <p>ent&#39;s major rationale is parse-awareness. It will, in general, not allow you to type invalid code, though this can always be overridden. It will parse your code as you create it, storing the resulting file as a series of operational transformations on the parse tree. As a language is more thoroughly defined within ent, this enables REPL-like instant feedback and sophisticated refactoring. </p>
 
@@ -152,7 +152,7 @@ Note that the target has moved also.</p>
 
 <p>This flavor of convenience is well known to IDE users; ent generalizes this, but aims to do so in a way that has deep and far-reaching implications. </p>
 
-<h3 id="toc_5">Continuous Comprehension</h3>
+<h3 id="toc_1">Continuous Comprehension</h3>
 
 <p>As programmers, we want to stay close to our code as we work with it. The move from batch processing to interactive compile-run cycles was a boon, and the development of REPLs took us further, but we remain in a state where we interact with mutable flat files. </p>
 
@@ -160,7 +160,7 @@ Note that the target has moved also.</p>
 
 <p>What is holding us back is that flat files are the ubiquitous interface between tools in the programming chain, and they are mutable by default (indeed, to a fault). ent aims to do the least possible to allow the move to immutable tree-based code structure while maintaining flat files in a sensible state and allowing other tools to act on and transform those files as input into the code structure. </p>
 
-<h3 id="toc_6">Deep Waters</h3>
+<h3 id="toc_2">Deep Waters</h3>
 
 <p>This is not a trivial move. If we were free to design our own ball game, we could start with immutable data types, define transformations on them, and start snowballing. </p>
 
@@ -182,7 +182,7 @@ Note that the target has moved also.</p>
 
 <p>Importantly, even a poor or ambiguous grammar will work, as long as the parser&#39;s output is deterministic. The guarantee that ent will make you is that any tree it makes, if walked from left to right, will give you your string back. </p>
 
-<h3 id="toc_7">Branch and Merge</h3>
+<h3 id="toc_3">Branch and Merge</h3>
 
 <p>Because ent uses operational transformation, it provides great flexibility and control in branching and merging. OT is used in products like Google Docs so that, if network problems cause two user edit streams to diverge, the edits can be merged automatically into a single canonical document as soon as connectivity is restored. </p>
 
@@ -196,7 +196,7 @@ Note that the target has moved also.</p>
 
 <p>That&#39;s why we still use git within ent, for the record; when you start doing time travel, you start to wonder, sometimes, what reality used to look like. git, enslaved to ent, will serenely keep track of all this. </p>
 
-<h3 id="toc_8">Time travel</h3>
+<h3 id="toc_4">Time travel</h3>
 
 <p>Here&#39;s some unavoidable terminology: in ent world, there are two universes. In Universe A, time is entropic, irreversible, and can only be queried as to prior state (and only through the mechanism of recording that prior state). In Universe B, time is reversible and mutable, with a higher order that immutably tracks the paths of that mutation and can unwind the skein accordingly. </p>
 
@@ -206,7 +206,7 @@ Note that the target has moved also.</p>
 
 <p>Universe A is reality, as it happened. Universe B is reality as we wish it happened. They are a powerful team. </p>
 
-<h3 id="toc_9">Branch and Merge, again</h3>
+<h3 id="toc_5">Branch and Merge, again</h3>
 
 <p>The model is in principle no different when multiple authors work on one code base. ent tracks who made each change, in addition to what the change is, as part of the atomic transformation. </p>
 
@@ -256,8 +256,8 @@ Note that the target has moved also.</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/06/17/test-the-second/" title="Previous Post: test the second">&laquo; test the second</a>
       
+        <a class="basic-alignment right" href="/blog/2013/06/17/homoiconicity-and-data-forms/" title="Next Post: Homoiconicity and Data Forms">Homoiconicity and Data Forms &raquo;</a>
       
     </p>
   </footer>
@@ -272,15 +272,15 @@ Note that the target has moved also.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/07/27/syntax-for-literal-strings/">Syntax for Literal Strings</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/17/homoiconicity-and-data-forms/">Homoiconicity and Data Forms</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/06/17/an-introduction-to-ent/">An Introduction to Ent</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/17/test-the-second/">Test the Second</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/17/ocotopress-configuration/">Ocotopress Configuration</a>
       </li>
     
   </ul>

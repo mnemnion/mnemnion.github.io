@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Mnemnion</title>
+  <title>Syntax for Literal Strings - Mnemnion</title>
   <meta name="author" content="Sam Atman">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://mnemnion.github.io">
+  <link rel="canonical" href="http://mnemnion.github.io/blog/2013/07/27/syntax-for-literal-strings">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Mnemnion" type="application/atom+xml">
@@ -63,15 +63,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/07/27/syntax-for-literal-strings/">Syntax for Literal Strings</a></h1>
+      <h1 class="entry-title">Syntax for Literal Strings</h1>
     
     
       <p class="meta">
@@ -94,7 +91,7 @@
   </header>
 
 
-  <div class="entry-content"><p>I find it somewhat astonishing that the languages with which I&#39;m familiar still start and end strings with the same character. It is as though we used <code>|</code> for <code>{</code> and <code>}</code> in code blocks and relied on context to figure out if it was <code>begin</code> or <code>end</code>. </p>
+<div class="entry-content"><p>I find it somewhat astonishing that the languages with which I&#39;m familiar still start and end strings with the same character. It is as though we used <code>|</code> for <code>{</code> and <code>}</code> in code blocks and relied on context to figure out if it was <code>begin</code> or <code>end</code>. </p>
 
 <p>Incidentally, it&#39;s quite possible to write a language this way, and an interesting exercise. <code>for | i = 0 ; i &lt; 2 ; i++ || codeBlock |</code> should parse just fine. Heaven help you if you misplace anything. </p>
 
@@ -120,71 +117,16 @@
 
 <p>Clojure has no syntax for literal, multi-line, unescaped strings. That&#39;s too bad; no one does syntax like Rich Hickey, and I suspect that the inadequacy of existing options plays a role here. He may not be willing to go off-keyboard, but I feel that the <code>«</code> and <code>»</code> syntax has a lot to offer. Certainly Europeans would be pleased. </p>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/17/homoiconicity-and-data-forms/">Homoiconicity and Data Forms</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
   
 
+<span class="byline author vcard">Posted by <span class="fn">Sam Atman</span></span>
 
-<time datetime="2013-06-17T14:52:00-07:00" pubdate data-updated="true">Jun 17<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3 id="toc_6">Representation of Data in Structured Programs.</h3>
-
-<p>Today we&#39;re going to discover a programming language. We&#39;re going to start by contemplating the idea of code as data. </p>
-
-<p>LISP, and by the all-caps I mean the original flavours, had two fundamental forms: atoms, and lists. As Lisp grew up, the lists became able to represent any sort of data type, but at the expense of a certain homoiconicity. </p>
-
-<p>That&#39;s a controversial assertion, but hear me out. A list in a Lisp is a bunch of cons cells, it&#39;s a specific data structure used by default to do pretty much anything. Since the first position (first second third) has a function or a macro, you can fake, say a hash, by saying something like (hash a a-prime b b-prime) but here&#39;s the problem: that&#39;s not homoiconic to your data anymore. Not in a way that accords with modern expectations. </p>
-
-<p>Let&#39;s talk about JSON. Now, JSON is homoiconic to your data. <code>{}</code>? Object. <code>[]</code>? List. <code>&quot;&quot;</code>? String. <code>(1-9)(digits*)</code>? Number. And so on. </p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/06/17/homoiconicity-and-data-forms/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/17/an-introduction-to-ent/">An Introduction to Ent</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
@@ -196,36 +138,32 @@
   
 
 
-<time datetime="2013-06-17T10:11:00-07:00" pubdate data-updated="true">Jun 17<span>th</span>, 2013</time>
-        
-      </p>
+<time datetime="2013-07-27T10:09:00-07:00" pubdate data-updated="true">Jul 27<span>th</span>, 2013</time>
+      
+
+
+    </p>
     
-  </header>
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://mnemnion.github.io/blog/2013/07/27/syntax-for-literal-strings/" data-via="" data-counturl="http://mnemnion.github.io/blog/2013/07/27/syntax-for-literal-strings/" >Tweet</a>
+  
+  
+  
+</div>
 
-
-  <div class="entry-content"><p>ent is a new approach to code creation. It is (will be) an editor and library that works on parse trees, rather than on files, and registers all changes as <a href="http://www.codecommit.com/blog/java/understanding-and-applying-operational-transformation">operational transformations</a>. It does so through the medium of familiar code files, but these may be thought of as an interface to the code, and as a product of it, similar to the executable binaries produced by a compiler. </p>
-
-<h3 id="toc_0">Parse Aware Editing of Structured Files</h3>
-
-<p>ent&#39;s major rationale is parse-awareness. It will, in general, not allow you to type invalid code, though this can always be overridden. It will parse your code as you create it, storing the resulting file as a series of operational transformations on the parse tree. As a language is more thoroughly defined within ent, this enables REPL-like instant feedback and sophisticated refactoring. </p>
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/06/17/homoiconicity-and-data-forms/" title="Previous Post: Homoiconicity and Data Forms">&laquo; Homoiconicity and Data Forms</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/06/17/an-introduction-to-ent/">Read on &rarr;</a>
-    </footer>
-  
 
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
 <aside class="sidebar">
   
     <section>
@@ -253,6 +191,7 @@
 
   
 </aside>
+
 
     </div>
   </div>

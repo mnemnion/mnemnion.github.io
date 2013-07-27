@@ -1,24 +1,28 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://mnemnion.github.io/blog/2013/06/17/ocotopress-configuration/</loc>
-        <lastmod>2013-06-17T09:40:26-07:00</lastmod>
-    </url>
-    <url>
-        <loc>http://mnemnion.github.io/blog/2013/06/17/test-the-second/</loc>
-        <lastmod>2013-06-17T09:51:25-07:00</lastmod>
-    </url>
-    <url>
         <loc>http://mnemnion.github.io/blog/2013/06/17/an-introduction-to-ent/</loc>
         <lastmod>2013-06-17T15:35:34-07:00</lastmod>
     </url>
     <url>
+        <loc>http://mnemnion.github.io/blog/2013/06/17/homoiconicity-and-data-forms/</loc>
+        <lastmod>2013-07-27T11:42:45-07:00</lastmod>
+    </url>
+    <url>
+        <loc>http://mnemnion.github.io/blog/2013/07/27/syntax-for-literal-strings/</loc>
+        <lastmod>2013-07-27T11:43:16-07:00</lastmod>
+    </url>
+    <url>
         <loc>http://mnemnion.github.io/blog/archives/</loc>
-        <lastmod>2013-06-17T15:35:34-07:00</lastmod>
+        <lastmod>2013-07-27T11:43:16-07:00</lastmod>
+    </url>
+    <url>
+        <loc>http://mnemnion.github.io/foo-fighter/foo.html</loc>
+        <lastmod>2013-07-26T12:43:31-07:00</lastmod>
     </url>
     <url>
         <loc>http://mnemnion.github.io/</loc>
-        <lastmod>2013-06-17T15:35:34-07:00</lastmod>
+        <lastmod>2013-07-27T11:43:16-07:00</lastmod>
     </url>
     <url>
         <loc>http://mnemnion.github.io/robots.txt</loc>
