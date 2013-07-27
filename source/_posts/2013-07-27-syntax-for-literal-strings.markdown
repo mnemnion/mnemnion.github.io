@@ -17,7 +17,7 @@ It's clear enough how it happened. A string has an obvious mapping to literary q
 
 Meta enough, I'm writing this in Markdown, and to type `` ` ``, I must type ``` `` ` `` ```. I will leave how I typed ``` `` ` `` ``` as an exercise for the reader. 
 
-So C chose `"` for string syntax, and `'` for characters, and these decisions made sense, somewhere in the mists of time. C also initiated the proud tradition of string escaping, which wasn't invented to get around the delimiter problem, but which can be used for that purpose in a hacky way. String escaping is so you can say `\n` and get a newline, the incidental benefit is you can say `\"` and get a `"`, hence one can include any character in such a string. Two backslashes is of course `\\\\`. One gets used to it. 
+So C chose `"` for string syntax, and `'` for characters, and these decisions made sense, somewhere in the mists of time. C also initiated the proud tradition of string escaping, which wasn't invented to get around the delimiter problem, but which can be used for that purpose in a hacky way. String escaping is so you can say `\n` and get a newline, the incidental benefit is you can say `\"` and get a `"`, hence one may include any character in such a string. Two backslashes is of course `\\\\`. One gets used to it. 
 
 Oh hey, just for fun, why not write a regex that will match such strings? Won't take you long, I promise. I'll be right here!
 
