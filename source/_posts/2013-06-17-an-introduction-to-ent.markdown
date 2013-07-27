@@ -3,9 +3,9 @@ layout: post
 title: "An Introduction to Ent"
 date: 2013-06-17 10:11
 comments: true
-categories: 
+categories:
+tags: Code
 ---
-#An introduction to ent#
 
 ent is a new approach to code creation. It is (will be) an editor and library that works on parse trees, rather than on files, and registers all changes as [operational transformations][1]. It does so through the medium of familiar code files, but these may be thought of as an interface to the code, and as a product of it, similar to the executable binaries produced by a compiler. 
 
@@ -14,41 +14,44 @@ ent is a new approach to code creation. It is (will be) an editor and library th
 ### Parse Aware Editing of Structured Files
 ent's major rationale is parse-awareness. It will, in general, not allow you to type invalid code, though this can always be overridden. It will parse your code as you create it, storing the resulting file as a series of operational transformations on the parse tree. As a language is more thoroughly defined within ent, this enables REPL-like instant feedback and sophisticated refactoring. 
 
-A simple example in JSON  will get us started. We are editing this file:
+<!-- more -->
 
-```JSON
+A simple example in json  will get us started. We are editing this file:
+
+``` json
 [  {"foo":"bar"},
    _
 ]
 ```
 
-Where '_' represents the cursor. We type '{'. 
+Where `_` represents the cursor. We type `{`. 
 
-Because we are in an Array context, and the only rule that can match { is Object, we get:
+Because we are in an Array context, and the only rule that can match `{` is Object, we get:
 
-```JSON
+``` json
 [  {"foo":"bar"},
    {_:**}
 ]
 ```
 
-where "**" represents the target, which is the next place that ent expects us to move. 
+where `**` represents the target, which is the next place that ent expects us to move. 
 
-We now type 'q'. Because we are in the Key context of an Object, this is not valid. But ent is friendly, so we get this:
+We now type `q`. Because we are in the Key context of an Object, this is not valid. But ent is friendly, so we get this:
 
-```JSON
+``` json
 [  {"foo":"bar"},
    {"q_":**}
 ]
 
 ```
-Since JSON expects a string, the "" would actually be auto-inserted after the '{'. This example was somewhat contrived to show how ent can handle erroneous input through parse awareness.
 
-Note, as an aside, that github's JSON lexer identifies ** as an error. This points to the advantage of parse aware editing, which can go far beyond syntax highlighting (as well as getting that task more correct than line-based regexes can).
+Since json expects a string, the `""` would actually be auto-inserted after the `{`. This example was somewhat contrived to show how ent can handle erroneous input through parse awareness.
 
-We continue typing 'ux' to give 'qux'. Either " or the right arrow key closes the string and gets us to our target:
+Note, as an aside, that [redcarpet's](https://github.com/vmg/redcarpet) json lexer identifies `**` as an error. This points to the advantage of parse aware editing, which can go far beyond syntax highlighting (as well as getting that task more correct than line-based regexes can).
 
-```JSON
+We continue typing `ux` to give `qux`. Either `"` or the right arrow key closes the string and gets us to our target:
+
+``` json
 [  {"foo":"bar"},
    {"qux":_} **
 ]
@@ -61,7 +64,7 @@ This flavor of convenience is well known to IDE users; ent generalizes this, but
 
 ###Continuous Comprehension#
 
-As programmers, we want to stay close to our code as we work with it. The move from batch processing to interactive compile-run cycles was a boon, and the development of REPLS took us further, but we remain in a state where we interact with mutable flat files. 
+As programmers, we want to stay close to our code as we work with it. The move from batch processing to interactive compile-run cycles was a boon, and the development of REPLs took us further, but we remain in a state where we interact with mutable flat files. 
 
 We would like to be in a state where we interact with immutable trees that embody not only the state of our program's encoding, but every state the program has ever been in. Graphic designers and CAD technicians have had this for decades; one may take the typical Adobe Photoshop file and run it backwards to the very first edit.
 
@@ -109,9 +112,9 @@ That's why we still use git within ent, for the record; when you start doing tim
 
 Here's some unavoidable terminology: in ent world, there are two universes. In Universe A, time is entropic, irreversible, and can only be queried as to prior state (and only through the mechanism of recording that prior state). In Universe B, time is reversible and mutable, with a higher order that immutably tracks the paths of that mutation and can unwind the skein accordingly. 
 
-What? Say I have a file, and I rewind time to rename a function foo() to bar(). I have a path of git revisions that say that at such-and-such a time, my file structure contains certain data. Since I haven't done any time traveling (it's not for the faint of heart), Universe A (git land) is the same as Universe B (ent space). 
+What? Say I have a file, and I rewind time to rename a function `foo()` to `bar()`. I have a path of git revisions that say that at such-and-such a time, my file structure contains certain data. Since I haven't done any time traveling (it's not for the faint of heart), Universe A (git land) is the same as Universe B (ent space). 
 
-So I rewind time, past several git boundaries, and merge. It works. Now, if I go back in time in Universe B, my function is called bar(). If I go back in time in Universe A, my function is called foo(), until the moment that I went back in time, at which point it's called bar(). 
+So I rewind time, past several git boundaries, and merge. It works. Now, if I go back in time in Universe B, my function is called `bar()`. If I go back in time in Universe A, my function is called `foo()`, until the moment that I went back in time, at which point it's called `bar()`. 
  
 Universe A is reality, as it happened. Universe B is reality as we wish it happened. They are a powerful team. 
 
