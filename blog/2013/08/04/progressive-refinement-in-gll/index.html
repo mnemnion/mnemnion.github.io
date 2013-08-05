@@ -1,0 +1,237 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Progressive Refinement in GLL - Mnemnion</title>
+  <meta name="author" content="Sam Atman">
+
+  
+  <meta name="description" content="The GLL Algorithm is one of those core concepts that can change how we do computation. It&#39;s phenomenally powerful. I believe we&#39;re just &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://mnemnion.github.io/blog/2013/08/04/progressive-refinement-in-gll">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Mnemnion" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Mnemnion</a></h1>
+  
+    <h2>A Unit of Analogy</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:mnemnion.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Progressive Refinement in GLL</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-04T14:24:00-07:00" pubdate data-updated="true">Aug 4<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>The <a href="http://dotat.at/tmp/gll.pdf">GLL Algorithm</a> is one of those core concepts that can change how we do computation. It&#39;s phenomenally powerful. I believe we&#39;re just starting to see what it&#39;s capable of.</p>
+
+<p>I plan to implement GLL, as soon as some of the support work is done. It&#39;s going to be a somewhat leisurely task. I&#39;m taking a lot of notes. Currently, I&#39;m using <a href="https://github.com/Engelberg/instaparse">Instaparse</a> to play around with the algorithm.</p>
+
+<p>It&#39;s fantastic stuff, much more flexible as an idiom than, say, ANTLR. It is also much easier to write yourself into an exponential corner, and I find myself abusing regular expressions somewhat rather than torturing the grammar in other ways. </p>
+
+<p>I think this is a consequence of GLL&#39;s strengths, which allow it to parse out well over data that is already in a nested structure. Using it for a shallower kind of pattern matching kills performance even in parallel execution, because at any point in matching a long string of related structures, it could encounter a context that would kill the whole chain of inquiry. If there is any possibility of ambiguous matching, this explodes even faster. </p>
+
+<p>An example of this kind of use is parsing a bunch of sentences and paragraphs into text, which is words and whitespace. Except if you encounter a special character you have to switch context completely; this last requirement makes most natural ways of writing the grammar fail. </p>
+
+<p>An alternative would be progressive refinement. In Instaparse, the latest definition of a rule is used, and all earlier rules are ignored. My proposal, which I intend to use in my own work, is that multiple definitions of the same rule are tried sequentially against the data, after a successful parse.</p>
+
+<p>This would damage the arbitrarily-ordered nature of Instaparse grammars, in a sense. Instaparse still has to decide what to do with multiple definitions, and currently uses the last one provided. </p>
+
+<p>This would just formalize something one can already do with Instaparse, which is to parse a string, flatten the area of interest back into a string, and re-parse that string into a new rule. Substitute your new parse for the old one (this is very easy), and you&#39;ve done it.</p>
+
+<p>Automating that into the grammar would allow one to grab large globs of identical data, switching context when necessary, then parse that data into shape in smaller pieces that don&#39;t have to worry about context boundaries. </p>
+
+<p>It&#39;s a straightforward adaptation, being properly speaking a composition of the same function, <code>insta/parse grammar</code>, over a subset of the data returned by the first call. </p>
+
+<h2 id="toc_20">Automated profiling</h2>
+
+<p>One neat thing about grammars is that you can run them backwards to generate compliant gibberish. As you&#39;d expect, given the vast difference in magnitude between the set of valid input of a given length and the set of all input of that same length, it is quick to use Markov type rules to generate babble for even an intricate, ambigous grammar that would blow up trying to validate the output.</p>
+
+<p>In fact, that&#39;s the point. One may envision, and I may even write, a tool that uses pseudorandom walks to generate longer and longer streams of valid gibberish, and try them against the grammar, looking for suspicious jumps in speed or number of possible parses. Even a naive tool, running on a remote server, would generate useful information while developing a parser. One may envision the tool dialing in where parses go ambigous, generating input accordingly, and alerting the user, or doing the same for square and cubic factors that show up.</p>
+
+<p>If the validity of the babble is questionable, then one has identified permission within the grammer that one may wish to eliminate. It has potential.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sam Atman</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-04T14:24:00-07:00" pubdate data-updated="true">Aug 4<span>th</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://mnemnion.github.io/blog/2013/08/04/progressive-refinement-in-gll/" data-via="" data-counturl="http://mnemnion.github.io/blog/2013/08/04/progressive-refinement-in-gll/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/08/04/in-which-we-build-zeus/" title="Previous Post: In Which We Build Zeus">&laquo; In Which We Build Zeus</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/08/04/progressive-refinement-in-gll/">Progressive Refinement in GLL</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/04/in-which-we-build-zeus/">In Which We Build Zeus</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/03/a-tangled-web-we-weave/">A Tangled Web We Weave</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/07/27/syntax-for-literal-strings/">Syntax for Literal Strings</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/07/27/introduction-to-the-architecture/">Introduction to the Architecture</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Sam Atman -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
