@@ -1,103 +1,20 @@
+<hr>
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>In Which We Build Zeus - Mnemnion</title>
-  <meta name="author" content="Sam Atman">
+<p>layout: post<br>
+title: &quot;In Which We Build Zeus&quot;<br>
+date: 2013-08-04 18:59<br>
+comments: true<br>
+published: true</p>
 
-  
-  <meta name="description" content="Athena is our weaver. This is her source file. As we are writing a weaver, it happens that we do not have one. This file must perforce be hand woven &hellip;">
-  
+<h2 id="toc_17">categories: </h2>
 
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://mnemnion.github.io/blog/2013/08/04/in-which-we-build-zeus">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="Mnemnion" type="application/atom+xml">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  
-
-</head>
-
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">Mnemnion</a></h1>
-  
-    <h2>A Unit of Analogy</h2>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:mnemnion.github.io" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div>
-<article class="hentry" role="article">
-  
-  <header>
-    
-      <h1 class="entry-title">In Which We Build Zeus</h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-04T18:59:00-07:00" pubdate data-updated="true">Aug 4<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-<div class="entry-content"><p>Athena is our weaver. This is her source file. </p>
+<p>Athena is our weaver. This is her source file. </p>
 
 <p>As we are writing a weaver, it happens that we do not have one. This file must perforce be hand woven until Athena may take over. Asking a Goddess to take over any process should not, and shall not, be done casually. </p>
 
 <p>Athena is written in <a href="https://help.github.com/articles/github-flavored-markdown">Git Flavored Markdown</a>, a format designed around code sharing. The executable parts are written in <a href="http://clojure.org">Clojure</a>, using the <a href="https://github.com/Engelberg/instaparse">Instaparse</a> parsing library. </p>
 
-<h1 id="toc_17">Hymn</h1>
+<h1 id="toc_18">Hymn</h1>
 
 <p>Hail, fleet footed Hermes, beloved of Athena!</p>
 
@@ -141,7 +58,7 @@
 <p>And so hail to you, daughter of Zeus who holds the aegis!<br><br>
 Now I will remember you and another song as well.  </p>
 
-<h2 id="toc_18">Bootstrap</h2>
+<h2 id="toc_19">Bootstrap</h2>
 
 <p>To bootstrap Athena, we write a restricted program. It does not weave, so much as extract and concatenate code.</p>
 
@@ -374,7 +291,7 @@ Now I will remember you and another song as well.  </p>
 </pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="kd">defn </span><span class="nv">key-maker</span>
 </span><span class='line'>  <span class="s">&quot;makes a keyword name from our file string&quot;</span>
 </span><span class='line'>  <span class="p">[</span><span class="nv">file-name</span><span class="p">]</span>
-</span><span class='line'>  <span class="p">(</span><span class="nf">clojure.string/replace</span> <span class="p">(</span><span class="nb">last </span><span class="p">(</span><span class="nf">clojure.string/split</span> <span class="nv">file-name</span> <span class="o">#</span><span class="s">&quot;/&quot;</span><span class="p">))</span> <span class="s">&quot;.&quot;</span> <span class="s">&quot;-&quot;</span><span class="p">))</span>
+</span><span class='line'>  <span class="p">(</span><span class="nb">keyword </span> <span class="p">(</span><span class="nb">last </span><span class="p">(</span><span class="nf">clojure.string/split</span> <span class="nv">file-name</span> <span class="o">#</span><span class="s">&quot;/&quot;</span><span class="p">))))</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>This takes our fully-qualified filename, pulled from a magic word, and keywordizes it. The magic words are arranged so there&#39;s one each time zeus needs to change files.</p>
@@ -424,132 +341,13 @@ Now I will remember you and another song as well.  </p>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='clojure'><span class='line'>
-</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">zeus-map</span> <span class="p">(</span><span class="nf">weave-zeus</span> <span class="p">{}</span> <span class="nv">flat-athena</span><span class="p">))</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">zeus-map</span> <span class="p">(</span><span class="nf">weave-zeus</span> <span class="p">{}</span> <span class="nv">flat-athena</span><span class="p">))</span>
 </span><span class='line'>
-</span><span class='line'><span class="p">(</span><span class="k">do </span><span class="p">(</span><span class="nf">spit</span> <span class="s">&quot;migraine/zeus.grammar&quot;</span>  <span class="p">(</span><span class="ss">:zeus-grammar</span> <span class="nv">zeus-map</span><span class="p">))</span>
-</span><span class='line'><span class="p">(</span><span class="nf">spit</span> <span class="s">&quot;migraine/core-test.clj&quot;</span> <span class="p">(</span><span class="ss">:core_test-clj</span> <span class="nv">zeus-map</span><span class="p">))</span>
-</span><span class='line'><span class="p">(</span><span class="nf">spit</span> <span class="s">&quot;migraine/core.clj&quot;</span>      <span class="p">(</span><span class="ss">:core-clj</span> <span class="nv">zeus-map</span><span class="p">)))</span>
+</span><span class='line'><span class="p">(</span><span class="k">do </span><span class="p">(</span><span class="nf">spit</span> <span class="s">&quot;migraine/zeus.grammar&quot;</span>  <span class="p">(</span><span class="ss">:zeus.grammar</span> <span class="nv">zeus-map</span><span class="p">))</span>
+</span><span class='line'>    <span class="p">(</span><span class="nf">spit</span> <span class="s">&quot;migraine/core-test.clj&quot;</span> <span class="p">(</span><span class="ss">:core_test.clj</span> <span class="nv">zeus-map</span><span class="p">))</span>
+</span><span class='line'>    <span class="p">(</span><span class="nf">spit</span> <span class="s">&quot;migraine/core.clj&quot;</span>      <span class="p">(</span><span class="ss">:core.clj</span> <span class="nv">zeus-map</span><span class="p">)))</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>That&#39;s it! The structure of the migraine directory is flat, not the structure leiningen requires, and there are some extra newlines in the source, but I don&#39;t care and neither should you. It&#39;s officially close enough for government work. In our next chapter, we will undergo the formality of writing a test and demonstrating that Migraine&#39;s markdown contains Athena alpha, which will be a part of Athena herself. </p>
 
 <p>Migraine, the next chapter in this adventure, will add some actual capabilities. Migraine is just Zeus with an extra headache: instead of producing himself, he has to produce Athena, which is a more challenging software to write.   </p>
-</div>
-
-
-  <footer>
-    <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Sam Atman</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-04T18:59:00-07:00" pubdate data-updated="true">Aug 4<span>th</span>, 2013</time>
-      
-
-
-    </p>
-    
-      <div class="sharing">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://mnemnion.github.io/blog/2013/08/04/in-which-we-build-zeus/" data-via="" data-counturl="http://mnemnion.github.io/blog/2013/08/04/in-which-we-build-zeus/" >Tweet</a>
-  
-  
-  
-</div>
-
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2013/08/03/a-tangled-web-we-weave/" title="Previous Post: A Tangled Web We Weave">&laquo; A Tangled Web We Weave</a>
-      
-      
-    </p>
-  </footer>
-</article>
-
-</div>
-
-<aside class="sidebar">
-  
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2013/08/04/in-which-we-build-zeus/">In Which We Build Zeus</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/08/03/a-tangled-web-we-weave/">A Tangled Web We Weave</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/07/27/syntax-for-literal-strings/">Syntax for Literal Strings</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/07/27/introduction-to-the-architecture/">Introduction to the Architecture</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/17/homoiconicity-and-data-forms/">Homoiconicity and Data Forms</a>
-      </li>
-    
-  </ul>
-</section>
-
-
-
-
-
-  
-</aside>
-
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - Sam Atman -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
-</footer>
-  
-
-
-
-
-
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
-
-
-
-</body>
-</html>

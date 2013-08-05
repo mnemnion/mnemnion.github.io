@@ -4,7 +4,7 @@
   <title><![CDATA[Mnemnion]]></title>
   <link href="http://mnemnion.github.io/atom.xml" rel="self"/>
   <link href="http://mnemnion.github.io/"/>
-  <updated>2013-08-04T20:47:54-07:00</updated>
+  <updated>2013-08-04T21:19:07-07:00</updated>
   <id>http://mnemnion.github.io/</id>
   <author>
     <name><![CDATA[Sam Atman]]></name>
@@ -16,15 +16,25 @@
   <entry>
     <title type="html"><![CDATA[In Which We Build Zeus]]></title>
     <link href="http://mnemnion.github.io/blog/2013/08/04/in-which-we-build-zeus/"/>
-    <updated>2013-08-04T18:59:00-07:00</updated>
+    <updated>2013-08-04T00:00:00-07:00</updated>
     <id>http://mnemnion.github.io/blog/2013/08/04/in-which-we-build-zeus</id>
-    <content type="html"><![CDATA[<p>Athena is our weaver. This is her source file. </p>
+    <content type="html"><![CDATA[<hr>
+
+<p>layout: post<br>
+title: &quot;In Which We Build Zeus&quot;<br>
+date: 2013-08-04 18:59<br>
+comments: true<br>
+published: true</p>
+
+<h2 id="toc_17">categories: </h2>
+
+<p>Athena is our weaver. This is her source file. </p>
 
 <p>As we are writing a weaver, it happens that we do not have one. This file must perforce be hand woven until Athena may take over. Asking a Goddess to take over any process should not, and shall not, be done casually. </p>
 
 <p>Athena is written in <a href="https://help.github.com/articles/github-flavored-markdown">Git Flavored Markdown</a>, a format designed around code sharing. The executable parts are written in <a href="http://clojure.org">Clojure</a>, using the <a href="https://github.com/Engelberg/instaparse">Instaparse</a> parsing library. </p>
 
-<h1 id="toc_17">Hymn</h1>
+<h1 id="toc_18">Hymn</h1>
 
 <p>Hail, fleet footed Hermes, beloved of Athena!</p>
 
@@ -68,7 +78,7 @@
 <p>And so hail to you, daughter of Zeus who holds the aegis!<br><br>
 Now I will remember you and another song as well.  </p>
 
-<h2 id="toc_18">Bootstrap</h2>
+<h2 id="toc_19">Bootstrap</h2>
 
 <p>To bootstrap Athena, we write a restricted program. It does not weave, so much as extract and concatenate code.</p>
 
@@ -301,7 +311,7 @@ Now I will remember you and another song as well.  </p>
 </pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="kd">defn </span><span class="nv">key-maker</span>
 </span><span class='line'>  <span class="s">&quot;makes a keyword name from our file string&quot;</span>
 </span><span class='line'>  <span class="p">[</span><span class="nv">file-name</span><span class="p">]</span>
-</span><span class='line'>  <span class="p">(</span><span class="nf">clojure.string/replace</span> <span class="p">(</span><span class="nb">last </span><span class="p">(</span><span class="nf">clojure.string/split</span> <span class="nv">file-name</span> <span class="o">#</span><span class="s">&quot;/&quot;</span><span class="p">))</span> <span class="s">&quot;.&quot;</span> <span class="s">&quot;-&quot;</span><span class="p">))</span>
+</span><span class='line'>  <span class="p">(</span><span class="nb">keyword </span> <span class="p">(</span><span class="nb">last </span><span class="p">(</span><span class="nf">clojure.string/split</span> <span class="nv">file-name</span> <span class="o">#</span><span class="s">&quot;/&quot;</span><span class="p">))))</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>This takes our fully-qualified filename, pulled from a magic word, and keywordizes it. The magic words are arranged so there&#39;s one each time zeus needs to change files.</p>
@@ -351,13 +361,11 @@ Now I will remember you and another song as well.  </p>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='clojure'><span class='line'>
-</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">zeus-map</span> <span class="p">(</span><span class="nf">weave-zeus</span> <span class="p">{}</span> <span class="nv">flat-athena</span><span class="p">))</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">zeus-map</span> <span class="p">(</span><span class="nf">weave-zeus</span> <span class="p">{}</span> <span class="nv">flat-athena</span><span class="p">))</span>
 </span><span class='line'>
-</span><span class='line'><span class="p">(</span><span class="k">do </span><span class="p">(</span><span class="nf">spit</span> <span class="s">&quot;migraine/zeus.grammar&quot;</span>  <span class="p">(</span><span class="ss">:zeus-grammar</span> <span class="nv">zeus-map</span><span class="p">))</span>
-</span><span class='line'><span class="p">(</span><span class="nf">spit</span> <span class="s">&quot;migraine/core-test.clj&quot;</span> <span class="p">(</span><span class="ss">:core_test-clj</span> <span class="nv">zeus-map</span><span class="p">))</span>
-</span><span class='line'><span class="p">(</span><span class="nf">spit</span> <span class="s">&quot;migraine/core.clj&quot;</span>      <span class="p">(</span><span class="ss">:core-clj</span> <span class="nv">zeus-map</span><span class="p">)))</span>
+</span><span class='line'><span class="p">(</span><span class="k">do </span><span class="p">(</span><span class="nf">spit</span> <span class="s">&quot;migraine/zeus.grammar&quot;</span>  <span class="p">(</span><span class="ss">:zeus.grammar</span> <span class="nv">zeus-map</span><span class="p">))</span>
+</span><span class='line'>    <span class="p">(</span><span class="nf">spit</span> <span class="s">&quot;migraine/core-test.clj&quot;</span> <span class="p">(</span><span class="ss">:core_test.clj</span> <span class="nv">zeus-map</span><span class="p">))</span>
+</span><span class='line'>    <span class="p">(</span><span class="nf">spit</span> <span class="s">&quot;migraine/core.clj&quot;</span>      <span class="p">(</span><span class="ss">:core.clj</span> <span class="nv">zeus-map</span><span class="p">)))</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>That&#39;s it! The structure of the migraine directory is flat, not the structure leiningen requires, and there are some extra newlines in the source, but I don&#39;t care and neither should you. It&#39;s officially close enough for government work. In our next chapter, we will undergo the formality of writing a test and demonstrating that Migraine&#39;s markdown contains Athena alpha, which will be a part of Athena herself. </p>
