@@ -85,7 +85,7 @@ There will be complete grammars of both input GGG and formatted GGG, in GGG, pro
 
 I pinky swear not to publish an implementation of GGG that uses Unicode anywhere in the tool chain. The source of the reference implementation will conceptually be ASCII, regardless of actual encoding: existing languages make this easy by bare necessity. That's also why there are ASCII equivalents of everything one must actually type in: I would prefer not to hear complaints about how the format is hard to edit on a remote TTY while hanging off the deck of an oil rig. 
 
-As mentioned elsewhere, [Lush](http://lush.sourceforge.net/) seems to have the best story around integrating C and Lisp when you need a lot of the former. I am as yet undecided, I'll play with it a little as day job and grammar definition allow. 
+I gave thought to [Lush](http://lush.sourceforge.net/), and got it working over on my Linux VM. It has an excellent story around integrating C and Lisp, and a collection of operations over binary data which is quite on point. Unfortunately, it uses ELF format for object linking, leaving Macs and Machs out in the cold. It's not the Mac part, it's that I want to target Lisp and C, not a funky flavor of Lisp and C *and* ELF. That's one dependency too many. All dialects of Lisp are intrinsically funky, but [Embeddable Common Lisp](http://ecls.sourceforge.net/) is an ANSI compliant Lisp written in ANSI C which is object-code agnostic. Sounds about right.
 
 The implementation will come with its own formatter, the output of which may be unit tested against the bootstrapped Clojurian version. 
 
