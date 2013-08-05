@@ -9,7 +9,7 @@
   <meta name="author" content="Sam Atman">
 
   
-  <meta name="description" content="The GLL Algorithm is one of those core concepts that can change how we do computation. It&#39;s phenomenally powerful. I believe we&#39;re just &hellip;">
+  <meta name="description" content="Athena is our weaver. This is her source file. As we are writing a weaver, it happens that we do not have one. This file must perforce be hand woven &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -71,68 +71,6 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/08/04/progressive-refinement-in-gll/">Progressive Refinement in GLL</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-04T14:24:00-07:00" pubdate data-updated="true">Aug 4<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>The <a href="http://dotat.at/tmp/gll.pdf">GLL Algorithm</a> is one of those core concepts that can change how we do computation. It&#39;s phenomenally powerful. I believe we&#39;re just starting to see what it&#39;s capable of.</p>
-
-<p>I plan to implement GLL, as soon as some of the support work is done. It&#39;s going to be a somewhat leisurely task. I&#39;m taking a lot of notes. Currently, I&#39;m using <a href="https://github.com/Engelberg/instaparse">Instaparse</a> to play around with the algorithm.</p>
-
-<p>It&#39;s fantastic stuff, much more flexible as an idiom than, say, ANTLR. It is also much easier to write yourself into an exponential corner, and I find myself abusing regular expressions somewhat rather than torturing the grammar in other ways. </p>
-
-<p>I think this is a consequence of GLL&#39;s strengths, which allow it to parse out well over data that is already in a nested structure. Using it for a shallower kind of pattern matching kills performance even in parallel execution, because at any point in matching a long string of related structures, it could encounter a context that would kill the whole chain of inquiry. If there is any possibility of ambiguous matching, this explodes even faster. </p>
-
-<p>An example of this kind of use is parsing a bunch of sentences and paragraphs into text, which is words and whitespace. Except if you encounter a special character you have to switch context completely; this last requirement makes most natural ways of writing the grammar fail. </p>
-
-<p>An alternative would be progressive refinement. In Instaparse, the latest definition of a rule is used, and all earlier rules are ignored. My proposal, which I intend to use in my own work, is that multiple definitions of the same rule are tried sequentially against the data, after a successful parse.</p>
-
-<p>This would damage the arbitrarily-ordered nature of Instaparse grammars, in a sense. Instaparse still has to decide what to do with multiple definitions, and currently uses the last one provided. </p>
-
-<p>This would just formalize something one can already do with Instaparse, which is to parse a string, flatten the area of interest back into a string, and re-parse that string into a new rule. Substitute your new parse for the old one (this is very easy), and you&#39;ve done it.</p>
-
-<p>Automating that into the grammar would allow one to grab large globs of identical data, switching context when necessary, then parse that data into shape in smaller pieces that don&#39;t have to worry about context boundaries. </p>
-
-<p>It&#39;s a straightforward adaptation, being properly speaking a composition of the same function, <code>insta/parse grammar</code>, over a subset of the data returned by the first call. </p>
-
-<h2 id="toc_20">Automated profiling</h2>
-
-<p>One neat thing about grammars is that you can run them backwards to generate compliant gibberish. As you&#39;d expect, given the vast difference in magnitude between the set of valid input of a given length and the set of all input of that same length, it is quick to use Markov type rules to generate babble for even an intricate, ambigous grammar that would blow up trying to validate the output.</p>
-
-<p>In fact, that&#39;s the point. One may envision, and I may even write, a tool that uses pseudorandom walks to generate longer and longer streams of valid gibberish, and try them against the grammar, looking for suspicious jumps in speed or number of possible parses. Even a naive tool, running on a remote server, would generate useful information while developing a parser. One may envision the tool dialing in where parses go ambigous, generating input accordingly, and alerting the user, or doing the same for square and cubic factors that show up.</p>
-
-<p>If the validity of the babble is questionable, then one has identified permission within the grammer that one may wish to eliminate. It has potential.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
       <h1 class="entry-title"><a href="/blog/2013/08/04/in-which-we-build-zeus/">In Which We Build Zeus</a></h1>
     
     
@@ -149,24 +87,14 @@
   
 
 
-<time datetime="2013-08-04T00:00:00-07:00" pubdate data-updated="true">Aug 4<span>th</span>, 2013</time>
+<time datetime="2013-08-04T18:59:00-07:00" pubdate data-updated="true">Aug 4<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><hr>
-
-<p>layout: post<br>
-title: &quot;In Which We Build Zeus&quot;<br>
-date: 2013-08-04 18:59<br>
-comments: true<br>
-published: true</p>
-
-<h2 id="toc_17">categories: </h2>
-
-<p>Athena is our weaver. This is her source file. </p>
+  <div class="entry-content"><p>Athena is our weaver. This is her source file. </p>
 
 <p>As we are writing a weaver, it happens that we do not have one. This file must perforce be hand woven until Athena may take over. Asking a Goddess to take over any process should not, and shall not, be done casually. </p>
 
@@ -509,6 +437,68 @@ Now I will remember you and another song as well.  </p>
 <p>That&#39;s it! The structure of the migraine directory is flat, not the structure leiningen requires, and there are some extra newlines in the source, but I don&#39;t care and neither should you. It&#39;s officially close enough for government work. In our next chapter, we will undergo the formality of writing a test and demonstrating that Migraine&#39;s markdown contains Athena alpha, which will be a part of Athena herself. </p>
 
 <p>Migraine, the next chapter in this adventure, will add some actual capabilities. Migraine is just Zeus with an extra headache: instead of producing himself, he has to produce Athena, which is a more challenging software to write.   </p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/04/progressive-refinement-in-gll/">Progressive Refinement in GLL</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-04T14:24:00-07:00" pubdate data-updated="true">Aug 4<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>The <a href="http://dotat.at/tmp/gll.pdf">GLL Algorithm</a> is one of those core concepts that can change how we do computation. It&#39;s phenomenally powerful. I believe we&#39;re just starting to see what it&#39;s capable of.</p>
+
+<p>I plan to implement GLL, as soon as some of the support work is done. It&#39;s going to be a somewhat leisurely task. I&#39;m taking a lot of notes. Currently, I&#39;m using <a href="https://github.com/Engelberg/instaparse">Instaparse</a> to play around with the algorithm.</p>
+
+<p>It&#39;s fantastic stuff, much more flexible as an idiom than, say, ANTLR. It is also much easier to write yourself into an exponential corner, and I find myself abusing regular expressions somewhat rather than torturing the grammar in other ways. </p>
+
+<p>I think this is a consequence of GLL&#39;s strengths, which allow it to parse out well over data that is already in a nested structure. Using it for a shallower kind of pattern matching kills performance even in parallel execution, because at any point in matching a long string of related structures, it could encounter a context that would kill the whole chain of inquiry. If there is any possibility of ambiguous matching, this explodes even faster. </p>
+
+<p>An example of this kind of use is parsing a bunch of sentences and paragraphs into text, which is words and whitespace. Except if you encounter a special character you have to switch context completely; this last requirement makes most natural ways of writing the grammar fail. </p>
+
+<p>An alternative would be progressive refinement. In Instaparse, the latest definition of a rule is used, and all earlier rules are ignored. My proposal, which I intend to use in my own work, is that multiple definitions of the same rule are tried sequentially against the data, after a successful parse.</p>
+
+<p>This would damage the arbitrarily-ordered nature of Instaparse grammars, in a sense. Instaparse still has to decide what to do with multiple definitions, and currently uses the last one provided. </p>
+
+<p>This would just formalize something one can already do with Instaparse, which is to parse a string, flatten the area of interest back into a string, and re-parse that string into a new rule. Substitute your new parse for the old one (this is very easy), and you&#39;ve done it.</p>
+
+<p>Automating that into the grammar would allow one to grab large globs of identical data, switching context when necessary, then parse that data into shape in smaller pieces that don&#39;t have to worry about context boundaries. </p>
+
+<p>It&#39;s a straightforward adaptation, being properly speaking a composition of the same function, <code>insta/parse grammar</code>, over a subset of the data returned by the first call. </p>
+
+<h2 id="toc_17">Automated profiling</h2>
+
+<p>One neat thing about grammars is that you can run them backwards to generate compliant gibberish. As you&#39;d expect, given the vast difference in magnitude between the set of valid input of a given length and the set of all input of that same length, it is quick to use Markov type rules to generate babble for even an intricate, ambigous grammar that would blow up trying to validate the output.</p>
+
+<p>In fact, that&#39;s the point. One may envision, and I may even write, a tool that uses pseudorandom walks to generate longer and longer streams of valid gibberish, and try them against the grammar, looking for suspicious jumps in speed or number of possible parses. Even a naive tool, running on a remote server, would generate useful information while developing a parser. One may envision the tool dialing in where parses go ambigous, generating input accordingly, and alerting the user, or doing the same for square and cubic factors that show up.</p>
+
+<p>If the validity of the babble is questionable, then one has identified permission within the grammer that one may wish to eliminate. It has potential.</p>
 </div>
   
   
@@ -976,11 +966,11 @@ published: false</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/08/04/progressive-refinement-in-gll/">Progressive Refinement in GLL</a>
+        <a href="/blog/2013/08/04/in-which-we-build-zeus/">In Which We Build Zeus</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/08/04/in-which-we-build-zeus/">In Which We Build Zeus</a>
+        <a href="/blog/2013/08/04/progressive-refinement-in-gll/">Progressive Refinement in GLL</a>
       </li>
     
       <li class="post">
