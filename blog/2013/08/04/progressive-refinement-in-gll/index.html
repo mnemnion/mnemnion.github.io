@@ -111,7 +111,7 @@
 
 <p>It&#39;s a straightforward adaptation, being properly speaking a composition of the same function, <code>insta/parse grammar</code>, over a subset of the data returned by the first call. </p>
 
-<h2 id="toc_17">Automated profiling</h2>
+<h2 id="toc_7">Automated profiling</h2>
 
 <p>One neat thing about grammars is that you can run them backwards to generate compliant gibberish. As you&#39;d expect, given the vast difference in magnitude between the set of valid input of a given length and the set of all input of that same length, it is quick to use Markov type rules to generate babble for even an intricate, ambigous grammar that would blow up trying to validate the output.</p>
 
@@ -191,10 +191,39 @@
       </li>
     
       <li class="post">
-        <a href="/blog/2013/07/27/introduction-to-the-architecture/">Introduction to the Architecture</a>
+        <a href="/blog/2013/06/17/homoiconicity-and-data-forms/">Homoiconicity and Data Forms</a>
       </li>
     
   </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/mnemnion">@mnemnion</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'mnemnion',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
 </section>
 
 
