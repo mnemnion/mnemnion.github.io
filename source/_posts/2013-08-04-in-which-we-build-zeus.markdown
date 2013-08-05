@@ -3,7 +3,7 @@ layout: post
 title: "In Which We Build Zeus"
 date: 2013-08-04 18:59
 comments: true
-published: false
+published: true
 categories: 
 ---
 
