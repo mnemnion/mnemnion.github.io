@@ -4,7 +4,7 @@
   <title><![CDATA[Mnemnion]]></title>
   <link href="http://mnemnion.github.io/atom.xml" rel="self"/>
   <link href="http://mnemnion.github.io/"/>
-  <updated>2013-08-05T19:06:03-07:00</updated>
+  <updated>2013-08-05T19:16:22-07:00</updated>
   <id>http://mnemnion.github.io/</id>
   <author>
     <name><![CDATA[Sam Atman]]></name>
@@ -18,7 +18,20 @@
     <link href="http://mnemnion.github.io/blog/2013/08/05/oh-dear/"/>
     <updated>2013-08-05T19:03:00-07:00</updated>
     <id>http://mnemnion.github.io/blog/2013/08/05/oh-dear</id>
-    <content type="html"><![CDATA[]]></content>
+    <content type="html"><![CDATA[<p>It would seem the weaver produces the documentation and the tangler produces the code.</p>
+
+<p>Of course it does. How very silly of me. </p>
+
+<p>All documentation will have to be updated accordingly.</p>
+
+<p>I mean, this is work of literature and I got the main characters wrong. </p>
+
+<p>I am a headstrong and hubristic mortal. Woe is me.</p>
+
+<p>That woe may not be mine, this error must needs be corrected. The blog will go through a purging the Stasi would be proud of. </p>
+
+<p>Mea Culpa, and my sincerest apologies, Goddess, Muses and Knuth.</p>
+]]></content>
   </entry>
   
   <entry>
