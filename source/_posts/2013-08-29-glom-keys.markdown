@@ -1,0 +1,24 @@
+---
+layout: post
+title: "Glom Keys"
+date: 2013-08-29 08:20
+comments: true
+published: false
+categories: 
+---
+
+So I've been writing some Lisp. Readers of this blog know I'm a fan of Clojure, which is my go-to language for fun and fancy. 
+
+I'm talking about writing Lisp here. Specifically, Embeddable Common Lisp. It is finally time to take up the weapon of my forefathers, the lightsaber of IDEs, Big Daddy Macro hisself. 
+
+[Emacs Live](http://addme.com) is making the transition easier. This isn't a post 'about' Emacs. Presumably you have your own opinion and limited interest in mine. I'm a Sublime guy now, since TM2 never happened. I've been doing Clojure in [Catnip](https://github.com/bodil/catnip) which is the bee's knees. I still feel that improving Catnip on a few fronts would bring it up to close par with the Emacs/nREPL experience, exceeding it in many ways. It's always going to be a tool for the Clojure ecosystem.
+
+Emacs, well, I'm glad I'm finally learning it. Though I do use the Mac keys like s-s (that's command-s in Macspeak) to save things, I'm making an effort to learn to say C-x-s-y, so I can order burritos if I'm at a terminal. 
+
+I can't imagine how right handed people use this thing on a Mac laptop keyboard. The absence of a right side control key must be maddening. As it is, I've mapped backspace to the capslock years back, and will never switch, which leads to some pretty funky chording to back delete words. I know, there are special emacs ways of saying 'delete a word' and I may well eventually learn them. I'm working on paredit; one weird, incompatible doohickey at a time. It's the only way to eat Emacs.
+
+Anyway. When I need a custom keybinding, in almost any context, I make it a glom key. That means either "control alt command" or just "alt command", which are very thinly populated spaces in most programs, while being easy to type. Emacs has so many commands that if I assign a meta command to an unused key, I'm very likely to issue some other command instead, and Emacs seems to delight in putting me in new buffers that I don't understand or want when I do that. 
+
+Er, yeah. Put your private keystrokes in the glom keys. I like triple-glom for commands which you sit back and watch and double-glom for quick stuff one does while editing (like custom characters, say, « and »). 
+
+I'm slightly paranoid that I'll open up some weird mode that will smash one or more of my single-key commands, and don't understand Emacs well enough yet to figure my way out of that kind of inconsistent state. Trust your feelings; use the gloms. 

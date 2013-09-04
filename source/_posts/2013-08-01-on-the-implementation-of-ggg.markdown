@@ -69,6 +69,8 @@ Functions may call themselves, if they have moved their internal cursor forward.
 
 Functions may call other functions, but it is exactly like calling other rules: the function gets the digest and the cursor, and returns false, or true and a new cursor. To simulate calling a generic function, and mostly for readability, there is a macro expansion mechanism. It's worth reiterating that functions may call each other in a way that is indirectly recursive, as long as a) the calling-cursor is moving forward between calls or b) the condition that creates the call is testing some value that is provably decreasing over the cycles.
 
+This does enable a limited form of data sharing, since we can call a function on a literal value. That function must return success and a cursor or failure, but the cursor may be discarded. This means one may pass a function a literal value that it then interns. It can then fail, allow one to pass information that the function would not validate, or succeed, allowing one to pass information which the function would validate. I believe this enables arbitrary data passing, with the understanding that there is no way to share variables, which are always equivalent to whatever literal value they happen to be holding. There is no concept of a passable reference.
+
 These will be somewhat weird macros, because they will be typed. One will be able to provide arguments to macros, indeed there is little point in having them otherwise. Those arguments will be provided in the form of rules at definition time and literal data at run time. The data must pass the type rule in order to be used. You may use `@`, the rule that always succeeds, if you wish.  
 
 A great deal of what a parser must actually do can be done with selectors and rule-like functions. For the rest, there is math, so long as the calculation you specify is bounded. If you're in truly deep waters trying to specify a function, ask yourself: are you trying to do something to the data that isn't parsing or validation? If so, you are using the wrong tool in the chain.
@@ -98,6 +100,18 @@ There is no equivalent of eval, as we do intend to halt if at all possible. FGG 
 There are a few good reasons to nevertheless implement GGG using this restricted language. One is freezing: a language is only as frozen as the language of the reference implementation, and C will freeze right around when Hell does. It may be fossilized, but this is nowhere near good enough. 
 
 If this were the only reason, Hoon would suffice, as it's well on the way to inky black. 
+
+##A Note About Binary Math
+
+That's binary math as in binary and unary operators, not binary the representation format.
+
+FGG will have an enclosed prefix syntax, because of the usual advantages. However, at a guess, 90%-95% of math heads will be unhappy trying to read a purely prefix-enclosed piece of math. Since doing math, particularly simple arithmetic, is a large part of functional validation, some sugar is provided. 
+
+Rules at the first position are treated as functions: they read forward from the `cursor` and succeed accordingly. A block composed entirely of rules is threading the cursor between those rules. A function is just another rule, remember, and cannot have arguments. A macro will have arguments, in the sense described earlier. 
+
+If a literal value is at the first position, or a variable (which is, recall, a reference to a literal value), then *if* the next token is a built-in function with an arity > 2, the built-in or macro is swapped in place with the literal. Since the math operators are built in functions, that means [2 + 3] will turn into [+ 2 3]. Be careful with this; [2 + 3 4 5] will turn into [+ 2 3 4 5] but [2 + 3 + 4 + 5] is a syntax error. There is no notion of operator precedence or association.
+
+Personally I find textual math easiest to read if all operators are unary or binary and precedence is neglected in favor of parentheses. Easy to read is what we want here; Lisps' extreme regularity is to support metaprogramming, which we do not do with GGG. 
 
 ##The Use of Representative Functions
 

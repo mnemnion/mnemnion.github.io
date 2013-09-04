@@ -1,0 +1,22 @@
+---
+layout: post
+title: "Oh dear."
+date: 2013-08-05 19:03
+comments: true
+published: false
+categories: 
+---
+
+It would seem the weaver produces the documentation and the tangler produces the code.
+
+Of course it does. How very silly of me. 
+
+All documentation will have to be updated accordingly.
+
+I mean, this is work of literature and I got the main characters wrong. 
+
+I am a headstrong and hubristic mortal. Woe is me.
+
+That woe may not be mine, this error must needs be corrected. The blog will go through a purging the Stasi would be proud of. 
+
+Mea Culpa, and my sincerest apologies, Goddess, Muses and Knuth.

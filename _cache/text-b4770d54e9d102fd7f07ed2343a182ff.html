@@ -1,0 +1,10 @@
+<div class="highlight"><pre>code =  &lt;&quot;`&quot; &quot;`&quot; &quot;`&quot;&gt; code-type code-block+ &lt;&quot;`&quot; &quot;`&quot; &quot;`&quot;&gt; 
+   | &lt;&quot;`&quot; &quot;`&quot; &quot;`&quot;&gt; &quot;\n&quot; code-block+ &lt;&quot;`&quot; &quot;`&quot; &quot;`&quot;&gt;
+   ;
+
+code-type = &quot;clojure&quot; | &quot;text&quot; ;
+
+&lt;code-block&gt; = #&#39;[^`]+&#39; | in-line-code ;
+
+&lt;in-line-code&gt; = !(&quot;`&quot; &quot;`&quot; &quot;`&quot;) (&quot;`&quot;|&quot;``&quot;);
+</pre></div>

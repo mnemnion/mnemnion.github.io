@@ -3,10 +3,10 @@ layout: post
 title: "Progressive Refinement in GLL"
 date: 2013-08-04 14:24
 comments: true
-published: false
+published: true
 categories: 
 ---
-
+    
 The [GLL Algorithm](http://dotat.at/tmp/gll.pdf) is one of those core concepts that can change how we do computation. It's phenomenally powerful. I believe we're just starting to see what it's capable of.
 
 I plan to implement GLL, as soon as some of the support work is done. It's going to be a somewhat leisurely task. I'm taking a lot of notes. Currently, I'm using [Instaparse](https://github.com/Engelberg/instaparse) to play around with the algorithm.

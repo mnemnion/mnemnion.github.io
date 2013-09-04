@@ -1,0 +1,5 @@
+<div class="highlight"><pre><span class="p">(</span><span class="kd">defn </span><span class="nv">key-maker</span>
+  <span class="s">&quot;makes a keyword name from our file string&quot;</span>
+  <span class="p">[</span><span class="nv">file-name</span><span class="p">]</span>
+  <span class="p">(</span><span class="nb">keyword </span> <span class="p">(</span><span class="nb">last </span><span class="p">(</span><span class="nf">clojure.string/split</span> <span class="nv">file-name</span> <span class="o">#</span><span class="s">&quot;/&quot;</span><span class="p">))))</span>
+</pre></div>

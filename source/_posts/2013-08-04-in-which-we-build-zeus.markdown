@@ -145,7 +145,6 @@ Our first rule is top level. The markdown may be separated into that which is ke
 In Instaparse, that looks something like this:
 
 ```text
-
 zeus-program = (magic | code | <markdown>) * 
 ```
 
@@ -154,7 +153,6 @@ What this says is that a zeus program is any combination of magic, code, and mar
 We'll define code next:
 
 ```text
-
 code =  <"`" "`" "`"> code-type code-block+ <"`" "`" "`"> 
    | <"`" "`" "`"> "\n" code-block+ <"`" "`" "`">
    ;
@@ -177,7 +175,6 @@ Between them, they match everything except three backticks. Real Markdown uses n
 We also need magic:
 
 ```text
-
 <magic> = <"`@"> magic-word <"@`"> ;
 
 magic-word = #'[^@]+' ; 
@@ -188,15 +185,12 @@ Which is defined fairly carefully to consume our magic words. We don't use the a
 That leaves `markdown` which is perhaps not strictly named, since the code blocks are markdown also. For Zeus, we may as well call it junk; we have to match it, but we don't look at it. It looks like this:
 
 ```text
-
-
 markdown = #'[^`@]+' | in-line-code;
 ```
 
 We're done! We now have a grammar that we can make into a parser, so let's do it: we need to add more code to `@/marmion/athena/src/athena/core.clj@`. 
 
 ```clojure
-
 (def zeus-parser (insta/parser (slurp "zeus.grammar")))
 ```
 
@@ -207,7 +201,6 @@ But then, literature generally hides the messiness behind its production. If you
 Now, we use `zeus-parser` to parse this document, `athena.md`
 
 ```clojure
-
 (def parsed-athena (zeus-parser (slurp "athena.md")))
 ```
 
@@ -220,7 +213,6 @@ Fortunately, this is so common that Instaparse ships with a function for fixing 
 First we need a helper function for insta/transform to call:
 
 ```clojure
-
 (defn cat-code "a bit of help for code blocks"
   [tag & body] (vec [tag (apply str body)]))
 ```
@@ -228,7 +220,6 @@ First we need a helper function for insta/transform to call:
 Then we call it and do some stuff to the results:
 
 ```clojure
-
 (def flat-athena (drop 10 (flatten (insta/transform {:code cat-code} parsed-athena))))
 ```
 
@@ -245,11 +236,10 @@ The quine could be completed with a trivial act, which we put in the margins: `(
 Instead, let's write a little helper function, `key-maker`
 
 ```clojure
-
 (defn key-maker
   "makes a keyword name from our file string"
   [file-name]
-  (clojure.string/replace (last (clojure.string/split file-name #"/")) "." "-"))
+  (keyword  (last (clojure.string/split file-name #"/"))))
 ```
 
 This takes our fully-qualified filename, pulled from a magic word, and keywordizes it. The magic words are arranged so there's one each time zeus needs to change files.
@@ -282,15 +272,15 @@ So we move the latest athena.md into the project directory, load up the REPL and
 So here's our last trick:
 
 ```clojure
-      
 (def zeus-map (weave-zeus {} flat-athena))
                           
-(do (spit "migraine/zeus.grammar"  (:zeus-grammar zeus-map))
-    (spit "migraine/core-test.clj" (:core_test-clj zeus-map))
-    (spit "migraine/core.clj"      (:core-clj zeus-map))) 
+(do (spit "migraine/zeus.grammar"  (:zeus.grammar zeus-map))
+    (spit "migraine/core-test.clj" (:core_test.clj zeus-map))
+    (spit "migraine/core.clj"      (:core.clj zeus-map))) 
 ```
 
 That's it! The structure of the migraine directory is flat, not the structure leiningen requires, and there are some extra newlines in the source, but I don't care and neither should you. It's officially close enough for government work. In our next chapter, we will undergo the formality of writing a test and demonstrating that Migraine's markdown contains Athena alpha, which will be a part of Athena herself. 
 
 Migraine, the next chapter in this adventure, will add some actual capabilities. Migraine is just Zeus with an extra headache: instead of producing himself, he has to produce Athena, which is a more challenging software to write.   
+
 

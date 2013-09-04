@@ -19,3 +19,4 @@ gem 'sinatra', '~> 1.4.2'
 gem 'redcarpet', '~> 2.1.1'
 gem "albino", "~> 1.3.3"
 gem "posix-spawn", "~> 0.3.6"
+gem "jekyll-ultraviolet", "~> 0.0.3"

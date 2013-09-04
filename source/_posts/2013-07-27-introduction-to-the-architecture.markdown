@@ -1,4 +1,4 @@
-Hello, World!---
+---
 layout: post
 title: "Introduction to the Architecture"
 date: 2013-07-27 12:20
