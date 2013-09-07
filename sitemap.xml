@@ -13,6 +13,38 @@
         <lastmod>2013-07-27T11:47:03-07:00</lastmod>
     </url>
     <url>
+        <loc>http://mnemnion.github.io/blog/2013/07/27/introduction-to-the-architecture/</loc>
+        <lastmod>2013-08-05T00:29:32-07:00</lastmod>
+    </url>
+    <url>
+        <loc>http://mnemnion.github.io/blog/2013/07/30/the-semantic-tower/</loc>
+        <lastmod>2013-08-07T20:49:34-07:00</lastmod>
+    </url>
+    <url>
+        <loc>http://mnemnion.github.io/blog/2013/07/30/generalized-generative-grammar/</loc>
+        <lastmod>2013-08-02T11:26:50-07:00</lastmod>
+    </url>
+    <url>
+        <loc>http://mnemnion.github.io/blog/2013/08/01/celsius-versioning/</loc>
+        <lastmod>2013-08-01T16:49:12-07:00</lastmod>
+    </url>
+    <url>
+        <loc>http://mnemnion.github.io/blog/2013/08/01/on-the-implementation-of-ggg/</loc>
+        <lastmod>2013-08-05T10:25:21-07:00</lastmod>
+    </url>
+    <url>
+        <loc>http://mnemnion.github.io/blog/2013/08/01/the-ggg-formatter/</loc>
+        <lastmod>2013-08-04T20:00:58-07:00</lastmod>
+    </url>
+    <url>
+        <loc>http://mnemnion.github.io/blog/2013/08/02/global-namespacing-in-ggg/</loc>
+        <lastmod>2013-08-03T14:15:40-07:00</lastmod>
+    </url>
+    <url>
+        <loc>http://mnemnion.github.io/blog/2013/08/03/on-the-executable-representation/</loc>
+        <lastmod>2013-08-03T11:12:29-07:00</lastmod>
+    </url>
+    <url>
         <loc>http://mnemnion.github.io/blog/2013/08/03/a-tangled-web-we-weave/</loc>
         <lastmod>2013-08-04T20:15:49-07:00</lastmod>
     </url>
@@ -25,10 +57,40 @@
         <lastmod>2013-08-04T23:16:39-07:00</lastmod>
     </url>
     <url>
+        <loc>http://mnemnion.github.io/blog/2013/08/04/tosser/</loc>
+        <lastmod>2013-08-06T08:45:28-07:00</lastmod>
+    </url>
+    <url>
+        <loc>http://mnemnion.github.io/blog/2013/08/05/oh-dear/</loc>
+        <lastmod>2013-08-06T07:49:36-07:00</lastmod>
+    </url>
+    <url>
         <loc>
-            http://mnemnion.github.io/blog/2013/09/03/the-five-most-influential-computer-programs/
+            http://mnemnion.github.io/blog/2013/08/17/regular-expressions-the-peril-of-the-locus/
         </loc>
-        <lastmod>2013-09-03T12:49:29-07:00</lastmod>
+        <lastmod>2013-08-18T09:27:19-07:00</lastmod>
+    </url>
+    <url>
+        <loc>http://mnemnion.github.io/blog/2013/08/18/skytran-the-hipster-hyperloop/</loc>
+        <lastmod>2013-08-18T08:43:28-07:00</lastmod>
+    </url>
+    <url>
+        <loc>http://mnemnion.github.io/blog/2013/08/28/entropy-does-not-exist/</loc>
+        <lastmod>2013-08-28T09:43:35-07:00</lastmod>
+    </url>
+    <url>
+        <loc>http://mnemnion.github.io/blog/2013/08/29/glom-keys/</loc>
+        <lastmod>2013-08-29T08:43:54-07:00</lastmod>
+    </url>
+    <url>
+        <loc>http://mnemnion.github.io/blog/2013/08/31/literate-startups/</loc>
+        <lastmod>2013-08-31T10:49:27-07:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://mnemnion.github.io/blog/2013/09/03/clojure-is-not-a-real-lisp-and-what-we-can-do-about-it/
+        </loc>
+        <lastmod>2013-09-05T10:00:01-07:00</lastmod>
     </url>
     <url>
         <loc>http://mnemnion.github.io/blog/2013/09/04/why-i-am-lisp-2/</loc>
@@ -36,7 +98,7 @@
     </url>
     <url>
         <loc>http://mnemnion.github.io/blog/archives/</loc>
-        <lastmod>2013-09-04T10:01:40-07:00</lastmod>
+        <lastmod>2013-09-05T10:00:01-07:00</lastmod>
     </url>
     <url>
         <loc>http://mnemnion.github.io/foo-fighter/foo.html</loc>
@@ -44,7 +106,7 @@
     </url>
     <url>
         <loc>http://mnemnion.github.io/</loc>
-        <lastmod>2013-09-04T10:01:40-07:00</lastmod>
+        <lastmod>2013-09-05T10:00:01-07:00</lastmod>
     </url>
     <url>
         <loc>http://mnemnion.github.io/robots.txt</loc>
