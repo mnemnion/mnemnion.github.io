@@ -3,7 +3,6 @@ layout: post
 title: "The Urbit Has Landed"
 date: 2013-10-05 10:41
 comments: true
-published: false
 categories: 
 ---
 
