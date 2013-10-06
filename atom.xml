@@ -4,7 +4,7 @@
   <title><![CDATA[Mnemnion]]></title>
   <link href="http://mnemnion.github.io/atom.xml" rel="self"/>
   <link href="http://mnemnion.github.io/"/>
-  <updated>2013-09-07T09:18:00-07:00</updated>
+  <updated>2013-10-06T11:44:18-07:00</updated>
   <id>http://mnemnion.github.io/</id>
   <author>
     <name><![CDATA[Sam Atman]]></name>
@@ -12,6 +12,42 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[On Decimation]]></title>
+    <link href="http://mnemnion.github.io/blog/2013/10/01/on-decimation/"/>
+    <updated>2013-10-01T10:20:00-07:00</updated>
+    <id>http://mnemnion.github.io/blog/2013/10/01/on-decimation</id>
+    <content type="html"><![CDATA[<p>I commonly see the word &quot;decimate&quot; used quantitatively, to mean &quot;to reduce by 90%&quot;.</p>
+
+<p>So commonly, in fact, that I consider it correct. </p>
+
+<p>Yes, yes. In Latin, it means &quot;to reduce by 10%&quot;, which doesn&#39;t sound very scary unless you&#39;re a Centurion awaiting the drawing of lots. </p>
+
+<p>That&#39;s Latin. In English, having a word for &quot;knocked down by an order of magnitude&quot; is useful. We have, fortunately, not retained decimation as a form of punishment. &quot;to reduce by 90%&quot; is also closer in feeling to the qualitative meaning, &quot;to desolate emotionally&quot;. </p>
+
+<p>I was prompted to write this when someone described traffic as &quot;literally decimated&quot; when occupancy of a highway reaches a certain number. It occurred to me that he or she was right to do so. Your useage may vary. </p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A Parenthetical Observation]]></title>
+    <link href="http://mnemnion.github.io/blog/2013/09/11/a-parenthetical-observation/"/>
+    <updated>2013-09-11T10:38:00-07:00</updated>
+    <id>http://mnemnion.github.io/blog/2013/09/11/a-parenthetical-observation</id>
+    <content type="html"><![CDATA[<p>Everyone, when they encounter Lisp for the first time, has trouble with the parentheses. It&#39;s a rite of passage. </p>
+
+<p>Everyone who goes on to learn Lisp develops a <em>very</em> different attitude. I&#39;d like to share an observation that helps understand why.</p>
+
+<p>I write a fair amount of Lisp, in a few dialects. I could get that work done without a &quot;)&quot; key on my keyboard. </p>
+
+<p>Lisp means never having to close your forms. The delimiters on the left are for you to read, the ones on the right are just a period. </p>
+
+<p>I find it interesting that anathema accumulates around code barriers, rather than internal syntax. Semicolons, significant whitespace, brace placement, and parentheses have all been the subject of holy war, and one may easily find developers who simply refuse to work with certain separation styles unless pressed. At the moment I can&#39;t account for this observation, but I&#39;d like to note that I&#39;ve never seen a holy war over, say, <code>:=</code> vs <code>=</code> vs <code>&lt;-</code>. Perhaps I&#39;m not on the right mailing lists. </p>
+
+<p>On the other hand, capitalization and underscore vs. slash vs. nothing are certainly capable of eating up arbitrary amounts of bad blood. Never underestimate the geek&#39;s capacity to bikeshed. </p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Why I Am Lisp 2]]></title>
