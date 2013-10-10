@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>A Parenthetical Observation - Mnemnion</title>
+  <title>Mnemnion</title>
   <meta name="author" content="Sam Atman">
 
   
-  <meta name="description" content="Everyone, when they encounter Lisp for the first time, has trouble with the parentheses. It&#39;s a rite of passage. Everyone who goes on to learn &hellip;">
+  <meta name="description" content="ent is a new approach to code creation. It is (will be) an editor and library that works on parse trees, rather than on files, and registers all &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://mnemnion.github.io/blog/2013/09/11/a-parenthetical-observation">
+  <link rel="canonical" href="http://mnemnion.github.io/blog/page/2">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Mnemnion" type="application/atom+xml">
@@ -63,12 +63,15 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div>
-<article class="hentry" role="article">
+      <div class="blog-index">
   
+  
+  
+    <article>
+      
   <header>
     
-      <h1 class="entry-title">A Parenthetical Observation</h1>
+      <h1 class="entry-title"><a href="/blog/2013/06/17/an-introduction-to-ent/">An Introduction to Ent</a></h1>
     
     
       <p class="meta">
@@ -84,74 +87,38 @@
   
 
 
-<time datetime="2013-09-11T10:38:00-07:00" pubdate data-updated="true">Sep 11<span>th</span>, 2013</time>
+<time datetime="2013-06-17T10:11:00-07:00" pubdate data-updated="true">Jun 17<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>Everyone, when they encounter Lisp for the first time, has trouble with the parentheses. It&#39;s a rite of passage. </p>
+  <div class="entry-content"><p>ent is a new approach to code creation. It is (will be) an editor and library that works on parse trees, rather than on files, and registers all changes as <a href="http://www.codecommit.com/blog/java/understanding-and-applying-operational-transformation">operational transformations</a>. It does so through the medium of familiar code files, but these may be thought of as an interface to the code, and as a product of it, similar to the executable binaries produced by a compiler. </p>
 
-<p>Everyone who goes on to learn Lisp develops a <em>very</em> different attitude. I&#39;d like to share an observation that helps understand why.</p>
+<h3 id="toc_0">Parse Aware Editing of Structured Files</h3>
 
-<p>I write a fair amount of Lisp, in a few dialects. I could get that work done without a &quot;)&quot; key on my keyboard. </p>
+<p>ent&#39;s major rationale is parse-awareness. It will, in general, not allow you to type invalid code, though this can always be overridden. It will parse your code as you create it, storing the resulting file as a series of operational transformations on the parse tree. As a language is more thoroughly defined within ent, this enables REPL-like instant feedback and sophisticated refactoring. </p>
 
-<p>Lisp means never having to close your forms. The delimiters on the left are for you to read, the ones on the right are just a period. </p>
-
-<p>I find it interesting that anathema accumulates around code barriers, rather than internal syntax. Semicolons, significant whitespace, brace placement, and parentheses have all been the subject of holy war, and one may easily find developers who simply refuse to work with certain separation styles unless pressed. At the moment I can&#39;t account for this observation, but I&#39;d like to note that I&#39;ve never seen a holy war over, say, <code>:=</code> vs <code>=</code> vs <code>&lt;-</code>. Perhaps I&#39;m not on the right mailing lists. </p>
-
-<p>On the other hand, capitalization and underscore vs. slash vs. nothing are certainly capable of eating up arbitrary amounts of bad blood. Never underestimate the geek&#39;s capacity to bikeshed. </p>
 </div>
-
-
-  <footer>
-    <p class="meta">
-      
   
-
-<span class="byline author vcard">Posted by <span class="fn">Sam Atman</span></span>
-
-      
-
-
-
-
-
-
-
-
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/06/17/an-introduction-to-ent/">Read on &rarr;</a>
+    </footer>
   
 
 
-<time datetime="2013-09-11T10:38:00-07:00" pubdate data-updated="true">Sep 11<span>th</span>, 2013</time>
-      
-
-
-    </p>
+    </article>
+  
+  <div class="pagination">
     
-      <div class="sharing">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://mnemnion.github.io/blog/2013/09/11/a-parenthetical-observation/" data-via="" data-counturl="http://mnemnion.github.io/blog/2013/09/11/a-parenthetical-observation/" >Tweet</a>
-  
-  
-  
-</div>
-
+    <a href="/blog/archives">Blog Archives</a>
     
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2013/09/04/why-i-am-lisp-2/" title="Previous Post: Why I Am Lisp 2">&laquo; Why I Am Lisp 2</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2013/10/01/on-decimation/" title="Next Post: On Decimation">On Decimation &raquo;</a>
-      
-    </p>
-  </footer>
-</article>
-
+    <a class="next" href="/">Newer &rarr;</a>
+    
+  </div>
 </div>
-
 <aside class="sidebar">
   
     <section>
@@ -184,7 +151,7 @@
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
+    <li class="loading">Status updating&#8230;</li>
   </ul>
   
   <a href="https://github.com/mnemnion">@mnemnion</a> on GitHub
@@ -216,7 +183,6 @@
 
   
 </aside>
-
 
     </div>
   </div>

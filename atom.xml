@@ -4,7 +4,7 @@
   <title><![CDATA[Mnemnion]]></title>
   <link href="http://mnemnion.github.io/atom.xml" rel="self"/>
   <link href="http://mnemnion.github.io/"/>
-  <updated>2013-10-06T11:45:43-07:00</updated>
+  <updated>2013-10-10T10:33:48-07:00</updated>
   <id>http://mnemnion.github.io/</id>
   <author>
     <name><![CDATA[Sam Atman]]></name>
@@ -12,6 +12,172 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Executable Representation]]></title>
+    <link href="http://mnemnion.github.io/blog/2013/10/06/executable-representation/"/>
+    <updated>2013-10-06T12:20:00-07:00</updated>
+    <id>http://mnemnion.github.io/blog/2013/10/06/executable-representation</id>
+    <content type="html"><![CDATA[<p>I find Urbit interesting for one simple reason: Nock is the most elegant expression of computation I have yet to encounter.</p>
+
+<p>I am no kind of software engineer or computer scientist, at all. I am a professional developer, through a colorful maze of career turns. Curtis Yarvin is trolling when he claims to know no &quot;PL Theory&quot;. I&#39;m not. </p>
+
+<p>As an autodidact on most subjects (I can claim a major in chemistry and a minor in mathematics) my coverage is perforce spotty. McCarthy&#39;s thesis I get well enough; Alonzo Church and Haskell Curry make me nervous. </p>
+
+<p>You know who I do understand? Douglas Hofstadter. Came by that understanding the old fashioned way, by dropping out of highschool for a semester to read GEB:EGB and the Dragon Book, then dropping back in, then dropping acid. The order there is important. Get your diplomas, kids.</p>
+
+<p>I also understand DNA, at least okay. I wrote a vector once, or truthfully, my professor kindly took the time to explain how vectors work in enough detail that writing the actual base pairs out was not entirely transcription. I&#39;ve transfected them into plants, as well as wrapping them in tiny pellets of gold and blasting them into cells with high pressure helium, a technique that goes by the sobriquet &quot;shotgun genetic engineering&quot;. Shotgun indeed. If any of that sounds exciting, may I recommend lathe work? It pays better.</p>
+
+<p>So when I encounter Nock, what I see is Lisp, rewritten as a cellular automaton, capable of serving as a DNA for computational beasties. That somehow encodes the Tree of Life. </p>
+
+<p>Let&#39;s run with that and see where it takes us. </p>
+
+<h2 id="toc_20">A Cellular Lisp Machine</h2>
+
+<p>Many people ask: what on Urth is Nock? Comparisons are made across many abstractions. All of them are interesting, and many are salient. To quote the current #urbit channel topic: &quot;<a href="https://thoughtstreams.io/jtauber/nock/">jtauber</a> oh man, the light just went off that [0 1], [1 b] and [2 b c] are just the I, K and S combinators&quot;. Indeed this may be the case, but I am in no position to judge it.</p>
+
+<p>I luck out here because Nock is exactly on Urth a <a href="http://en.wikipedia.org/wiki/Cellular_automaton">cellular automaton</a> and needn&#39;t be anything else, or make reference to anything else, to do what it does. A different von Neumann machine indeed! An Ulam/von Neumann machine.</p>
+
+<p>I am quite convinced that Nock could not have been designed without reference to more-or-less every important formalism of computation in the literature. <a href="http://en.wikipedia.org/wiki/Hangul">Hangul</a> could not have been designed without intimate knowledge of the <a href="http://en.wikipedia.org/wiki/Hanzi">Hanzi</a>, but knowing the latter is no help at all in using the former. </p>
+
+<p>Cellular automata are easy to understand if you&#39;ve read GEB: Nock takes a string, applies rewrite rules in a definite order, and repeatedly reduces until it returns or loops forever. Looping forever can be trivial or not: detecting loops and deciding what to do about them is interpreter-specific. </p>
+
+<h2 id="toc_21">The DNA of the Urb.</h2>
+
+<p>I happen to believe (on alternating Tuesdays) that DNA, as an abstraction, is something that just shakes out of reality when you get oily water to bubble-bath temperature for long enough. The exact base pairs, the resulting mappings, and the detailed chemistry are more than likely homebrewed for each planet. It would be nice to be wrong, but most likely the very basic proteins of other protein-based life would be allergens at best to our chemistry and vice versa. </p>
+
+<p>If you don&#39;t get me, consider that caffeine makes a perfectly good substitute for A in your DNA, and if you&#39;re a fan of the stuff like I am, your DNA contains a considerable amount of it. On some other planet, caffeine is the standard, and as a result, the alpha helix protein causes us to break out in terrible hives on skin contact. Adenosine-producing plants have a powerful narcotic effect on the native mammals, but their chlorophyll destroys our optic nerves. And so on. </p>
+
+<p>Indeed, we may imagine that early life on Earth had many nucleic acid gangs, locked in struggle, and that our chemistry was most toxic to theirs, and/or theirs least toxic to ours. Perhaps not; such losers have a way of going to ground and remaining in pockets. </p>
+
+<p>The Nock spec could serve as the base pairs of an entire kingdom of number, as DNA is the pillar of the kingdoms of life. That is unabashedly the goal. </p>
+
+<p>Yet number is not matter. There are critical differences. Here&#39;s counting in number: 0, 1, 2, &#8230;, n or aleph depending on your taste. Here&#39;s part of counting in matter: 1, 2, &#8230;., ~<a href="http://en.wikipedia.org/wiki/Uranium">92</a>. Important corrolary: 1.008, 4.002602, 6.94 map statistically to 1, 2, and 3 due to the fact that atoms are complicated. That is only the very beginning of it. </p>
+
+<p>The result is that molecules literally have aroma, flavor, texture, color. Numbers have none of those things without convention, and a lot of it. It is our task as programmers to show good taste in establishing these conventions.</p>
+
+<h2 id="toc_22">Executable Representation</h2>
+
+<p>Curtis Yarvin sells Nock as a VM, which I view as overstatement and undersell. Virtual machines do not merely calculate, they run. The only binary Nock interpreter is hinted and jet assisted: it may calculate Nock, but what it runs is Hoon. </p>
+
+<p>A cynic would say that what it runs is C. I say fie. When we are rewriting strings (these are mathy strings, not computery strings), recognizing a tedious reduction and supplying the result is proper cricket. </p>
+
+<p>What if you want to make something fast (call it Foon) and bypass Hoon? Well, you&#39;re kinda on your own as far as I can gather. The hinting mechanism is used, but is not documented as part of Nock. So write your own Nock interpreter that can run Foon, but it will only calculate Hoon. The HoonNock VM will be able to calculate Foon, but can only run Hoon.</p>
+
+<p>Can this be mitigated? I think it can. One way would be to thoroughly document the hinting mechanism, allowing a compiler writer to target not just Nock, but the existing jets. Extra points for bug compatibility. </p>
+
+<h2 id="toc_23">Not Nock</h2>
+
+<p>Nock is at 5K, though two cosmetic fixes have crept in at that level. I&#39;d call that dodgy, except code temperatures this low have never been measured before. The thermometer cannot by definition be properly calibrated.</p>
+
+<p>Ultimately, I feel Nock may be made to serve. Still, my brain runs at a few notches above room temperature, and it&#39;s interesting to think about how Nock could be changed.</p>
+
+<p>Here&#39;s what I wouldn&#39;t touch a hair on:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>A noun is an atom or a cell.  An atom is any natural number.  
+</span><span class='line'>A cell is any ordered pair of nouns.</span></code></pre></td></tr></table></div></figure>
+
+<p>A righteous man might say &quot;Amen&quot; here. I&#39;ll say right on. </p>
+
+<p>I would like to draw the Reader&#39;s attention to the second sentence. It contains the fateful words &quot;natural number&quot;. The camel pokes her nose into the tent. </p>
+
+<p>So normally when we make formal systems that rewrite strings, we use symbols. See Lisp and GEB for the two cases that matter most here, and check out Game of Life again for extra credit: it&#39;s not just Turing complete, but demonstrably self-hosting. </p>
+
+<p>Oh hey, if you want to really impress me, design a Game of Life emulator in Game of Life and then demonstrate Godel incompleteness with it. </p>
+
+<p>Natural numbers, though. A fine choice that shows excellent taste. Not just any set of symbols! <strong>The</strong> set of symbols. Except it&#39;s not a <a href="http://en.wikipedia.org/wiki/Abstract_algebra">set</a>, is it. Indeed it is not: behold the face of the camel. She smells something she likes. It&#39;s warm in here. </p>
+
+<p>We are treated to a punky, fresh set of operators / rewrite rules that let us compute to our computer&#39;s content. Only basic arithmetic escapes cgy&#39;s benign and giving nature here. We are given increment as a warmup, and it would seem entire Dukedoms were awarded on the basis of decrement. I wonder if I could still score a cruiser for multiply. Do I get more points for O(n<sup>4),</sup> or less?</p>
+
+<p>My goodness this beast has a lot of neck. Here, let me move the hookah. In providing only increment I see the logic, but not the wisdom. Worse, I don&#39;t see the sense. It was magnaminous to provide the macros, though it may have been done merely to answer the calls of &quot;you cannot possibly use that faster than Brainfuck&quot; that would have followed such a skeletal machine. </p>
+
+<p>Thing is, when someone says &#39;natural numbers&#39;, they have promised a perfectly well-defined subset of operations, which Nock distains to provide. Hoon can do math; Nock just looks at you and says &quot;i++;&quot; a lot. </p>
+
+<p>Decrement is explained with much fanfare. Indeed most of my actual applicative understanding of Nock comes from that explanation. It&#39;s a simple case, because there&#39;s only one bad value to decrement, namely zero. It&#39;s also fairly obvious what to do: crash. </p>
+
+<p>Add, multiply, modulus, and remainder are entirely specified under the two words &quot;natural number&quot; and it is camelnine not to include them. Look, let me show this creature out: she&#39;ll start spitting or worse, and I like this rug. A modulus 0? Crash or fisticuffs, sir. </p>
+
+<p>Consider line 7. It plainly says &quot;By add, we mean a restricted subset of addition, namely, addition by one&quot;. A little coda saying &quot;oh yeah actually adding stuff in the general case of two arguments? 14&quot; would not instantly bloat our automaton into JVM proportions. </p>
+
+<p>Subtract, though. I could see that going two ways for bad input. One would be to crash; it&#39;s the natural thing to do. Another option would be to return a cell with 1 at the head and the result of subtracting b from a rather than a from b at the foot. We might call it a negative number, or a useful error message. It&#39;s plausible is it not? Perhaps my Nock machine could jet assist this case and yours could absolutely plod. Clearly code allergy could be the only result. </p>
+
+<p>We do not want code allergy at the level of arithmetic. The only option given the Nock spec is to blindly follow the Hoon spec. I detect an abstraction leak.</p>
+
+<p>Where on Urth could we put these extra operators? </p>
+
+<p>The back of the T shirt, of course. There should be plenty of room under the silkscreened all-seeing Eye.</p>
+
+<h2 id="toc_24">Call it Ax</h2>
+
+<p>Nock is unlikely to change. It&#39;s clear that Curtis Yarvin has thought this through, carefully, and simply come to a different conclusion from my own. I don&#39;t expect he will say &quot;By Zod, your camel is completely persuasive&quot; and go rewrite everything. </p>
+
+<p>If I had my own toy Kabbalistic computer, which I do not, it would be called Ax. Ax would be a cellular automaton that has the same preamble as Nock, and a similar structure. There are some good reasons for it to be operator-compatible with Nock, but not many, since it would hit the humble minus of Hoon and rip through each loop unless propped up with some kind of unholy JITing. </p>
+
+<p>So let&#39;s cut the umbilicus and call this automaton Ax. It has two lines of specification. The rest of this post will not add any. Sorry, yo.</p>
+
+<p>Ax would have a longer spec than Nock. That&#39;s okay; Euclid is also longer than Nock, and it&#39;s pretty good. Making it shorter wouldn&#39;t make it better, though I&#39;m sure there are some steps which we consider repetitive today. That&#39;s because it was written for doing geometry, not just for proving it. </p>
+
+<p>Ax would also lack an operator which Nock has, namely 10. Clearly, it may be reconstructed, as it&#39;s but a macro. It won&#39;t be a hint, though, because hints make me nervous. Jets don&#39;t, I emphatically agree with jet propulsion (though not of * for pity&#39;s sake), but hints. I believe I have a scheme for organizing Ax code so that hints aren&#39;t needed or even useful. This post is going to be a two parter.</p>
+
+<p>I do have a question about 10 that is illustrative. It is said to expand thus: <code>*[a 10 [b c] d]   *[a 8 c 7 [0 3] d]</code>. The question is: if one were to open up some Hoon-compiled nock, and replace a 10 with the expansion, would the jet fire?</p>
+
+<p>This seems like the sort of question which cannot be settled by reference to the Nock spec. While the Hoon source resolves it in a sense, that is not fully satisfactory either. </p>
+
+<p>I&#39;m mulling over making 10 a <code>put</code> operator, that discards an atom or a calculation, with the semantics &quot;something else might do something with this value in an implementation-dependent way&quot;. Such a tool is drenched in Midichlorians and could be used for great evil or great evil masquerading as good intentions. I&#39;m not opposed necessarily, but I am skeptical of my own urges here.</p>
+
+<p>That would be similar to allowing a calculation to slot on 0 and for any old thing to be in 0, even fairy dust. Gives me shivers just thinking about it.</p>
+
+<h2 id="toc_25">A Blizzard of Cores</h2>
+
+<p>Having a magic 0 address and the ability to mysteriously <code>put</code> data somewhere else isn&#39;t just provocative fashion sense. It&#39;s a loose mapping to the structure of OpenCL, with which we might Use the Cores. I want to Use the Cores, but if your code has pointers, I can&#39;t do that. </p>
+
+<p>We abandon any pretense of having a deterministic machine with such a move. <code>put</code> may be made well defined at a higher level, but a magic address is magic, and we are undone. That&#39;s okay. I was going to do that anyway. </p>
+
+<h2 id="toc_26">Coloured Bits</h2>
+
+<p>Ax would differ from Nock in one key dimension, which I doubt can be resolved. Nock is <a href="http://ansuz.sooke.bc.ca/entry/23">Colour blind</a>, while Ax will be able to detect the Colour of your bits. Clearly to be automatically compliant with law across all juridictions and boundaries, a legal calculation must be able to detect, say, that the input belongs to Columbia Studios, the output belongs to a home theatre, and the combination is not allowed. </p>
+
+<p>Ahem. Colour at such a level is a Layer Four / Urbit concern which Nock nor Ax could possibly handle. There&#39;s a gem buried in that link: namely, that randomly generated numbers have a Colour which we must respect if we want to work with them. Which, y&#39;know, we might.</p>
+
+<p>One of the powerful ideas of Urbit seems is that, instead of Facebook and Google, there can be <em>my</em> facebook and <em>my</em> search engine. What Facebook and Google are supposed to do, respectively, is guess which content from my friends I&#39;d like to see and guess what I&#39;m looking for based on a search string. Modulo ads, they succeed reasonably well. Modulo ads, there&#39;s less and less left.</p>
+
+<p>It would be nice if taking a guess was easy, cheap, and moronically simple. Simple like XORing an atom against an always-available pool of entropy and memoizing the result with the atom, thus preserving both the entropy and the computation in the same amount of space it would take to preserve the computation&#39;s inputs. That can of course be shimmied in at a higher level on a deterministic machine. Such a shim would be expensive. I want guesswork to be really, really cheap. </p>
+
+<p>So Ax has three Colours of bit: black, white, and red. Red bits are resolved when needed from a presumed infinite pool of high-quality entropy. It has an operator, <code>fuzz</code>, which opens an enormous can of worms. What happens when you XOR entropy across 27? </p>
+
+<p>Mu, is what. You can&#39;t XOR something that isn&#39;t binary. Nock deliberately and throughly rejects bits in favor of natural numbers, and drives the point home by describing them in decimal. Ax doesn&#39;t get this luxury. Longer spec. The rule is probably &quot;take as many low bytes from the atom as specified by the byte width of the entropy call&quot; or something similarly convoluted. </p>
+
+<p><code>fuzz</code> should come before the macros, as it cannot be defined as one. There is no point in operator-level compatibility with Nock. It would be far easier to retarget Hoon at Ax, or more likely, virtualize the NockHoon VM on top of Ax directly. Like I said, two part post. </p>
+
+<p>Any function which has <code>fuzz</code> in it or which contains a <code>slot</code> on the 0 address is not deterministic. Otherwise, it is. The intention is to build some higher level conventions on top of that which allow for flexible communication with running Ax code (infinite loops are not all errors) and for building whatever sort of reasoning engine one might want. Assuming a limitless pool of entropy is a <a href="http://en.wikipedia.org/wiki/Comparison_of_hardware_random_number_generators">safe bet</a> for future systems, and cheap to provide for current ones. </p>
+
+<p>We can let you cheat and use pseudorandom Pink bits, if you&#39;re willing to assume the consequences. Which for ordinary guesswork are presumably not dire. </p>
+
+<h2 id="toc_27">Other Esoterica</h2>
+
+<p>Here&#39;s a question: if you took Nock, and permuted the operators, so that 4 is say 7 and so on, would it work?</p>
+
+<p>Provisionally, my answer is &quot;yes&quot;. That is, one could target that virtual machine and perform general calculations and nothing would be Wrong. I&#39;ve talked this one over with <a href="https://github.com/jtauber/pynock/blob/master/nock.md">jtauber</a>, who really gets this Nock business.</p>
+
+<p>Let&#39;s call the permuted Nock machine Conk. </p>
+
+<p>Second question: could you statically recompile Nock code into Conk code by permuting the operators in the same way and have it run on the new machine?</p>
+
+<p>Clearly not. Nock can calculate a number and then use it as an operator, and this calculation would fail on Conk machine. Two increments on 0 can return 2, and then 2 can <code>*</code> on something; that doesn&#39;t work if <code>*</code> is 6.</p>
+
+<p>Could one use some kind of reader table to change the meanings of operators when encountered, so that the permutation machine could be used, by swapping one layer for another, as a Nock machine? I believe so, I can&#39;t come up with a reason it wouldn&#39;t work. One needs a dispatch table, why not several? The hard part of running Nock on Conk is not dispatching the operators, it is sensibly firing jets when necessary. </p>
+
+<h2 id="toc_28">On Beyond Hinting</h2>
+
+<p>This post will have a part two at some point. That&#39;s a discussion of a scheme for compressing Ax/Nock code in a way that should let us dispense with hinting altogether. It&#39;s half-baked and frozen, and it may take some time before I can pull it out and brown it. </p>
+
+<p>A better use of time is going to be finishing off a usable alpha of <a href="http://mnemnion.github.io/blog/2013/08/03/a-tangled-web-we-weave/">Marmalade</a>. Marmalade can be used directly to knock down the conceptual burden of writing and understanding the rest of the software. I consider an Ax/Nock machine running over OpenCL to be step three. </p>
+
+<p>Step two could be a fun blog post, but there&#39;s a rule of thumb: if you emit too much vapor, it&#39;s a safe bet some is coming out of your ass. Playing with Urbit is more rewarding. Or will be when ~doznec is back online&#8230;</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[The Urbit Has Landed]]></title>
@@ -170,7 +336,7 @@
 
 <h2 id="toc_15">Level Three</h2>
 
-<p>Level Three is the Executional layer, wherein we get to specify what we want our machine to do. Generally that&#39;s a programming language of some sort. </p>
+<p>Level Three is the Executive layer, wherein we get to specify what we want our machine to do. Generally that&#39;s a programming language of some sort. </p>
 
 <p>Here the difference in approach becomes clear. From cgy&#39;s perspective, Urbit&#39;s Level Three is written in Hoon. From my perspective, Urbit&#39;s L3 is written in Hoon, C, Nock and Markdown. </p>
 
@@ -184,7 +350,7 @@
 
 <p>If I could credit the idea of the UrTongue, it would clearly need to be a format capable of usefully embedding any existing or contemplated programming languages, <a href="https://help.github.com/articles/github-flavored-markdown">cleanly and usefully</a>. </p>
 
-<p>I would strongly recommend to anyone considering designing a new language at the present time: The sequence <code>\n```</code> is utterly reserved and I will come down on you like a ton of tiny Internet bricks if you tamper with that convention. I do feel like the present dominance of github is sufficient motive to keep it real. </p>
+<p>I would strongly recommend to anyone considering designing a new language at the present time: The sequence <code>\n```</code> is utterly reserved and I will come down on you like a ton of tiny Internet bricks if you tamper with that convention. I suspect the present dominance of github is sufficient motive to keep it real. </p>
 
 <p>This leads to a couple important questions: Will Hoon, presuming decent tutorials and documentation, prove a pleasant systems language? More specifically and urgently, will it be pleasurable to write parsers and compilers in? </p>
 
