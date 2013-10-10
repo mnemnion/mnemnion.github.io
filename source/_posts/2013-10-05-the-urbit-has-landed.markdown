@@ -126,7 +126,7 @@ Thing is, I'm pretty sure those gonads can be whipped into a nice powerful GLL f
 
 ##Level Three
 
-Level Three is the Executional layer, wherein we get to specify what we want our machine to do. Generally that's a programming language of some sort. 
+Level Three is the Executive layer, wherein we get to specify what we want our machine to do. Generally that's a programming language of some sort. 
 
 Here the difference in approach becomes clear. From cgy's perspective, Urbit's Level Three is written in Hoon. From my perspective, Urbit's L3 is written in Hoon, C, Nock and Markdown. 
 
@@ -140,7 +140,7 @@ I could like Hoon. I want to like Hoon. I cannot seriously credit the idea of On
 
 If I could credit the idea of the UrTongue, it would clearly need to be a format capable of usefully embedding any existing or contemplated programming languages, [cleanly and usefully](https://help.github.com/articles/github-flavored-markdown). 
 
-I would strongly recommend to anyone considering designing a new language at the present time: The sequence ```` \n``` ```` is utterly reserved and I will come down on you like a ton of tiny Internet bricks if you tamper with that convention. I do feel like the present dominance of github is sufficient motive to keep it real. 
+I would strongly recommend to anyone considering designing a new language at the present time: The sequence ```` \n``` ```` is utterly reserved and I will come down on you like a ton of tiny Internet bricks if you tamper with that convention. I suspect the present dominance of github is sufficient motive to keep it real. 
 
 This leads to a couple important questions: Will Hoon, presuming decent tutorials and documentation, prove a pleasant systems language? More specifically and urgently, will it be pleasurable to write parsers and compilers in? 
 
