@@ -85,7 +85,7 @@ Thing is, when someone says 'natural numbers', they have promised a perfectly we
 
 Decrement is explained with much fanfare. Indeed most of my actual applicative understanding of Nock comes from that explanation. It's a simple case, because there's only one bad value to decrement, namely zero. It's also fairly obvious what to do: crash. 
 
-Add, multiply, modulus, and remainder are entirely specified under the two words "natural number" and it is camelnine not to include them. Look, let me show this creature out: she'll start spitting or worse, and I like this rug. A modulus 0? Crash or fisticuffs, sir. 
+Add, multiply, integral division and modulus are entirely specified under the two words "natural number" and it is camelnine not to include them. Look, let me show this creature out: she'll start spitting or worse, and I like this rug. A div 0? Crash or fisticuffs, sir.
 
 Consider line 7. It plainly says "By add, we mean a restricted subset of addition, namely, addition by one". A little coda saying "oh yeah actually adding stuff in the general case of two arguments? 14" would not instantly bloat our automaton into JVM proportions. 
 
