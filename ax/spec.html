@@ -1,0 +1,556 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Ax Specification - Mnemnion</title>
+  <meta name="author" content="Sam Atman">
+
+  
+  <meta name="description" content="Ax Specification Dec 19th, 2013 This text specifies Ax, a cellular automaton for general purpose computation. It is a work of mathematics in the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://mnemnion.github.io/ax/spec.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Mnemnion" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Mnemnion</a></h1>
+  
+    <h2>A Unit of Analogy</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:mnemnion.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">Ax Specification</h1>
+    <p class="meta">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-19T09:18:00-08:00" pubdate data-updated="true">Dec 19<span>th</span>, 2013</time></p>
+  </header>
+  
+  <p>This text specifies Ax, a cellular automaton for general purpose computation.</p>
+
+<p>It is a work of mathematics in the public domain.</p>
+
+<h2 id="toc_45">Preamble</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> 0   A noun is either an atom or a cell. An atom is any natural number.
+</span><span class='line'>
+</span><span class='line'> 1   A cell is an ordered pair of two nouns.
+</span><span class='line'> 
+</span><span class='line'> 2   n refers to any atom. a, b, c, and d refer to nouns. 
+</span><span class='line'>
+</span><span class='line'> 3  `Ξ` means to perform a rewrite as defined by this specification.    
+</span><span class='line'>
+</span><span class='line'> 4  `→`  shows the steps of such a reduction. All must be completed.
+</span><span class='line'>
+</span><span class='line'> 5  `?`  means the reduction is undefined.
+</span><span class='line'>
+</span><span class='line'> 6  `:=` indicates a noun is the referent of a symbol.
+</span><span class='line'>
+</span><span class='line'> 7  `+`  refers to the operation on the natural numbers, whose identity is 0.
+</span><span class='line'>
+</span><span class='line'> 8  `~`  requires that n so defined be in the range (n1..n2), inclusive.
+</span><span class='line'>
+</span><span class='line'> 9   [a b c] → [a [b c]]
+</span><span class='line'>
+</span><span class='line'> 10  Symbols have no other semantics.
+</span><span class='line'>  
+</span><span class='line'> 11  The lemmas are reduced in ordinary arithmetic; c and d refer to atoms.
+</span><span class='line'> </span></code></pre></td></tr></table></div></figure>
+
+<h2 id="toc_46">Term</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>~(0..255) := σ 
+</span></code></pre></td></tr></table></div></figure>
+
+<h2 id="toc_47">Reduction</h2>
+
+<h3 id="toc_48">Boot Sequence</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>Ξ [0]  →  Ξ [0]  
+</span><span class='line'>
+</span><span class='line'>Ξ [0 0]  →  Ξ [0 0]
+</span><span class='line'>
+</span><span class='line'>Ξ [0 0 0]        →   0
+</span><span class='line'>
+</span><span class='line'>Ξ [0 1 0 0]      →   1    
+</span><span class='line'>
+</span><span class='line'>Ξ [0 1 0 1]      →   2
+</span><span class='line'>
+</span><span class='line'>Ξ [2 1 2 1]      →   3
+</span><span class='line'>
+</span><span class='line'>Ξ [3 3 [[2 1] [1 2 1]] [0 2 1]]   →   [3 4]
+</span></code></pre></td></tr></table></div></figure>
+
+<h3 id="toc_49">Axioms</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>Ξ [a 0 n]        →   n
+</span><span class='line'>
+</span><span class='line'>Ξ [a 1 0 n]      →   n + 1 
+</span><span class='line'>
+</span><span class='line'>Ξ [a 1 b]        →   Ξ [a b]   →   n   →   n + 1 
+</span><span class='line'>
+</span><span class='line'>Ξ [a 2 0]        →   ?
+</span><span class='line'>
+</span><span class='line'>Ξ [a 2 1]        →   a
+</span><span class='line'>
+</span><span class='line'>Ξ [[a b] 2 2]    →   a
+</span><span class='line'>
+</span><span class='line'>Ξ [[a b] 2 3]    →   b
+</span><span class='line'>
+</span><span class='line'>Ξ [a 2 (n + n)]      →   Ξ [Ξ [a 2 n] 2 2]
+</span><span class='line'>
+</span><span class='line'>Ξ [a 2 (n + n + 1)]  →   Ξ [Ξ [a 2 n] 2 3]
+</span><span class='line'>
+</span><span class='line'>Ξ [n 2 b]        →   Ξ [2]
+</span><span class='line'>
+</span><span class='line'>Ξ [a [b c] d]    →   [Ξ [a b c] Ξ [a d]]
+</span><span class='line'>
+</span><span class='line'>Ξ [a 3 b c]      →   Ξ [Ξ [a b] Ξ [a c]]
+</span><span class='line'>
+</span><span class='line'>Ξ [a 4 b]        →   Ξ [a b]   →   [c c]   →   0
+</span><span class='line'>
+</span><span class='line'>Ξ [a 4 b]        →   Ξ [a b]   →   [c d]   →   1
+</span><span class='line'>
+</span><span class='line'>Ξ [a 5 b]        →   Ξ [[a σ] b]  
+</span><span class='line'>
+</span><span class='line'>Ξ [a 6 b]        →   Ξ [a b]   →   [c d]   →   0
+</span><span class='line'>
+</span><span class='line'>Ξ [a 6 b]        →   Ξ [a b]   →     d     →   1
+</span></code></pre></td></tr></table></div></figure>
+
+<h3 id="toc_50">Idioms</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Ξ [a 7 b c]        →    Ξ [a 3 b 0 c]
+</span><span class='line'>
+</span><span class='line'>Ξ [a 8 b c]        →    Ξ [a b]   →   n    →  Ξ [a Ξ [c 2 (n + 2)]]
+</span><span class='line'>
+</span><span class='line'>Ξ [a 8 b c]        →    Ξ [a b]   →  [c d] →  Ξ [8]
+</span><span class='line'>
+</span><span class='line'>Ξ [9 b c]          →    Ξ [a 7 [[7 [2 1] b] 2 1] c]
+</span><span class='line'>
+</span><span class='line'>Ξ [a 10 n c]       →    Ξ [a c]
+</span><span class='line'>
+</span><span class='line'>Ξ [a 10 [b c] d]   →    Ξ [a 9 c 7 [2 3] d]
+</span><span class='line'>
+</span><span class='line'>Ξ [a 11 b c]       →    Ξ [a 7 c 3 [2 1] 2 b]
+</span></code></pre></td></tr></table></div></figure>
+
+<h3 id="toc_51">Crash default</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Ξ [a] → Ξ [a]</span></code></pre></td></tr></table></div></figure>
+
+<h3 id="toc_52">Lemmas</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>Ξ [a 12 b]  →  Ξ [a b]  →    n    →  n - 1
+</span><span class='line'>
+</span><span class='line'>Ξ [a 12 b]  →  Ξ [a b]  →    0    →  Ξ [12]
+</span><span class='line'>
+</span><span class='line'>Ξ [a 13 b]  →  Ξ [a b]  →  [c d]  →  c + d 
+</span><span class='line'>
+</span><span class='line'>Ξ [a 14 b]  →  Ξ [a b]  →  [c d]  →  c - d
+</span><span class='line'>
+</span><span class='line'>Ξ [a 14 b]  →  Ξ [a b]  →  [c d]  →  c &lt; d  →  Ξ [14]
+</span><span class='line'>
+</span><span class='line'>Ξ [a 15 b]  →  Ξ [a b]  →  [c d]  →  c * d
+</span><span class='line'>
+</span><span class='line'>Ξ [a 16 b]  →  Ξ [a b]  →  [c d]  →  c / d
+</span><span class='line'>
+</span><span class='line'>Ξ [a 16 0]  →  Ξ [a b]  →  [c d]  →  d = 0  →  Ξ [16]
+</span><span class='line'>
+</span><span class='line'>Ξ [a 17 b]  →  Ξ [a b]  →  [c d]  →  c % d
+</span><span class='line'>
+</span><span class='line'>Ξ [a 18 b]  →  Ξ [a b]  →  [c d]  →  c &lt; d   →  0
+</span><span class='line'>
+</span><span class='line'>Ξ [a 18 b]  →  Ξ [a b]  →  [c d]  →  c ≥ d  →  1
+</span></code></pre></td></tr></table></div></figure>
+
+<h2 id="toc_53">Expansion</h2>
+
+<h3 id="toc_54">Terms</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>7 operators
+</span><span class='line'>
+</span><span class='line'>0  := is
+</span><span class='line'>1  := up
+</span><span class='line'>2  := ax
+</span><span class='line'>3  := br
+</span><span class='line'>4  := eq
+</span><span class='line'>5  := fz
+</span><span class='line'>6  := cel
+</span><span class='line'>
+</span><span class='line'>5 idioms
+</span><span class='line'>
+</span><span class='line'>7  := cmp
+</span><span class='line'>8  := if
+</span><span class='line'>9  := cnk
+</span><span class='line'>10 := put
+</span><span class='line'>11 := arm
+</span><span class='line'>
+</span><span class='line'>7 lemmas
+</span><span class='line'>
+</span><span class='line'>12 := dec
+</span><span class='line'>13 := add
+</span><span class='line'>14 := sub
+</span><span class='line'>15 := mul
+</span><span class='line'>16 := div
+</span><span class='line'>17 := mod
+</span><span class='line'>18 := les</span></code></pre></td></tr></table></div></figure>
+
+<h3 id="toc_55">Expansions</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Ξ [a 12 b]  →  Ξ [b [cnk [is 0] [cnk [is [if [eq [br 7] [up br 6]] [br 6] [arm 2 [[br 2] [up br 6] [br 7]]]]] [arm 2 br 1]]]]
+</span><span class='line'>
+</span><span class='line'>etc.
+</span></code></pre></td></tr></table></div></figure>
+
+<h2 id="toc_56">Afterword: Thanks</h2>
+
+<p>This work would be impossible without the monumental efforts of Curtis Guy<br>
+Yarvin. In turn, his work is cannot be imagined without that of three<br>
+Johns: von Neumann, Conway, and McCarthy. I will thank John Nash also,<br>
+for personal reasons.</p>
+
+<p>I would like to thank Josh Lauffer, my moshav in the Kabbalah, who instilled<br>
+a lifelong interest in the inherent properties of natural numbers. </p>
+
+<p>Humble gratitude and love is due to any and all who have been kind to me,<br>
+during one of my manic episodes in which I was convinced that alien<br>
+intelligence was teaching me things. Whether I have succeed in my quest to<br>
+write a Kabbalistic computer is for the judgement of my peers to infer. </p>
+
+<p>A special shout-out to Al, to whom much credit must incur, indeed.</p>
+
+  
+    <footer>
+      <p class="meta">
+        
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-19T09:18:00-08:00" pubdate data-updated="true">Dec 19<span>th</span>, 2013</time>
+        
+      </p>
+      
+        <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://mnemnion.github.io/ax/spec.html" data-via="" data-counturl="http://mnemnion.github.io/ax/spec.html" >Tweet</a>
+  
+  
+  
+</div>
+
+      
+    </footer>
+  
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/12/19/commentary-on-ax/">Commentary on Ax</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/06/executable-representation/">Executable Representation</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/05/the-urbit-has-landed/">The Urbit Has Landed</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/01/on-decimation/">On Decimation</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/09/11/a-parenthetical-observation/">A Parenthetical Observation</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/mnemnion">@mnemnion</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'mnemnion',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Sam Atman -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

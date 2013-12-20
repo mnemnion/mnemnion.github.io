@@ -9,7 +9,7 @@
   <meta name="author" content="Sam Atman">
 
   
-  <meta name="description" content="ent is a new approach to code creation. It is (will be) an editor and library that works on parse trees, rather than on files, and registers all &hellip;">
+  <meta name="description" content="Representation of Data in Structured Programs. Today we&#39;re going to discover a programming language. We&#39;re going to start by contemplating &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -71,6 +71,55 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2013/06/17/homoiconicity-and-data-forms/">Homoiconicity and Data Forms</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-17T14:52:00-07:00" pubdate data-updated="true">Jun 17<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3 id="toc_6">Representation of Data in Structured Programs.</h3>
+
+<p>Today we&#39;re going to discover a programming language. We&#39;re going to start by contemplating the idea of code as data. </p>
+
+<p>LISP, and by the all-caps I mean the original flavours, had two fundamental forms: atoms, and lists. As Lisp grew up, the lists became able to represent any sort of data type, but at the expense of a certain homoiconicity. </p>
+
+<p>That&#39;s a controversial assertion, but hear me out. A list in a Lisp is a bunch of cons cells, it&#39;s a specific data structure used by default to do pretty much anything. Since the first position (first second third) has a function or a macro, you can fake, say a hash, by saying something like (hash a a-prime b b-prime) but here&#39;s the problem: that&#39;s not homoiconic to your data anymore. Not in a way that accords with modern expectations. </p>
+
+<p>Let&#39;s talk about JSON. Now, JSON is homoiconic to your data. <code>{}</code>? Object. <code>[]</code>? List. <code>&quot;&quot;</code>? String. <code>(1-9)(digits*)</code>? Number. And so on. </p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/06/17/homoiconicity-and-data-forms/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2013/06/17/an-introduction-to-ent/">An Introduction to Ent</a></h1>
     
     
@@ -126,6 +175,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/12/19/commentary-on-ax/">Commentary on Ax</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/10/06/executable-representation/">Executable Representation</a>
       </li>
     
@@ -139,10 +192,6 @@
     
       <li class="post">
         <a href="/blog/2013/09/11/a-parenthetical-observation/">A Parenthetical Observation</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/09/04/why-i-am-lisp-2/">Why I Am Lisp 2</a>
       </li>
     
   </ul>

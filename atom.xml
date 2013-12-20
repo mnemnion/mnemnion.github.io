@@ -4,7 +4,7 @@
   <title><![CDATA[Mnemnion]]></title>
   <link href="http://mnemnion.github.io/atom.xml" rel="self"/>
   <link href="http://mnemnion.github.io/"/>
-  <updated>2013-10-10T10:33:48-07:00</updated>
+  <updated>2013-12-20T11:04:35-08:00</updated>
   <id>http://mnemnion.github.io/</id>
   <author>
     <name><![CDATA[Sam Atman]]></name>
@@ -12,6 +12,223 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Commentary on Ax]]></title>
+    <link href="http://mnemnion.github.io/blog/2013/12/19/commentary-on-ax/"/>
+    <updated>2013-12-19T10:14:00-08:00</updated>
+    <id>http://mnemnion.github.io/blog/2013/12/19/commentary-on-ax</id>
+    <content type="html"><![CDATA[<p>Ax has been <a href="http://mnemnion.github.io/ax/spec.html">written</a> and implemented, twice. A bit of orientation is in order. Today&#39;s post will be as computerific as possible; we&#39;ll dig down into the deeper &#39;why&#39; in later parts. This may take awhile.</p>
+
+<h2 id="toc_29">Preface</h2>
+
+<p>There are 720 valid <a href="http://www.urbit.org/2013/08/22/Chapter-2-nock.html">Nock machines</a>, defined as any cellar automaton which provides a mapping from the Nock rewrite rules to any one of every digit of set {0..5}. Since one of them is actually called Nock, let&#39;s call the permutation group Conk. </p>
+
+<p>2 of them are Ax machines, or would be, minus the <code>fz</code> operation. That is, there are 2 Conks which have the same mappings for <code>0</code>, <code>1</code>, <code>2</code>, and <code>3</code>. There are actually 6 Ax machines, 2 of which have the same axioms as Nock machines; we may consider those two as Nock equivalent, by permuting <code>fz</code> above the Nock (proper) threshold of 10. By the same simple mathematics, there are 5040 possible Conk-compliant machines computationally equivalent to Ax, Nock not among them. We will call this permutation group Xa, for what other choice do we have? </p>
+
+<p>6 is a small enough number to consider in entirety. The only bit that is arbirary is the range on sigma, which is only arbirary if you&#39;re not an extant silicon computer. </p>
+
+<p>I am convinced Ax α is the best possible choice among the 6. I hope to demonstrate that here. </p>
+
+<p>There are an infinite number of cellular automata. Conk machines are a class. Ax machines are an interesting subclass, disjoint by one member. </p>
+
+<h2 id="toc_30">Rationale.</h2>
+
+<p>Ax is even weirder than Nock, because it never terminates. In order to calculate Ax, you must use a certain amount of judgement. </p>
+
+<p>Ax is recursively self defined. Absolutely every valid rewrite may be performed, in a metacircular fashion, and the expansions are defined in terms of each other as well as the reduction. As in Go, you must apply the Ko rule to infinite loops: if you may continue to play, you should continue to play.</p>
+
+<p>A trivial loop, such as Ξ [a] -&gt; Ξ [a], is like a game where the only remaining moves are Ko. The polite thing is to pass and count the board. In Ax, as in Nock, this is our only form of error. </p>
+
+<p>Note that detecting all cases of Ko without arbitrary calculation is of course the halting problem. In practice, an Ax interpreter may be made into a Nock interpreter by dispatching on a subset of the operators. </p>
+
+<p>Since you need the idioms, particularly <code>if</code>, to define many of the fundamental operators, the expansions are the second set of statements, after the definition. The definition says what the operators do, the expansions say how they could do it, given the available operators, and the ability to decide when you&#39;re tired and quit. </p>
+
+<p>It would be nice, and is probably inevitable, if all the non-trivial operations are visited within an expansion of 0. That way, you can type [0 0 0] into the reference Ax machine and it will not only run forever but repeatedly visit all definitions in doing so. </p>
+
+<p>Since a decent expansion of 0 would could be Ξ [a 0 b] -&gt; Ξ [[b a] 2 2] we should be good to go.</p>
+
+<p>Oh the reference implementation? Scheme, of course. It is incapable of returning, though you&#39;re welcome to make a few changes if you want to see it do something. It does this in the best continuation passing style! Not that it exists. Instead, we have a demo machine in Lua.</p>
+
+<h2 id="toc_31">The Preamble</h2>
+
+<p>Compared to the Nock spec, this is enormous and pedantic. Compared to a representative work in the genre, it is haiku.</p>
+
+<p>Xa space being a permutative superset of Conk space, the Ax preamble contains the Nock preamble, in its entirety, without modification.</p>
+
+<p>Which is a marvel, by the way. Every time I&#39;ve sniffed out an ambiguity or source of confusion, I have been wrong. Even lines six and seven may not be made to malfunction, despite strict operator overloading. Try it.</p>
+
+<p>It is overloading, however. [1 + a] would be [[1] +*[a]], and *a crashes. But it doesn&#39;t say [1 + a], does it.</p>
+
+<p>Arguably, our symbol definitions, despite being English, are equivalent to the pseudocode. And indeed our generalized rules, being only one reduction longer, are shorter, line for line,  than the pseudocode plus the reductions. Not counting brackets, Nock uses seven symbols, overloads one, and has four variables. We use six symbols, no overloading, five variables, and need an extra symbol to define our extra operator. </p>
+
+<p>We also have the expansions, or will. Which I feel add a certain esprit to the spec. </p>
+
+<p>It is a little confusing, if conventional, that &#39;a&#39; is either an atom or a cell, while &#39;n&#39; is definitely an atom and definitely not the other sort of noun. I trust the reader to follow along, and using &quot;a&quot; for atom and &quot;b c d e&quot;, while cool, would add impedence to both understanding the Ax spec per se and comparing it to the Nock spec. </p>
+
+<p>It&#39;s not so bad, really. We also need an additional clarification that partial expansions of a line are not allowed. </p>
+
+<h2 id="toc_32">Mythos.</h2>
+
+<p>So here&#39;s how you read Ax. You&#39;ve been captivated by alien intelligence, who have sat you down in front of something suspiciously resembling a vintage VT100 terminal. You receive the preamble, and the term. The cursor blinks.</p>
+
+<p>There doesn&#39;t appear to be any way out of this&#8230;pod, Tardis, what have you. Though it is made up in a somewhat surreal and misguided parody of human habitation, you&#39;re not sure that the fruit is edible, and don&#39;t want to find out. </p>
+
+<p>Well, what would you type? You&#39;re not a chump, if they wanted to use your letters they&#39;d speak your language. Plus, they just told you &quot;numbers&quot;. Practically shouted it. </p>
+
+<p>So you type zero, and get an infinite loop. Let&#39;s try a cell of zeros: nope, crashes. Well, a cell can be composed into two cells and ok, we have a zero back.</p>
+
+<p>Which one did it return? You could just bang away at the keys but this is a delicate operation. [0 1 0] is an infinite loop, [1 0 0] produces 0, [0 0 1] produces..one. Can we do anything else coherent with ones and zeroes? </p>
+
+<p>It appears we can: [0 1 0 0] produces 1 also, but for what reason? A bit of experimentation discovers that [0 1 0 1] produces the all important 2. We can in principle make any number now, which is nice, but still feels a bit like cheating, because we&#39;re using the command line, not the computer. [0 1 0 1 0 1] is a syntax error, but [1 0 1 0] produces&#8230; [1 0]. Interesting, but reductive, though serving to confirm what we might already suspect. </p>
+
+<p>On a hunch, you type [2 1 2 1]. The screen fills with endless columns of cellular numeric data, prettily colored, and looping in a way that looks alarmingly like a refutation of the problem with halting. It then halts, executes an impressive screen fade quite impossible on a real VT100, and then helpfully types [2 1 2 1] for you once more. This time, it simply returns 3.</p>
+
+<p>Everything else you need to know is in the guts of the core dump. Congratulations, space cadet. &lt;3 &lt;3 !</p>
+
+<p>You may notice that in Ax, trees are built up from numbers. The feeling is one of open-ended discovery. The computation branches out fractally, resolves itself in some mysterious way at the limit, and returns a form. A fundamental axiom guarantees non-deterministic behavior. In Nock, numbers are derived from nouns, choices are absolute, and your result is either error or truth.</p>
+
+<h2 id="toc_33">Axioms</h2>
+
+<h3 id="toc_34">Zero</h3>
+
+<p><code>0</code> is the identity operator, <code>is</code>. There are two operations that are closed over the monoid of the natural numbers, addition and multiplication. Of them, multiplication is consequent. In the operation of addition, 0 returns the identity. If you have any number, you may now return it. You now have <code>0</code>, and may return it: Ξ [0 0 0] -&gt; 0</p>
+
+<h3 id="toc_35">One</h3>
+
+<p><code>1</code> is the increment operator, <code>up</code>, as premised in the preamble. If you have a number, and you now have 0, you may increment it. Ξ [0 0 1 0] -&gt; 1</p>
+
+<h3 id="toc_36">Two</h3>
+
+<p><code>2</code> is the branch operator, <code>br</code>. I like slot, but we normally call those branches, and I count six English pronunciations for <code>slt</code>, one of them distasteful. You need <code>0</code>, <code>1</code>, <code>2</code> and <code>3</code> to define <code>br</code>, but you can use <code>1</code> and <code>2</code> to produce 3. <code>mod</code> being explicitly provided, we may write an expansion that actually runs quite servicably. The Nock spec provides no way to factor <code>a</code> into <code>a + a</code>, nor to determine which of lines 15 or 16 to apply. This does not detract from its correctnesss, these are very ordinary operations on the <code>natural number</code>s.</p>
+
+<p>Branch <em>selects</em> a branch, it does not <em>cause</em> one. Branch/forking happens in the same two ways in Ax as in Nock, because Ax is a Nock machine. Note that <code>br</code> on branch <code>0</code> (to apply <code>br</code> is to &#39;graft&#39; the subject and return a branch from it) is not a syntax error, but rather, undefined. It may be a syntax error if you wish, or produce a noun, which is a common anticipated use. It may even produce an effect, but that would be crazy. The spec doesn&#39;t say, though; grafting on zero means your code is not deterministic. Crashing is the best idea if you don&#39;t know what else to do. </p>
+
+<p>Note that so far, we have halting rules and trivial crashes only. Next comes the distribution rule, which gets us most of the way there,<br>
+and then the explicit recursion rule, <code>ax</code>. These <strong>cause</strong> branches, and composing that ability with <code>br</code> raises the bar. </p>
+
+<p>How many operators does it take to write an infinite loop? I am curious, without the time to explore the question. I predict the set will be low ordered with respect to Ax. Consequently it will be composed of the operators 0..4, inclusive, likely without 4. We&#39;ll see. </p>
+
+<h3 id="toc_37">Three</h3>
+
+<p><code>3</code> is the ax operator, <code>ax</code>, which Nocks a noun apart and evals it. The symbol <code>nck</code> is also reserved for this operator, en homage. Why 3? Well, that&#39;s a digression, while I&#39;ll gloss over. </p>
+
+<p>Consider that there are two ways to index: by zero, and by one. What if you want to contain the damage? Well, you could count (0|1) (1|2) (2|3) 4 5 6, or (0|1) (0|1) (2|3) (3|4) 4, 5, 6. The latter is taxing on our already strained resources. </p>
+
+<p>In certain circles this difficulty is referred to as the &quot;Abyss&quot;. My solution to this difficulty is suggested by ancient texts but the interpretation is to my knowledge completely original. We are all fairly certain the mystery involves both 3 and 11. Let&#39;s leave it at that for now. </p>
+
+<p><code>ax</code> could be 2, but <code>br</code> could not be 3, or we would have [2 1 3 1], and where did that three come from? Also, branch on address 3 is not defined in the reductions. </p>
+
+<p>Note that both the distributive property and <code>ax</code> may safely be made parallel once the cell to calculate both branches is composed. Indeterminate, mutually dependant behavior may be arranged only through abuse of the <code>0</code> branch and the <code>put</code> operator, in the usual fashion. </p>
+
+<h3 id="toc_38">Four</h3>
+
+<p><code>4</code> is the <code>eq</code> operator, which returns 0 if the evaluated cons(subject,object) is equal and 1 if it is not, crashing on an atom. </p>
+
+<p>Why is four <code>eq</code>? Well, it&#39;s our first non-prime operator, if you accept the case that 0 and 1 are neither prime nor non prime. They have a special relationship with multiplication that makes that case plausible; certainly I was taught the primality of one, though the field would appear to have changed its mind. </p>
+
+<p>It could be <code>cel</code>, but as we&#39;ll see, <code>cel</code> should not be 4. <code>eq</code>&#39;s expansion may be thought of as having an &#39;even&#39; test or a &#39;double even&#39; test, that is, it <code>if</code>s on <code>cel</code> (though of course, the reduction does not). If &#39;odd&#39;, test atomic equality, if &#39;even&#39;, apply <code>cel</code>. <br>
+Note that all even-numbered operators and idioms have exactly two expansions, that is, they are higher order branching. Even <code>put</code> is capable of branching, depending on implementation.</p>
+
+<h3 id="toc_39">Five</h3>
+
+<p><code>5</code> is the <code>fz</code> operator, one of the raisons d&#39;etre for Ax versus Nock. </p>
+
+<p>Note that in Plan Ax from Conk Space, 5 is <code>cel</code>. </p>
+
+<p>Fully qualified Ax machines are not deterministic, because they aren&#39;t colorblind. In addition to Black and White bits, Ax machines must supply Red bits, which are completely different because they come from an actual, high quality source of entropy. Note that, while weird, this is just as well formed as saying &quot;an actual, high quality source of numeric computations&quot;, in that you can just hop on the Internet and buy one. Ax machines must have both.</p>
+
+<p>This is one reason <code>fz</code> is an operator, rather than a lemma or higher-level function. The Second Law of Thermodynamics is taken as axiomatic for our purposes; within the specification, the method of selecting on the range is deliberately left unspecified.</p>
+
+<p>There are some Deep Implications here, which, as usual, I intend to touch on later. </p>
+
+<p>The demonstration Ax machine uses Pink bits, which are only pseudorandom. This is strictly not compliant, for the purposes of a reference implementation, but I&#39;m in a hurry. Feel free to use Pink bits if you&#39;re just futzing around, but consider making or buying a gig or two of entropy, or picking up an entropy machine. Cheap stuff, entropy, these days. Remember to throw it away as soon as you&#39;re done with it: the first rule of handling entropy is: any operation whatsoever upon it render it <strong>and any copies</strong> no longer entropic. </p>
+
+<p>Because we have a term, not just a preamble and definition, there are an infinite number of possible Ax machines, even Ax α machines. Ours is Ax α 256, aka Ax Byte. The beautiful, Schemish Ax is Ax Bit, of course, but it may easily be emulated with modulo 128, whereas simulating the reverse transition is particularly tedious. </p>
+
+<p>A ternary machine would draw on nine trits of entropy, or whatever. Ax is meant to be used. </p>
+
+<p>Note that randomness is not mentioned in the spec. It is actually perfectly valid for <code>fz</code> to return any number in the range: you may rewind Ax and play it again, or feed it nothing but 128 in all cases, or 0, or anything else you&#39;d like. The treatment of <code>5</code> and <code>br 0</code> distinguishes the actual semantics of an Ax machine, as they introduce indeterminacy into the result. </p>
+
+<p>Why 5? Zod, where else would you put it? There are actual reasons, related to the geometry implied by the new kabbalah. This is beyond our current scope.</p>
+
+<p>Note that we may generate 6 with Ξ [4 5 [2 3]]. Eventually, or immediately, depending on the Ax machine. This is considered beneath demonstration.</p>
+
+<h3 id="toc_40">Six</h3>
+
+<p><code>6</code> is the cell operator, <code>cel</code>. It returns 0 for a cell and 1 for an atom, as you might expect. Symbols are inspected in this case to see what kind of noun they represent. </p>
+
+<p>Why six? Well, there are two important kinds of cells in Ax, [a b] and [a b c], as defined in the preamble. There are two groupings of six, [[1 1] [1 1] [1 1]] and [[1 1 1] [1 1 1]]. If you immediately recognize those are syntax errors, you&#39;re doing great. Happily, Ax is blessed with exactly three relevant data structures, as shown by the first three lines of the reduction: atoms and two cells, which may not be Axed, and 3 cells, which are n cells, and which may be Axed in some cases. </p>
+
+<p>Those are the axioms. I am totally convinced of 0, 1, 2, and 3, which define Ax space within Conk space. I am pretty sold on 4, 5, and 6, and on the benefits of Xa space and the <code>a br 0</code> reduction of 2. </p>
+
+<p>The reasoning behind the order of the idioms is basically Kabbalistic. Surprise surprise, that is the reasoning behind Ax space too. It just <strong>happens</strong> to look like a Page from the Book, as Erdős Pál would say. </p>
+
+<h2 id="toc_41">Idioms</h2>
+
+<p>Nock calls these macros, and defines them as such, though we are advised by the Crash Course that there&#39;s no reason to implement them this way. In Ax we call them idioms, indicating that they may be expanded as macros containing only the axioms. For the reduction, sometimes we do, sometimes we don&#39;t, whatever&#39;s cleanest. Since we have expansion rewrites as well as reductions, anything may be written as a macro, as long as you&#39;re not in a hurry to halt. </p>
+
+<p><code>7</code> is <code>cmp</code>, which composes functions, and which, through happenstance, ended up in the same place as in Nock. We&#39;re in Netzach, if you&#39;re paying attention.</p>
+
+<p><code>8</code> is <code>if</code>, <code>9</code> is <code>cnk</code>, <code>10</code> is <code>put</code> and <code>11</code> is <code>arm</code>. <code>if</code>, <code>cnk</code> and <code>arm</code> work like 6, 8 and 9 from Nock, because they&#39;re identical except for the necessary permutations. <code>put</code> has the same syntax as the other <code>10</code>, and identical semantics: the results are undefined, other than that evaluation must happen if a cell is provided. We don&#39;t plan on using this for hinting, but if we&#39;re running Hoon 191, what other option do we have? </p>
+
+<p><code>put</code> fits nicely in <code>10</code>, because it&#39;s <code>0</code> all over again, having the same meaning for the purposes of the Arc of code under evaluation. The interaction between <code>put</code> and <code>br 0</code> is envisioned as a crucial mechanism in the larger Arcitecture. </p>
+
+<p>I could make a firm case for <code>dec</code> as consonant to <code>inc</code> and <code>arm</code> as consonant to <code>br</code>, giving an opposite mapping. But the lemmas come after the idioms, and <code>dec</code> is clearly a lemma, and that is that. Certainly, the Nock tutorial shows that <code>dec</code> may be (somewhat) compactly specified in terms of the axioms.</p>
+
+<h2 id="toc_42">Lemmas</h2>
+
+<p>Ax comes equipped with the operations you&#39;ll need to have a reasonable Big O on integer algorithms.</p>
+
+<p>You&#39;re welcome.</p>
+
+<h2 id="toc_43">Distinctions between Nock and Ax.</h2>
+
+<p>There are four changes between Nock and Ax: the permutation of the operations, the addition of <code>fz</code>, <code>br 0</code>, and the <code>put</code> operator, to list them in order of seriousness. I have made the case, I believe, that the permutations put the jewel in the heart of the lotus. Perhaps we merely gild the lily. This is a matter of taste, not semantics, but without taste, Nock is pointless. I have devoted a number of paragraphs to <code>fz</code> already. Let&#39;s discuss <code>br 0</code> and <code>put</code>.</p>
+
+<p><code>br 0</code> provides for a very simple and ordinary thing: a number that comes from Outside, that we can only determine if we go and look. A port, say, or a sensor. I don&#39;t know how Hoon deals with this, but I know that Nock does not handle it at all. Ax does: you can hook a very simple piece of Ax up to a sensor and do things with the numbers. I consider this a virtue in a toy computer, and the zero branch was just sitting there being undefined. </p>
+
+<p>I suggest a pleasant detour over to <a href="http://thoughtmesh.net/publish/367.php">Undefined Intimacy With the Machine</a>. It is not only a product of the Cathedral, it is from a field of <strong>critical studies</strong>, called code studies, of course. This guy is right out on the bleeding edge, my friends. </p>
+
+<p>Not all code talks to Outside, but most code comes from Somewhere, and sometimes Somewhere might want to drop a noun or two into the mix. I gather this isn&#39;t what you do with Nock, and again, I bet Hoon provides it. The thing is that Ax machines make no assumption that the whole system is going to be running on one core, in fact they&#39;re decidedly more comfortable if that is <em>not</em> the case. </p>
+
+<p>Could we run Ax machines on a ColorForth array? Zod man, what else are they good for? The Parallela is a less exotic target; if you know any OpenCL, the interaction between <code>br 0</code> and <code>put</code> might be putting you in mind of a &quot;kernel&quot;. Excellent! We&#39;re on the same page. </p>
+
+<p>Why do we need <code>fz</code> though, with all this Undefined Intimacy going around? Well, because of the Rules of the Red Bit, basically. An undefined number is going to be some combination of Black and White when you look at it. A Red Bit is already Black or White, but it got that way in a very special manner, and you&#39;re not allowed to look at it (though you may copy it) or it&#39;s not Red anymore. Not to mention that sealed functions that use <code>fz</code> make perfect sense and should be allowed, and a function either crashes on <code>br 0</code> or does something special with it, but not in general both. </p>
+
+<p><code>fz</code> is axiomatic, and we kind of force you to write your code in weird ways if you absolutely want to be sure it never comes up. It&#39;s a feature! We call it guessing, and have this notion that it makes for cheap machine learning. We hope a group effort can come up with some good uses. </p>
+
+<p>What about this <code>put</code> business? Well, we like the algebraic feature of Ax a lot. We don&#39;t need hints, because it&#39;s quite normal for Ax code to come with both embedded symbols and a table containing expansions for the symbols, as well as jets for the assisted ones. In a mature environment, we scrub this of any taint of variability and anonymize everything, so your <code>foo</code> and my <code>foo</code> will be different even if they happen to be equal (minus yet another layer of abstraction!). As it stands, AxUM is a single computation and all symbols must be distinct and have singular expansions. </p>
+
+<p>We do have code with identical semantics, which seems like an odd choice if we&#39;re forsaking hints. Here&#39;s one good reason: Ax goes to great lengths to be in principle Hoon and Nock compatible. It&#39;s just respectful, and if there&#39;s to be a transition, let&#39;s ease the pain, or delay it insofar as possible.</p>
+
+<p>In fact, use of <code>put</code> will also not affect the semantics of your running code. If you&#39;re in some kind of compatibility mode, you may even find that the use of opcode 10 provides pleasant jet assistance to your calculations. This is not our intended use case: <code>put</code> is the other side of <code>br 0</code>.</p>
+
+<p>Without going into detail that will probably prove wrong, <code>br 0</code> and <code>put</code> define address spaces &quot;above&quot; and &quot;below&quot; the Arc of Ax code that is executing. Nock is Hermetically sealed, which is a virtue; <code>br 0</code> and <code>put</code> provide a formal, very low-level- mechanism for building plumbing between Ax vessels. </p>
+
+<p>Getting this right will be the true test of the Tree of Life on this machine. The Tree is recursive, fractal, heirarchical, and mnemnonic, among other qualities, all of which comes into play.</p>
+
+<p>Importantly, this is defined at a higher level. It will be the canonical way to link Ax machines together, but is not part of the semantics of the machines themselves, on purpose. They&#39;re really quite small. </p>
+
+<p>The main reason for this is that the intricacy of these address spaces will make them in effect kernel-level abstractions. They will end up just as frozen as Ax will, but consequent to that, and with a longer annealing phase. </p>
+
+<h2 id="toc_44">Philosophy</h2>
+
+<p>Well and good, and we all love an elegant mathematical structure. What&#39;s the purpose of some of this? Why an Ax machine, which is inductive, nondeterministic, and redundant, versus a Conk machine, which is crisp, deductive, and minimal?</p>
+
+<p>It&#39;s not an idle question. There are two Conks with the elegance of the Ax machine, which are Ax α with operator 5 replaced with one of the two possible options. Why choose induction and expansion over deduction and reduction? Why even offer the choice? Usually, we choose computers that are known to halt on problems which are known to halt. </p>
+
+<p>Well, Ax isn&#39;t quite that bad. It has a Ko rule, after all. There are two cases to be made, one from elegance and another from utility.</p>
+
+<p>Without expansions, one may not generate the full set of possible operations from a seed. This is a beautiful property in a system, if you&#39;re me, and since the expansion Ξ [0 0 0] -&gt; Ξ [0 2 1] may yield (I am convinced) the other operators, it is a beautiful seed for a beautiful system. This is sufficient justification for the automaton; what is mathematics if not elegance, nor elegance if not a species of beauty? </p>
+
+<p>Utility is perhaps harder to see, but imagine an aging computer in a hostile environment. Though it has megas of cores, many are infected and firewalled, others punctured by radiation or otherwise deranged and useless. The ability to expand a failed reduction may save a calculation, and that&#39;s no minor thing. A failed or malfunctioning jet may be similarly unit tested against its expansion, fractally and repeatedly, and substitutes checked for correctness in the same way. </p>
+
+<p>The expansions are not actually necessary, that is, the reductions serve to define the calculational semantics. They are included, ultimately, as a bridge to the next level of abstraction: grammars which recognize and transform strings of various sorts into Ax. This is perhaps the most profound advantage of using a cellular automaton, and we intend to make good use of it.</p>
+
+<p>So that&#39;s the Ax machine. Maxwell&#39;s equations build each on the others, as Euclid&#39;s Axioms, as the Laws of Motion and Thermodynamics. With the Ax ordering of Nock, the operators produce their own sequence. Quod Erat Demonstrandum.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Executable Representation]]></title>
@@ -97,7 +314,7 @@
 
 <p>Decrement is explained with much fanfare. Indeed most of my actual applicative understanding of Nock comes from that explanation. It&#39;s a simple case, because there&#39;s only one bad value to decrement, namely zero. It&#39;s also fairly obvious what to do: crash. </p>
 
-<p>Add, multiply, modulus, and remainder are entirely specified under the two words &quot;natural number&quot; and it is camelnine not to include them. Look, let me show this creature out: she&#39;ll start spitting or worse, and I like this rug. A modulus 0? Crash or fisticuffs, sir. </p>
+<p>Add, multiply, integral division and modulus are entirely specified under the two words &quot;natural number&quot; and it is camelnine not to include them. Look, let me show this creature out: she&#39;ll start spitting or worse, and I like this rug. A div 0? Crash or fisticuffs, sir.</p>
 
 <p>Consider line 7. It plainly says &quot;By add, we mean a restricted subset of addition, namely, addition by one&quot;. A little coda saying &quot;oh yeah actually adding stuff in the general case of two arguments? 14&quot; would not instantly bloat our automaton into JVM proportions. </p>
 
