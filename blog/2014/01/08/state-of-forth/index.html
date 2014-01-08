@@ -1,0 +1,331 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>State of Forth, 2014 - Mnemnion</title>
+  <meta name="author" content="Sam Atman">
+
+  
+  <meta name="description" content="I had a very interesting conversation with Loper recently about, well, superficially it was about Urbit. It came at an interesting time, as I was &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://mnemnion.github.io/blog/2014/01/08/state-of-forth">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Mnemnion" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Mnemnion</a></h1>
+  
+    <h2>A Unit of Analogy</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:mnemnion.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">State of Forth, 2014</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-08T13:45:00-08:00" pubdate data-updated="true">Jan 8<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I had a <a href="http://www.loper-os.org/?p=1390#comments">very interesting conversation</a> with Loper recently about, well, superficially it was about Urbit. </p>
+
+<p>It came at an interesting time, as I was rewriting <a href="http://mnemnion.github.io/ax/spec.html">Ax</a> in Forth. That&#39;s a done deal, but I&#39;ve temporarily lost interest. As an aside, the Ax inner loop calls for roughly ten basic Forth words, the kind that are normally one to five machine instructions long. That is&#8230;not insolubly slow, even on hardware that&#39;s somewhat hostile to the level of indirection involved in a noun.</p>
+
+<p>Forth itself has seized and held my attention. </p>
+
+<p>I remain convinced that Urbit, or something like it, must be built and must be built now. I hope for efficieny&#39;s sake that <a href="http://tlon.io">Tlon</a> will be the ones to do it. </p>
+
+<p>Similarly, the things <a href="http://www.loper-os.org/?p=1427">Loper</a> is up to right now are totally right on, and frankly, the sooner the world gets Loper designed hardware the better off we&#39;ll be. </p>
+
+<p>And then I started learning the Way of Forth. People have the wrong idea about Forth, because they think it&#39;s a language, when it&#39;s actually a programmable program. Now, every language runs on a programmable program, but Forth <strong>is</strong> a programmable program, and therein lies the difference. </p>
+
+<h2 id="toc_45">Tame the Beast</h2>
+
+<p>Forth is in danger of becoming a lost art. Few of the younger generation are learning the way. It survives in a surprising number of contexts, far away from the mainstream of open-source, Unix and network-oriented software. Most Forth users are using commercial Forth environments that they paid for. </p>
+
+<p>This is easy to explain: Forth, the language, has almost nothing to offer. Viewed as a language, it&#39;s more than just primitive, it&#39;s barbaric. </p>
+
+<p>Then you go to write something like an assembler, and realize that Forth is dramatically the best language for that job. Seriously, <a href="http://krue.net/avr/">check this out</a>. This is the best assembler you&#39;ve ever seen. Go find a C assembler if you don&#39;t believe me. </p>
+
+<p>The version of this that runs on the microcontroller, in a <a href="http://krue.net/avrforth/">native Forth environment</a>, lets you interactively design assembler words and test them, on the microcontroller itself. Y&#39;know, no big deal, I bet you do that all the time.</p>
+
+<p>It&#39;s been said there are more Forth implementations than serious systems written in Forth. This is actually untrue to the verge of slander, but Forth is meant to be hand-rolled to the task. It is a <a href="http://www.colorforth.com/POL.htm">problem oriented language</a>. By the way, if you haven&#39;t read POL, I insist. It is a fundamental work of computer science; Chuck was a student of McCarthy at the dawn of Lisp.</p>
+
+<p>The way of Forth is to take the target architecture and tame it into a consistent environment for getting things done. The stack abstraction may always be applied, and normally at a cost similar to a subroutine-call environment. </p>
+
+<p>I have my notions of what&#39;s driven Forth into its present, moribund state. It&#39;s mostly ANS, which abstracts the machine away in the name of portability. This renders Forth a weird concatenative abstract language, taking away its numerous advantages. The C standard is far more literal and close to the hardware than the Forth standard, and this causes the language to suffer immensely. </p>
+
+<p>It remains the best machine tool in the arsenal. If the job is taming a wild chip, Forth is your friend. It&#39;s the best way to punch down, period, and with some support, I can picture it punching up with the best of them.</p>
+
+<p>How to write a post-C environment using existing high-calibre ARMs and possibly Intels? Forth alone will not suffice. But if we stick with <a href="http://en.wikipedia.org/wiki/Atmel_AVR">AVR</a> for a bit, then gun for modest 32 bit ARM systems, we may discover that the big iron is obsolete. It&#39;s also quite possibly dangerous: there may be Balrogs built into the big chips, and certainly, the board architecture we&#39;re using is not nearly paranoid enough. </p>
+
+<h2 id="toc_46">Interactive Enlightenment</h2>
+
+<p>I don&#39;t dislike writing C. I learned it when my brain was fairly plastic, so despite the rust, I can get &#39;er done. I have always despised debugging it. GCC is pain, mostly concealed with make, though make is also pain when you have to write it. GDB is pain multiplied by pain. I cut my teeth on Turbo Pascal, and this shit <em>hurts</em>. The only saving grace of Java is that stepping though that garbage is of necessity well-tooled. C programmers are masochists, to the last one; they not only invented Hungarian, they frequently use it. </p>
+
+<p>C engages in premature optimization, which is known to be the root of all evil. It won anyway, because Forth provides no way to hand off any programmer discipline to the compiler, and efforts to add them have failed spectacularly. I have a notion, but code speaks and I have a lot to learn. </p>
+
+<p>There&#39;s also the fact that C is Algolic. Algol was designed so the pseudo-code programmers developed ad-hoc could be used to write real programs. It&#39;s no wonder that a language driven (that&#39;s human language, specifically Western European) design became effective and popular. It&#39;s taken decades to learn that the pain of compiling Algol puts an enormous burden on systems programming; indeed, this lesson has yet to catch on.</p>
+
+<p>Nonetheless, let me state a law: If a system does not provide an Algol, it will fail. Dialect matters less than you think it does, but there are no downsides in using something sensible with a decent user base. Lua, say. Lua is a nice Algol. </p>
+
+<p>I plan to write a nice, Unix hosted system that provides a roomy, enhanced window into the running environment of a second computer. This treats Unix like the fancy terminal it is, giving us the all-important ability to code and use the Internet at the same time. </p>
+
+<p>The only Forth that is even skeletally complete, from a Unix perspective, is gforth. That&#39;s a GNU tool, making the code pure contagious poison that can never be used for anything. Unfortunately pforth, the public domain version, is missing certain essential ANSI term handling words, so I&#39;m using gforth for now. </p>
+
+<p>The program, provisionally called Forge, may be thought of as a cockpit for piloting a Forth system. Self-introspective, yes, but built primarily to operate an umbilical Forth environment on a remote platform. We may use this comfortable tool to make compact, excellent microcontrollers which can talk to each other and host systems; the wisdom gained may be applied to writing a better host Forth, and then we&#39;re in business.</p>
+
+<p>Forge is intended for interactive systems programming. Building out an operating system requires a lot of scaffolding, and there are self-reference problems with trying to host that scaffolding on the system you&#39;re assembling. </p>
+
+<p>I mean enlightenment in the sense of shining a light. Compiled C code is dank, obscure, and our current architectures further convolute the actual execution of code. There have been benefits, but the tradeoff isn&#39;t worth it: what you cannot see, you cannot understand without great strain. Show me a tool for interactive physical inspection of the hardware state. Show me how to write it in C. If you know the language, you know the problem: all the information you need is simply gone, and there&#39;s no good way to get it back. </p>
+
+<p>Astute coders can do terrifying things with stack machine optimization. LUAJit and HotSpot are works of pure magic. The fact that this has not been effectively combined with Forth in an open-source tool is part accident, and part missing type information. </p>
+
+<p>Oddly enough, Forth programmers provide type information, in the form of comments. All good code has them. Nothing in the computer reads these annotations or does anything useful with them. We&#39;ll get back to this thought, but not today.  </p>
+
+<h3 id="toc_47">The Way</h3>
+
+<p>Forth is a Daoist, immediate, personal approach to the computer. I have some problems, that are conceptually large. I intend to write and rewrite those problems until I have some good languages for solving them. </p>
+
+<p>This post was going to be a survey of the Forth ecosystem; perhaps later. Instead, I&#39;ll end with meditation.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>If the System provides garbage collection,
+</span><span class='line'>the Language cannot write one.
+</span><span class='line'>If the System provides syntax,
+</span><span class='line'>the Language must use it.
+</span><span class='line'>If the System provides types, 
+</span><span class='line'>the Language shall have them.
+</span><span class='line'>Doing less,
+</span><span class='line'>Presuming nothing,
+</span><span class='line'>Staying empty,
+</span><span class='line'>The Way of Forth
+</span><span class='line'>Provides the Language,
+</span><span class='line'>Enables the User,
+</span><span class='line'>To Build the System
+</span><span class='line'>In Accordance with the Way.</span></code></pre></td></tr></table></div></figure>
+
+<p>Back to the metal. More later.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sam Atman</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-08T13:45:00-08:00" pubdate data-updated="true">Jan 8<span>th</span>, 2014</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://mnemnion.github.io/blog/2014/01/08/state-of-forth/" data-via="" data-counturl="http://mnemnion.github.io/blog/2014/01/08/state-of-forth/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/12/19/commentary-on-ax/" title="Previous Post: Commentary on Ax">&laquo; Commentary on Ax</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/01/08/state-of-forth/">State of Forth, 2014</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/12/19/commentary-on-ax/">Commentary on Ax</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/06/executable-representation/">Executable Representation</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/05/the-urbit-has-landed/">The Urbit Has Landed</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/01/on-decimation/">On Decimation</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/mnemnion">@mnemnion</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'mnemnion',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Sam Atman -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -9,7 +9,7 @@
   <meta name="author" content="Sam Atman">
 
   
-  <meta name="description" content="Representation of Data in Structured Programs. Today we&#39;re going to discover a programming language. We&#39;re going to start by contemplating &hellip;">
+  <meta name="description" content="I find it somewhat astonishing that the languages with which I&#39;m familiar still start and end strings with the same character. It is as though we &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +65,66 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/27/syntax-for-literal-strings/">Syntax for Literal Strings</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-27T10:09:00-07:00" pubdate data-updated="true">Jul 27<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I find it somewhat astonishing that the languages with which I&#39;m familiar still start and end strings with the same character. It is as though we used <code>|</code> for <code>{</code> and <code>}</code> in code blocks and relied on context to figure out if it was <code>begin</code> or <code>end</code>. </p>
+
+<p>Incidentally, it&#39;s quite possible to write a language this way, and an interesting exercise. <code>for | i = 0 ; i &lt; 2 ; i++ || codeBlock |</code> should parse just fine. Heaven help you if you misplace anything. </p>
+
+<p>Check out <a href="https://en.wikipedia.org/wiki/Delimiter#Bracket_delimiters">bracket delimiters</a> on the Wiki. Two of these things are not like the others. Those two are used preponderantly for strings. </p>
+
+<p>It&#39;s clear enough how it happened. A string has an obvious mapping to literary quotation: <code>&quot;That&#39;s what she said!&quot;</code>.  ASCII gives us exactly three options: <code>&#39;</code>, <code>`</code>, and <code>&quot;</code>. <a href="http://c-programming.itags.org/q_c-programming-language_16297.html">It turns out</a> that C was defined using 91 characters, and <code>`</code> was not among them. </p>
+
+<p>Meta enough, I&#39;m writing this in Markdown, and to type <code>`</code>, I must type <code>`` ` ``</code>. I will leave how I typed <code>`` ` ``</code> as an exercise for the reader. </p>
+
+<p>So C chose <code>&quot;</code> for string syntax, and <code>&#39;</code> for characters, and these decisions made sense, somewhere in the mists of time. C also initiated the proud tradition of string escaping, which wasn&#39;t invented to get around the delimiter problem, but which can be used for that purpose in a hacky way. String escaping is so you can say <code>\n</code> and get a newline, the incidental benefit is you can say <code>\&quot;</code> and get a <code>&quot;</code>, hence one may include any character in such a string. Two backslashes is of course <code>\\\\</code>. One gets used to it. </p>
+
+<p>Oh hey, just for fun, why not write a regex that will match such strings? Won&#39;t take you long, I promise. I&#39;ll be right here!</p>
+
+<p>To the point. In typography, we don&#39;t do this. We start quotations with <code>“</code> or <code>‟</code> and end them with <code>”</code>. On the <a href="http://en.wikipedia.org/wiki/%C2%AB">Continent</a>, <code>«</code> and <code>»</code> are used, and this would be my preference as they are much easier to tell apart and don&#39;t have two choices for the opening delimiter. If you follow the link, It turns out they are used both <code>«this way»</code> and <code>»this way«</code> and even <code>»this way»</code> by Finns (<a href="http://en.wikipedia.org/wiki/Finnish_language">of course</a>). We favor the first, because all other brackets in computer programming are inward facing <code>&lt;{[(like so)]}&gt;</code>.</p>
+
+<p>What&#39;s the point? They aren&#39;t on standard keyboards in the US; while any worthwhile editor can get around this, there&#39;s a pain point there. Some people will argue a virtue in using ASCII for source code, and while those people <a href="https://github.com/cgyarvin/urbit">have a point</a>, the ship sailed a long time ago. We use Unicode, and it isn&#39;t going anywhere. </p>
+
+<p>The point is that, without proper left-right matched strings, you cannot literally quote your own source code within your source code. This is damaged, for any language that lets you evaluate at runtime (the interesting ones IOW). If we use <code>«</code> and <code>»</code>, we can use bog-standard reference counting to assure that any properly-balanced literal strings in the source code get quoted. Since in this imaginary syntax a bare <code>»</code> not balanced on the left with a <code>«</code> is a syntax error, any correct program can be embedded. </p>
+
+<p>If, for any reason, you need a bare <code>»</code>, why not use the ISO standard SHA-1 hash of the Unicode value of <code>»</code>? Why not indeed. It then becomes impossible to literally quote that one hash, which is officially the point where it is perverse to pursue the matter further. Concatenate for that one. </p>
+
+<p>To be clear, <code>&quot;</code> for escaped strings is concise and well understood, and with enough convolutions one may write as one pleases. It&#39;s syntax such as <code>&#39;&#39;&#39;</code> for literal strings that grates against my sensibilities. </p>
+
+<p>Clojure has no syntax for literal, multi-line, unescaped strings. That&#39;s too bad; no one does syntax like Rich Hickey, and I suspect that the inadequacy of existing options plays a role here. He may not be willing to go off-keyboard, but I feel that the <code>«</code> and <code>»</code> syntax has a lot to offer. Certainly Europeans would be pleased. </p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -175,6 +235,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/01/08/state-of-forth/">State of Forth, 2014</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/12/19/commentary-on-ax/">Commentary on Ax</a>
       </li>
     
@@ -188,10 +252,6 @@
     
       <li class="post">
         <a href="/blog/2013/10/01/on-decimation/">On Decimation</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/09/11/a-parenthetical-observation/">A Parenthetical Observation</a>
       </li>
     
   </ul>
@@ -236,7 +296,7 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - Sam Atman -
+  Copyright &copy; 2014 - Sam Atman -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
