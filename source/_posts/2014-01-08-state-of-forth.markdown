@@ -32,7 +32,7 @@ It's been said there are more Forth implementations than serious systems written
 
 The way of Forth is to take the target architecture and tame it into a consistent environment for getting things done. The stack abstraction may always be applied, and normally at a cost similar to a subroutine-call environment. 
 
-I have my notions of what's driven Forth into its present, moribund state. It's mostly ANS, which abstracts the machine away in the name of portability. This renders Forth a weird concatenative abstract language, taking away its numerous advantages. The C standard is far more literal and close to the hardware than the Forth standard, and this causes the language to suffer immensely. 
+I have my notions of what's driven Forth into its present, moribund state. It's mostly ANS, which abstracts the machine away in the name of portability. This renders Forth a weird concatenative abstract language, taking away its numerous advantages. The C standard is far more literal and close to the hardware than the Forth standard, and this causes the latter language to suffer immensely. 
 
 It remains the best machine tool in the arsenal. If the job is taming a wild chip, Forth is your friend. It's the best way to punch down, period, and with some support, I can picture it punching up with the best of them.
 

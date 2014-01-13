@@ -1,0 +1,20 @@
+<div class="highlight"><pre>\ Rollhex
+: offset-hexpr \ ( offset n -- new-offset )
+ tuck                            \ ( n offset n -- )
+ hex 0 do                        \ ( n -- `hex`    )
+ 	dup i + 16 mod               \ ( n n+i%16 --   )
+ 	dup 15 &lt;&gt; if                 \ ( n n2     --   )
+ 		0 &lt;# # #&gt; type           \ ( n -- &quot;n2&quot;     )
+ 	else \ red F
+ 		0 &lt;# .#! # .#r #&gt; type 	 \ ( n -- &quot;n2&quot;     )
+ 	then
+ loop decimal					 \ ( n -- `decimal` ) 
+ + 16 mod						 \ ( new-offset --  )
+ ;
+ : hexer  \ ( C: nil -&gt; nil D: nil -&gt; nil &quot;hex&quot; )
+ 	create \ ( nil -&gt; nil )
+ 		0 ,
+ 	does&gt;  \ ( nil -&gt; nil )
+ 	dup &gt;r @ swap offset-hexpr r&gt; ! ;
+ hexer rollhex 
+</pre></div>
