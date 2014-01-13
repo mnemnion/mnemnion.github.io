@@ -4,7 +4,7 @@
   <title><![CDATA[Mnemnion]]></title>
   <link href="http://mnemnion.github.io/atom.xml" rel="self"/>
   <link href="http://mnemnion.github.io/"/>
-  <updated>2014-01-08T15:56:04-08:00</updated>
+  <updated>2014-01-12T16:09:35-08:00</updated>
   <id>http://mnemnion.github.io/</id>
   <author>
     <name><![CDATA[Sam Atman]]></name>
@@ -12,6 +12,176 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Those Dadgum Adders]]></title>
+    <link href="http://mnemnion.github.io/blog/2014/01/12/those-dadgum-adders/"/>
+    <updated>2014-01-12T15:05:00-08:00</updated>
+    <id>http://mnemnion.github.io/blog/2014/01/12/those-dadgum-adders</id>
+    <content type="html"><![CDATA[<p>I read <a href="http://prog21.dadgum.com/33.html">a description of Forth</a> years ago, that stuck with me.</p>
+
+<p>Now that I&#39;m writing some, let&#39;s try this problem out. The premise: given three arrays of three integers, add x and y, putting the result in z. In C, this is easy by design. </p>
+
+<p>Oh, and array overflows have probably cost us a trillion dollars by now. Kudos!</p>
+
+<h2 id="toc_49">Forth is factoring</h2>
+
+<p>First, no custom data types, but lets actually define and fill two &#39;arrays&#39;.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>variable foo[] 2 cells allot
+</span><span class='line'>variable bar[] 2 cells allot
+</span><span class='line'>variable baz[] 2 cells allot
+</span><span class='line'>
+</span><span class='line'>99 99 99 foo[] ! foo[] cell + ! foo[] 2 cells + !
+</span><span class='line'>2 4 8    bar[] ! bar[] cell + ! bar[] 2 cells + !
+</span><span class='line'>16 32 64 baz[] ! baz[] cell + ! baz[] 2 cells + !
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This is wordy. Wordier than it needs to be. But also easy to read. Notably, we do not juggle the stack; it&#39;s somewhat bad form while interpreting. </p>
+
+<p>Clearly if we need a lot of arrays, we&#39;ll define something to handle them. Which kind of array do you need?</p>
+
+<p>Today, like the problem, we need a C array: stupid, unbounded, and untyped. </p>
+
+<p>Now we need a word to add the values of three addresses together.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>: add-advance  \ ( a1 a2 a3 -- a1+ a2+ a3+ )
+</span><span class='line'>  \ &quot;add a2 and a3, store value in a1. Advance all three addresses.&quot;
+</span><span class='line'>  dup &gt;r -rot dup &gt;r -rot dup &gt;r -rot \ ( a1 a2 a3 -|- a1 a2 a3 )
+</span><span class='line'>  @ swap @ +                          \ ( a1 a2+a3 -|- a1 a2 a3 )
+</span><span class='line'>  swap !                              \ ( nil -|- a1 a2 a3      )
+</span><span class='line'>  r&gt; r&gt; r&gt;                            \ ( a1 a2 a3    --        )
+</span><span class='line'>  cell + rot cell + rot cell + rot    \ ( a1+ a2+ a3+ --        )
+</span><span class='line'>  ;
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Line by line, shall we?</p>
+
+<p><code>dup &gt;r -rot dup &gt;r -rot dup &gt;r -rot</code> puts a copy of every address on the return stack for later. I&#39;d call this <code>punt</code> if I planned to do it frequently. </p>
+
+<p><code>@ swap @ +</code> takes the two address and adds them together, while <code>swap !</code> saves this values to <code>a1</code>. </p>
+
+<p><code>r&gt; r&gt; r&gt;</code> is the anti-punt, basically. We could do the <code>cell +</code> call inline with it, but I feel this way is clearer: the <code>cell + rot cell + rot cell + rot</code> adds one cell width to each address, advancing it. </p>
+
+<p>So far so good. Let&#39;s make a word that creates a word that adds an array of n. </p>
+
+<p>Wait what?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>: n-adder \ ( create: n -&gt; nil does&gt;: &#39;add-advance&#39; )
+</span><span class='line'>  create ,
+</span><span class='line'>  does&gt;
+</span><span class='line'>  @ 0 do add-advance loop
+</span><span class='line'>  drop 2drop ;
+</span><span class='line'>3 n-adder 3-adder
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Looks like we solved the problem for, not array[3], but array[n], for any n. Of course, we have to make a new word each time. <code>here</code>, <code>allot</code> and <code>:noname</code> can be combined to the same thing in anonymous ways. This is strictly speaking over general; we add an entire extra line of code, and one additional word, in the pursuit of perfect generality. </p>
+
+<p><code>:noname create , does&gt; @ ( ... ) ; 3 swap execute 3-adder</code> would make our adder without providing further capability.  </p>
+
+<p>Just as clearly, we could make a word that generates an array of n, and stashes n as the first value of that array. Then we could make a bounds checked version. It could even add two arrays of unequal length into an array equal or larger than the both, though we would need to define each behavior fairly carefully. </p>
+
+<p>Or we could make a creator word that takes any other word that acts on the values of three addresses, and applies that word to an array of arbitrary length. There&#39;s plenty of room in a 64 bit offset for a type system for the resulting array; we could end up with a <code>+</code> (pre|post|in) fixing (two|three) arrays of arbitrary type and length, if that was useful. Depends on the language you want.</p>
+
+<p>The reason Forth doesn&#39;t provide the C array structure is because it doesn&#39;t presume to make that choice for you. Simple as that. </p>
+
+<h3 id="toc_50">Footnote</h3>
+
+<p>Astute Forth heads might find this one weird: <code>\ ( a1 a2 a3 -|- a1 a2 a3 )</code>. That <code>-|-</code> is an annotation I call the mirror: the return stack runs backwards from the data stack: <code>a b c -- &#39;&gt;r &gt;r&#39; -&gt; a -|- b c</code>.</p>
+
+<p>It&#39;s easy to read, and clear. I use <code>--</code> to show that a stack annotation is completed and <code>-&gt;</code> to show a stack change, normally in a colon definition. It&#39;s so regular a computer could almost do it. </p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A Simple Closure in Forth]]></title>
+    <link href="http://mnemnion.github.io/blog/2014/01/12/a-simple-closure-in-forth/"/>
+    <updated>2014-01-12T12:28:00-08:00</updated>
+    <id>http://mnemnion.github.io/blog/2014/01/12/a-simple-closure-in-forth</id>
+    <content type="html"><![CDATA[<p>Forth is what you make out of it. If you want a structure or language artifact, and you understand what it does, you may create it.</p>
+
+<p>Let&#39;s write a simple closure in Forth.</p>
+
+<h2 id="toc_48">Simple Closure</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>\ Rollhex
+</span><span class='line'>
+</span><span class='line'>: offset-hexpr \ ( offset n -- new-offset )
+</span><span class='line'>   tuck                            \ ( n offset n -- )
+</span><span class='line'>   hex 0 do                        \ ( n -- `hex`    )
+</span><span class='line'>      dup i + 16 mod               \ ( n n+i%16 --   )
+</span><span class='line'>      dup 15 &lt;&gt; if                 \ ( n n2     --   )
+</span><span class='line'>          0 &lt;# # #&gt; type           \ ( n -- "n2"     )
+</span><span class='line'>      else \ red F
+</span><span class='line'>          0 &lt;# .#! # .#r #&gt; type     \ ( n -- "n2"     )
+</span><span class='line'>      then
+</span><span class='line'>   loop decimal                    \ ( n -- `decimal` ) 
+</span><span class='line'>   + 16 mod                        \ ( new-offset --  )
+</span><span class='line'>   ;
+</span><span class='line'>
+</span><span class='line'>: hexer  \ ( C: nil -&gt; nil D: nil -&gt; nil "hex" )
+</span><span class='line'>      create \ ( nil -&gt; nil )
+</span><span class='line'>          0 ,
+</span><span class='line'>      does&gt;  \ ( nil -&gt; nil )
+</span><span class='line'>      dup &gt;r @ swap offset-hexpr r&gt; ! ;
+</span><span class='line'>
+</span><span class='line'>hexer rollhex </span></code></pre></td></tr></table></div></figure>
+  
+
+<p>A call such as <code>2 rollhex</code> will produce <code>01</code> as output. <code>2 rollhex</code> again produces <code>23</code> and so on. We highlight each <code>F</code> in red. </p>
+
+<p>This is a small utility, kind of like a measuring tape for a terminal. You can repeatedly fire it at a rectangle of text, and get a quick count for how many characters you&#39;ve printed. There&#39;s no need for a reset word, you can call <code>0 &#39; rollhex !</code> or whatever new value you want the closure to have. Literally, this puts 0 on the stack, puts the address of rollhex on the stack, then stores 0 to the address, just like we did when we <code>create</code>d it.</p>
+
+<p>Could you embed this in some kind of &quot;object&quot;? Certainly, and you do so in the same fashion: by rolling the behavior you want, directly. If it gets moderately complex, you use access words. And so on. </p>
+
+<p>This is dramatically over-commented Forth. Almost every comment is wrapped in an outer comment. The result looks weirdly like some kind of annotative type system operating in parallel with the Forth. In fact, it is, this is how Forth programmers keep track of programs. In their head, with a yellow legal notepad nearby. </p>
+
+<p>You&#39;ll note the famous &#39;stack juggling&#39;. Stack juggling is to Forth as the parenthesis is to Lisp. The issue with Forth is not on the left side of the source code; the issue is that the right side exists, at present, only in our minds. </p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[State of Forth, 2014]]></title>
@@ -44,7 +214,7 @@
 
 <p>The way of Forth is to take the target architecture and tame it into a consistent environment for getting things done. The stack abstraction may always be applied, and normally at a cost similar to a subroutine-call environment. </p>
 
-<p>I have my notions of what&#39;s driven Forth into its present, moribund state. It&#39;s mostly ANS, which abstracts the machine away in the name of portability. This renders Forth a weird concatenative abstract language, taking away its numerous advantages. The C standard is far more literal and close to the hardware than the Forth standard, and this causes the language to suffer immensely. </p>
+<p>I have my notions of what&#39;s driven Forth into its present, moribund state. It&#39;s mostly ANS, which abstracts the machine away in the name of portability. This renders Forth a weird concatenative abstract language, taking away its numerous advantages. The C standard is far more literal and close to the hardware than the Forth standard, and this causes the latter language to suffer immensely. </p>
 
 <p>It remains the best machine tool in the arsenal. If the job is taming a wild chip, Forth is your friend. It&#39;s the best way to punch down, period, and with some support, I can picture it punching up with the best of them.</p>
 

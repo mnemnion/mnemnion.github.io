@@ -1,0 +1,332 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Those Dadgum Adders - Mnemnion</title>
+  <meta name="author" content="Sam Atman">
+
+  
+  <meta name="description" content="I read a description of Forth years ago, that stuck with me. Now that I&#39;m writing some, let&#39;s try this problem out. The premise: given three &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://mnemnion.github.io/blog/2014/01/12/those-dadgum-adders">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Mnemnion" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Mnemnion</a></h1>
+  
+    <h2>A Unit of Analogy</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:mnemnion.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Those Dadgum Adders</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-12T15:05:00-08:00" pubdate data-updated="true">Jan 12<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I read <a href="http://prog21.dadgum.com/33.html">a description of Forth</a> years ago, that stuck with me.</p>
+
+<p>Now that I&#39;m writing some, let&#39;s try this problem out. The premise: given three arrays of three integers, add x and y, putting the result in z. In C, this is easy by design. </p>
+
+<p>Oh, and array overflows have probably cost us a trillion dollars by now. Kudos!</p>
+
+<h2 id="toc_49">Forth is factoring</h2>
+
+<p>First, no custom data types, but lets actually define and fill two &#39;arrays&#39;.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>variable foo[] 2 cells allot
+</span><span class='line'>variable bar[] 2 cells allot
+</span><span class='line'>variable baz[] 2 cells allot
+</span><span class='line'>
+</span><span class='line'>99 99 99 foo[] ! foo[] cell + ! foo[] 2 cells + !
+</span><span class='line'>2 4 8    bar[] ! bar[] cell + ! bar[] 2 cells + !
+</span><span class='line'>16 32 64 baz[] ! baz[] cell + ! baz[] 2 cells + !
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This is wordy. Wordier than it needs to be. But also easy to read. Notably, we do not juggle the stack; it&#39;s somewhat bad form while interpreting. </p>
+
+<p>Clearly if we need a lot of arrays, we&#39;ll define something to handle them. Which kind of array do you need?</p>
+
+<p>Today, like the problem, we need a C array: stupid, unbounded, and untyped. </p>
+
+<p>Now we need a word to add the values of three addresses together.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>: add-advance  \ ( a1 a2 a3 -- a1+ a2+ a3+ )
+</span><span class='line'>  \ &quot;add a2 and a3, store value in a1. Advance all three addresses.&quot;
+</span><span class='line'>  dup &gt;r -rot dup &gt;r -rot dup &gt;r -rot \ ( a1 a2 a3 -|- a1 a2 a3 )
+</span><span class='line'>  @ swap @ +                          \ ( a1 a2+a3 -|- a1 a2 a3 )
+</span><span class='line'>  swap !                              \ ( nil -|- a1 a2 a3      )
+</span><span class='line'>  r&gt; r&gt; r&gt;                            \ ( a1 a2 a3    --        )
+</span><span class='line'>  cell + rot cell + rot cell + rot    \ ( a1+ a2+ a3+ --        )
+</span><span class='line'>  ;
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Line by line, shall we?</p>
+
+<p><code>dup &gt;r -rot dup &gt;r -rot dup &gt;r -rot</code> puts a copy of every address on the return stack for later. I&#39;d call this <code>punt</code> if I planned to do it frequently. </p>
+
+<p><code>@ swap @ +</code> takes the two address and adds them together, while <code>swap !</code> saves this values to <code>a1</code>. </p>
+
+<p><code>r&gt; r&gt; r&gt;</code> is the anti-punt, basically. We could do the <code>cell +</code> call inline with it, but I feel this way is clearer: the <code>cell + rot cell + rot cell + rot</code> adds one cell width to each address, advancing it. </p>
+
+<p>So far so good. Let&#39;s make a word that creates a word that adds an array of n. </p>
+
+<p>Wait what?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>: n-adder \ ( create: n -&gt; nil does&gt;: &#39;add-advance&#39; )
+</span><span class='line'>  create ,
+</span><span class='line'>  does&gt;
+</span><span class='line'>  @ 0 do add-advance loop
+</span><span class='line'>  drop 2drop ;
+</span><span class='line'>3 n-adder 3-adder
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Looks like we solved the problem for, not array[3], but array[n], for any n. Of course, we have to make a new word each time. <code>here</code>, <code>allot</code> and <code>:noname</code> can be combined to the same thing in anonymous ways. This is strictly speaking over general; we add an entire extra line of code, and one additional word, in the pursuit of perfect generality. </p>
+
+<p><code>:noname create , does&gt; @ ( ... ) ; 3 swap execute 3-adder</code> would make our adder without providing further capability.  </p>
+
+<p>Just as clearly, we could make a word that generates an array of n, and stashes n as the first value of that array. Then we could make a bounds checked version. It could even add two arrays of unequal length into an array equal or larger than the both, though we would need to define each behavior fairly carefully. </p>
+
+<p>Or we could make a creator word that takes any other word that acts on the values of three addresses, and applies that word to an array of arbitrary length. There&#39;s plenty of room in a 64 bit offset for a type system for the resulting array; we could end up with a <code>+</code> (pre|post|in) fixing (two|three) arrays of arbitrary type and length, if that was useful. Depends on the language you want.</p>
+
+<p>The reason Forth doesn&#39;t provide the C array structure is because it doesn&#39;t presume to make that choice for you. Simple as that. </p>
+
+<h3 id="toc_50">Footnote</h3>
+
+<p>Astute Forth heads might find this one weird: <code>\ ( a1 a2 a3 -|- a1 a2 a3 )</code>. That <code>-|-</code> is an annotation I call the mirror: the return stack runs backwards from the data stack: <code>a b c -- &#39;&gt;r &gt;r&#39; -&gt; a -|- b c</code>.</p>
+
+<p>It&#39;s easy to read, and clear. I use <code>--</code> to show that a stack annotation is completed and <code>-&gt;</code> to show a stack change, normally in a colon definition. It&#39;s so regular a computer could almost do it. </p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sam Atman</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-12T15:05:00-08:00" pubdate data-updated="true">Jan 12<span>th</span>, 2014</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://mnemnion.github.io/blog/2014/01/12/those-dadgum-adders/" data-via="" data-counturl="http://mnemnion.github.io/blog/2014/01/12/those-dadgum-adders/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/01/12/a-simple-closure-in-forth/" title="Previous Post: A Simple Closure in Forth">&laquo; A Simple Closure in Forth</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/01/12/those-dadgum-adders/">Those Dadgum Adders</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/01/12/a-simple-closure-in-forth/">A Simple Closure in Forth</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/01/08/state-of-forth/">State of Forth, 2014</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/12/19/commentary-on-ax/">Commentary on Ax</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/06/executable-representation/">Executable Representation</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/mnemnion">@mnemnion</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'mnemnion',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Sam Atman -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

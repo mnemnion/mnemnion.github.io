@@ -9,7 +9,7 @@
   <meta name="author" content="Sam Atman">
 
   
-  <meta name="description" content="I find it somewhat astonishing that the languages with which I&#39;m familiar still start and end strings with the same character. It is as though we &hellip;">
+  <meta name="description" content="The GLL Algorithm is one of those core concepts that can change how we do computation. It&#39;s phenomenally powerful. I believe we&#39;re just &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +65,161 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/04/progressive-refinement-in-gll/">Progressive Refinement in GLL</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-04T14:24:00-07:00" pubdate data-updated="true">Aug 4<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>The <a href="http://dotat.at/tmp/gll.pdf">GLL Algorithm</a> is one of those core concepts that can change how we do computation. It&#39;s phenomenally powerful. I believe we&#39;re just starting to see what it&#39;s capable of.</p>
+
+<p>I plan to implement GLL, as soon as some of the support work is done. It&#39;s going to be a somewhat leisurely task. I&#39;m taking a lot of notes. Currently, I&#39;m using <a href="https://github.com/Engelberg/instaparse">Instaparse</a> to play around with the algorithm.</p>
+
+<p>It&#39;s fantastic stuff, much more flexible as an idiom than, say, ANTLR. It is also much easier to write yourself into an exponential corner, and I find myself abusing regular expressions somewhat rather than torturing the grammar in other ways. </p>
+
+<p>I think this is a consequence of GLL&#39;s strengths, which allow it to parse out well over data that is already in a nested structure. Using it for a shallower kind of pattern matching kills performance even in parallel execution, because at any point in matching a long string of related structures, it could encounter a context that would kill the whole chain of inquiry. If there is any possibility of ambiguous matching, this explodes even faster. </p>
+
+<p>An example of this kind of use is parsing a bunch of sentences and paragraphs into text, which is words and whitespace. Except if you encounter a special character you have to switch context completely; this last requirement makes most natural ways of writing the grammar fail. </p>
+
+<p>An alternative would be progressive refinement. In Instaparse, the latest definition of a rule is used, and all earlier rules are ignored. My proposal, which I intend to use in my own work, is that multiple definitions of the same rule are tried sequentially against the data, after a successful parse.</p>
+
+<p>This would damage the arbitrarily-ordered nature of Instaparse grammars, in a sense. Instaparse still has to decide what to do with multiple definitions, and currently uses the last one provided. </p>
+
+<p>This would just formalize something one can already do with Instaparse, which is to parse a string, flatten the area of interest back into a string, and re-parse that string into a new rule. Substitute your new parse for the old one (this is very easy), and you&#39;ve done it.</p>
+
+<p>Automating that into the grammar would allow one to grab large globs of identical data, switching context when necessary, then parse that data into shape in smaller pieces that don&#39;t have to worry about context boundaries. </p>
+
+<p>It&#39;s a straightforward adaptation, being properly speaking a composition of the same function, <code>insta/parse grammar</code>, over a subset of the data returned by the first call. </p>
+
+<h2 id="toc_7">Automated profiling</h2>
+
+<p>One neat thing about grammars is that you can run them backwards to generate compliant gibberish. As you&#39;d expect, given the vast difference in magnitude between the set of valid input of a given length and the set of all input of that same length, it is quick to use Markov type rules to generate babble for even an intricate, ambigous grammar that would blow up trying to validate the output.</p>
+
+<p>In fact, that&#39;s the point. One may envision, and I may even write, a tool that uses pseudorandom walks to generate longer and longer streams of valid gibberish, and try them against the grammar, looking for suspicious jumps in speed or number of possible parses. Even a naive tool, running on a remote server, would generate useful information while developing a parser. One may envision the tool dialing in where parses go ambigous, generating input accordingly, and alerting the user, or doing the same for square and cubic factors that show up.</p>
+
+<p>If the validity of the babble is questionable, then one has identified permission within the grammer that one may wish to eliminate. It has potential.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/03/a-tangled-web-we-weave/">A Tangled Web We Weave</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-03T11:13:00-07:00" pubdate data-updated="true">Aug 3<span>rd</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://www-cs-faculty.stanford.edu/%7Euno/lp.html">Literate Programming</a> is one of those paradigms whose fate is continual reinvention. I&#39;ve been noticing that my software projects start as Markdown. It stands to reason that they should end up as Markdown as well.</p>
+
+<p><a href="https://help.github.com/articles/github-flavored-markdown">Git Flavored Markdown</a>, in particular, is crying out for a literate, multi-model programming system. The mechanism of named fenced code blocks lets one put multiple languages in a single file, and they will already be syntax highlighted according to the named language. </p>
+
+<p>As literate programming is for the ages, we shall call our system <a href="README.md">Marmion</a>. The weaver shall be known as <a href="athena.md">Athena</a>; the tangler, <a href="">Arachne</a>.</p>
+
+<p>If at all possible, we don&#39;t want to touch GFM itself. Therefore, here are some principles:</p>
+
+<ul>
+<li><p>Code in fenced code blocks is extracted, macro-expanded, and executed in whatever ways are appropriate.</p></li>
+<li><p>Macros must employ patterns not used in a given language; therefore, we must be able to define those patterns.</p></li>
+<li><p>All configuration happens in special code blocks, called <code>```config</code>:</p></li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">{</span> <span class="ss">:name</span> <span class="s">&quot;A config file&quot;</span>,
+</span><span class='line'>  <span class="ss">:format</span> <span class="ss">:edn</span>
+</span><span class='line'>  <span class="ss">:magic-number</span> <span class="mi">42</span> <span class="p">}</span> <span class="c1">;this is actually tagged ```clojure</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li><p>Code in regular unfenced code blocks is not included in the weave. Nor are fenced code blocks that aren&#39;t reached from the top macro. The code above, for example, <em>will not</em> be in the finished weave, because it is exemplary.</p></li>
+<li><p>All text ends up in the tangle, which is an HTML file. No other tangle format is contemplated. </p></li>
+<li><p>If standardized, the tangle format will not be specified, only the markup format and the requirements for the subsequent weave. HTML is a moving target, as is visual display in general. </p></li>
+<li><p>The Markdown may be extended, but only in the same way as any other code: by specifying a macro template and expanding it from provided code. It is the macro-expanded Markdown which is tangled and woven.</p></li>
+<li><p>Corollary: the Markdown is macro expanded before anything in a code block.  </p></li>
+<li><p>Corollary: the Markdown macro will be standard. There should be no reason to include it. Because Clojure is the implementation language, and has a defined reader macro syntax, this is already true of Clojure(Script).</p></li>
+<li><p>The weaver should visit all internal links in search of code. Some tag in HTML form should be provided so that fully-marked-up links, so tagged, will also be followed in search of exterior code. </p></li>
+<li><p>If exterior code is requested, it is added to the source as a fenced code block. The tangle will preserve the link directly above the code block. Some sensible effort will be made to infer the code format from the file extension. This is to be done before macro expansion, so that if there are macros in the exterior code, they will be expanded.</p></li>
+<li><p>We should maintain a set of canonical macro patterns for languages, to encourage mutual compatibility in source and tangled code.</p></li>
+<li><p>No mechanism for transclusion on the file level will be provided. The file structure of the Markdown is the file structure of the tangle. Working around this using the tagged-link method will leave a broken link in your tangle.</p></li>
+</ul>
+
+<p>This is the sort of project that we can tackle in stages. The most important part is the weaver, because we have a fine tangler in the form of <a href="http://jekyllrb.com/">Jekyll</a>. </p>
+
+<p>This is a job for <a href="http://clojure.org">Clojure</a>. The weaver and perhaps the tangler will be Clojurescript compatible in the narrow sense, but useless unless Instaparse is ported, which seems unlikely, though you never know. </p>
+
+<p>Clojure is chosen for a few reasons. <a href="https://github.com/edn-format/edn">EDN</a>, for one, which will be the format of any <code>```config</code> code block. Also because of <a href="https://github.com/Engelberg/instaparse">Instaparse</a>, for which the usual regular-expression based markup approach is a strict subset of capabilities. It has the best story I&#39;m aware of for setting regular expressions declaratively in a data format, which is exactly how we will provide macros. </p>
+
+<p>To be clear, this will let us syntax highlight a provided macro in a distinctive way, and put things like the colors to use right in the markdown. This is only useful with a completed weaver; Pygments will get the macros wrong but this is a minor stylistic matter which can be corrected by retangling with a better highlighter. </p>
+
+<p>Instaparse is my go-to choice for writing flexible parsers that are meant to be shared, so Clojure it is. I hope Instaparse catches on to the point where it becomes core, and hence worth maintaining separate <code>.clj</code> and <code>.cljs</code> versions. </p>
+
+<p>The first, and most important step, is writing <a href="athena.md">Athena</a>, the weaver. The weaver does the following: finds all the <code>```config</code> code, parses it to configure itself, then goes after the code blocks, and uses the macros and config information to construct the weave. Finally, it calls the trigger file, which must contain everything needed to build the weave into an executable, or whatever the final product is.</p>
+
+<p>The tangler, <a href="">Arachne</a>, should be a <a href="https://github.com/mnemnion/jekyll">fork of Jekyll</a>, with a low surface area of interaction. What I mean by this is that merges between the bases should avoid touching one another&#39;s files wherever possible. The only changes I contemplate personally is to plug-replace the syntax highlighter, for several reasons. </p>
+
+<p>Pygments requires one to write actual code to markup a new format. This is distasteful. Also, we need to markup the macros, which we won&#39;t know until we weave the code. Furthermore, a static syntax highlighter should be based on a powerful parser, not a regular engine janked up with extra Python. </p>
+
+<p>If Marmion becomes popular, someone might want to write advanced capabilities: putting compatible code in a REPL, for example, or linking to one from the code, or linking to the <a href="https://github.com/mnemnion/emojure/blob/master/src/emojure/core.clj#L7">line number</a> in a public Github repository generated by the weaver. The last is particularly powerful. All of this will assuredly be easier with a parser-backed tangler. </p>
+
+<p>This is the only way I have to tackle large problems: recursing through the Big Project until I hit something atomic and critical to further progress. Arc leads to GGG, which will benefit greatly from a literate style, which leads to Marmion. Marmion built, writing GGG in an understandable way becomes possible. </p>
+
+<p>I think I&#39;ve painted myself into a corner, as I can&#39;t think of anything offhand which I need to write in order to write Marmion. </p>
+
+<p>Time to generate more Markdown!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -235,6 +390,14 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/01/12/those-dadgum-adders/">Those Dadgum Adders</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/01/12/a-simple-closure-in-forth/">A Simple Closure in Forth</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/01/08/state-of-forth/">State of Forth, 2014</a>
       </li>
     
@@ -244,14 +407,6 @@
     
       <li class="post">
         <a href="/blog/2013/10/06/executable-representation/">Executable Representation</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/10/05/the-urbit-has-landed/">The Urbit Has Landed</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/10/01/on-decimation/">On Decimation</a>
       </li>
     
   </ul>
