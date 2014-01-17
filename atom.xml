@@ -4,7 +4,7 @@
   <title><![CDATA[Mnemnion]]></title>
   <link href="http://mnemnion.github.io/atom.xml" rel="self"/>
   <link href="http://mnemnion.github.io/"/>
-  <updated>2014-01-17T12:31:06-08:00</updated>
+  <updated>2014-01-17T14:27:01-08:00</updated>
   <id>http://mnemnion.github.io/</id>
   <author>
     <name><![CDATA[Sam Atman]]></name>
@@ -12,6 +12,93 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[There is no Garbage]]></title>
+    <link href="http://mnemnion.github.io/blog/2014/01/17/there-is-no-garbage/"/>
+    <updated>2014-01-17T13:02:00-08:00</updated>
+    <id>http://mnemnion.github.io/blog/2014/01/17/there-is-no-garbage</id>
+    <content type="html"><![CDATA[<p>Garbage collection is another solution to a problem we don&#39;t have.</p>
+
+<p>Here&#39;s my system: 4 cores, 8 GiB ram, 256 GiB flash store, 2 TiB off-deck backup. 64 GiB on the phone, 128 GiB on the tablet; I&#39;m a packrat by nature. </p>
+
+<p>I have garbage collection why, again? Because no one has written software around this unbelievably roomy environment.</p>
+
+<h3 id="toc_51">&quot;But&#8230; what if I have an arbitrary amount of data to process?&quot;</h3>
+
+<p>What, like in a file?</p>
+
+<h4 id="toc_52">Sure&#8230;</h4>
+
+<p>Couldn&#39;t you allocate some memory for the file and copy it over?</p>
+
+<h4 id="toc_53">That&#39;s slow with a huge file.</h4>
+
+<p>No, <strong>reading</strong> it is slow with a huge file. Allocating it is free.</p>
+
+<p>You could also, maybe, make the files a little smaller? The user never has to know, though it&#39;s polite to tell her if she asks.</p>
+
+<h4 id="toc_54">What if I run out?</h4>
+
+<p>What, of the huge chunks of imaginary allocated memory? Close a &quot;file&quot; by forgetting it ever happened.</p>
+
+<h4 id="toc_55">What if I changed something in the file&#39;s contents that I wanted to keep?</h4>
+
+<p>And you didn&#39;t make a copy to the store immediately? Are you five?</p>
+
+<h4 id="toc_56">I didn&#39;t know if it was a good change or not</h4>
+
+<p>&#8230;you&#39;re five. I said &quot;copy&quot;, not &quot;destructive update&quot;. </p>
+
+<h4 id="toc_57">Okay hotshot, what if it&#39;s arbitrary data from a socket?</h4>
+
+<p>Me, I&#39;d be writing it to the store, hoss. Then, it&#39;s a file. Allocate more than you can store or process and start using it. </p>
+
+<p>Take notes. Store them. Perhaps even ask the other computer first how much data it&#39;s sending. This is legitimately not always an answerable question, and sensors provide numbers too. </p>
+
+<h4 id="toc_58">What about huge transients from my enormous calculations?</h4>
+
+<p>&#8230;you were dynamically allocating huge transients in enormous calculations?</p>
+
+<p>I can hear that server farm humming from here. You. Had. One. Job.</p>
+
+<h4 id="toc_59">But I just want an array, and I don&#39;t know how much to put in it, and I won&#39;t need it for long, and&#8230;</h4>
+
+<p>No, you are wrong about all of that. You want a proper functional shared memory data structure, to which two things are done:</p>
+
+<p>They are created and</p>
+
+<p>They are durably written to main store.</p>
+
+<p>Unless they&#39;re, uh, huge transients. Y&#39;know, like the fake Intel computer asm.js makes for you. Dynamically, wink wink, say no more. &quot;wait, that&#39;s.. that&#39;s an array of&#8230;&quot;. That&#39;s no moon, friend. </p>
+
+<h4 id="toc_60">Look, I have really complex, relational data relationships, that I have to query and then get results of variable size back.</h4>
+
+<p>That sounds like you want some kind of &quot;base&quot; for &quot;data&quot;. Perhaps someone has written one, and it can handle your requirements.</p>
+
+<p>Which sound kind of special. Perhaps you want a dedicated chunk of hardware? It could &#39;serve&#39; you this data. Now, you have arbitrary data from a socket to allocate. </p>
+
+<p>There are two kinds of bases for data: those in which there is a type of request which always, without exception, returns the same data, every time, and those which are enormously useless and must be scrapped in favor of something you can use.</p>
+
+<p>This is also true if you call your &quot;data base&quot; a &quot;web site&quot;, as it happens.</p>
+
+<p>If you have the former, you: request data be delivered in fixed chunks, process it, remember the <em>request</em>, save the <em>result</em>, and anything else may be immediately and comfortably forgotten.</p>
+
+<h4 id="toc_61">&#8230;lisp</h4>
+
+<p>I can&#39;t help you there, at the moment.</p>
+
+<h4 id="toc_62">You are significantly underestimating the complexity of a modern operating system.</h4>
+
+<p>I have enough room in RAM to load a DVD and watch the entire thing.</p>
+
+<h4 id="toc_63">You cannot eliminate garbage without abandoning Unix.</h4>
+
+<p>Happily, Unix now comes on Flash USB drives, with costs similar to a cheap night out wherever the hacker is found in native habitat. </p>
+
+<p>Fusing this to the motherboard is not a hard problem.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Concurrency Is An Artifact]]></title>
@@ -26,7 +113,7 @@
 
 <p>This is a solution to a hard problem: how to do a bunch of things with only one CPU.</p>
 
-<p>So I&#39;m guess you have 4 CPUs, which makes the architecture fundamentally asisine. </p>
+<p>So I&#39;m guessing you have 4 CPUs, which makes the architecture fundamentally asisine. </p>
 
 <p>All your concurrency problems stem from this. Do hypervisors have concurrency problems? Wouldn&#39;t know; bet they don&#39;t, because they sensibly allocate processors and memory. </p>
 

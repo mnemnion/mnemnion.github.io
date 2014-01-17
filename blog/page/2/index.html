@@ -9,7 +9,7 @@
   <meta name="author" content="Sam Atman">
 
   
-  <meta name="description" content="Athena is our weaver. This is her source file. As we are writing a weaver, it happens that we do not have one. This file must perforce be hand woven &hellip;">
+  <meta name="description" content="First things first: Lisp 1 and Lisp 2 are the worst sort of jargon, because they mean exactly nothing without explanation. Renaming them is even &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +65,56 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/04/why-i-am-lisp-2/">Why I Am Lisp 2</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-04T09:44:00-07:00" pubdate data-updated="true">Sep 4<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>First things first: Lisp 1 and Lisp 2 are the worst sort of jargon, because they mean exactly nothing without explanation. Renaming them is even worse.</p>
+
+<p>I&#39;ve done this kind of bad abstracting before, in public even. Be careful when naming things. Nouns are sticky.</p>
+
+<p>For those who don&#39;t speak Boston Yiddish, Lisp 1 means that symbols and functions share a namespace. In Lisp 2, they do not. Simple as that.</p>
+
+<p>Of the Big Four, Clojure and Scheme are Lisp 1. Common Lisp and Emacs Lisp are Lisp 2. Yes, elisp is at least as important as the other three.</p>
+
+<p>Having worked at this point with three of the four, Scheme excepted, I prefer Lisp 2. One simple reason: a function is linguistically a verb. If we don&#39;t make a separate namespace for &#39;variable&#39; uses of symbols, we can&#39;t have separate nouns and verbs. This is somewhat uncomfortable in practice.</p>
+
+<p>Ultimately, I feel that this problem arises from a peculiarity of English: The standard way to verb a noun, in the third person (which is what is used for the imperative), involves no change whatsoever to the noun. If we have a list, we list it. There are hundreds of valid verbs which are letter-identical to a corresponding noun, and it is increasingly easy to create more. Thanks Joss Whedon! No, seriously, thanks, it fits English like a glove.</p>
+
+<p>Contrast with a language like Spanish, where there are quite few verbs which cannot be letter distinguished from a noun. It&#39;s a shame computer language design is so heavily influenced by English. A Spanish programming language would be a pleasure to work with, and I can only begin to imagine the sophistication possible in an Arabic or Hebrew based programming language that makes clever use of the Semitic roots and mutations.</p>
+
+<p>Meanwhile, back on this planet, we benefit from separate noun and verb slots in a symbol. <code>funcall</code> is a small price to pay.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -768,6 +818,10 @@ Now I will remember you and another song as well.  </p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/01/17/there-is-no-garbage/">There Is No Garbage</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/01/17/concurrency-is-an-artifact/">Concurrency Is an Artifact</a>
       </li>
     
@@ -781,10 +835,6 @@ Now I will remember you and another song as well.  </p>
     
       <li class="post">
         <a href="/blog/2014/01/08/state-of-forth/">State of Forth, 2014</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/12/19/commentary-on-ax/">Commentary on Ax</a>
       </li>
     
   </ul>

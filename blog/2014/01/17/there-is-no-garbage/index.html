@@ -1,0 +1,318 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>There is no Garbage - Mnemnion</title>
+  <meta name="author" content="Sam Atman">
+
+  
+  <meta name="description" content="Garbage collection is another solution to a problem we don&#39;t have. Here&#39;s my system: 4 cores, 8 GiB ram, 256 GiB flash store, 2 TiB off-deck &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://mnemnion.github.io/blog/2014/01/17/there-is-no-garbage">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Mnemnion" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Mnemnion</a></h1>
+  
+    <h2>A Unit of Analogy</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:mnemnion.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">There Is No Garbage</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-17T13:02:00-08:00" pubdate data-updated="true">Jan 17<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Garbage collection is another solution to a problem we don&#39;t have.</p>
+
+<p>Here&#39;s my system: 4 cores, 8 GiB ram, 256 GiB flash store, 2 TiB off-deck backup. 64 GiB on the phone, 128 GiB on the tablet; I&#39;m a packrat by nature. </p>
+
+<p>I have garbage collection why, again? Because no one has written software around this unbelievably roomy environment.</p>
+
+<h3 id="toc_51">&quot;But&#8230; what if I have an arbitrary amount of data to process?&quot;</h3>
+
+<p>What, like in a file?</p>
+
+<h4 id="toc_52">Sure&#8230;</h4>
+
+<p>Couldn&#39;t you allocate some memory for the file and copy it over?</p>
+
+<h4 id="toc_53">That&#39;s slow with a huge file.</h4>
+
+<p>No, <strong>reading</strong> it is slow with a huge file. Allocating it is free.</p>
+
+<p>You could also, maybe, make the files a little smaller? The user never has to know, though it&#39;s polite to tell her if she asks.</p>
+
+<h4 id="toc_54">What if I run out?</h4>
+
+<p>What, of the huge chunks of imaginary allocated memory? Close a &quot;file&quot; by forgetting it ever happened.</p>
+
+<h4 id="toc_55">What if I changed something in the file&#39;s contents that I wanted to keep?</h4>
+
+<p>And you didn&#39;t make a copy to the store immediately? Are you five?</p>
+
+<h4 id="toc_56">I didn&#39;t know if it was a good change or not</h4>
+
+<p>&#8230;you&#39;re five. I said &quot;copy&quot;, not &quot;destructive update&quot;. </p>
+
+<h4 id="toc_57">Okay hotshot, what if it&#39;s arbitrary data from a socket?</h4>
+
+<p>Me, I&#39;d be writing it to the store, hoss. Then, it&#39;s a file. Allocate more than you can store or process and start using it. </p>
+
+<p>Take notes. Store them. Perhaps even ask the other computer first how much data it&#39;s sending. This is legitimately not always an answerable question, and sensors provide numbers too. </p>
+
+<h4 id="toc_58">What about huge transients from my enormous calculations?</h4>
+
+<p>&#8230;you were dynamically allocating huge transients in enormous calculations?</p>
+
+<p>I can hear that server farm humming from here. You. Had. One. Job.</p>
+
+<h4 id="toc_59">But I just want an array, and I don&#39;t know how much to put in it, and I won&#39;t need it for long, and&#8230;</h4>
+
+<p>No, you are wrong about all of that. You want a proper functional shared memory data structure, to which two things are done:</p>
+
+<p>They are created and</p>
+
+<p>They are durably written to main store.</p>
+
+<p>Unless they&#39;re, uh, huge transients. Y&#39;know, like the fake Intel computer asm.js makes for you. Dynamically, wink wink, say no more. &quot;wait, that&#39;s.. that&#39;s an array of&#8230;&quot;. That&#39;s no moon, friend. </p>
+
+<h4 id="toc_60">Look, I have really complex, relational data relationships, that I have to query and then get results of variable size back.</h4>
+
+<p>That sounds like you want some kind of &quot;base&quot; for &quot;data&quot;. Perhaps someone has written one, and it can handle your requirements.</p>
+
+<p>Which sound kind of special. Perhaps you want a dedicated chunk of hardware? It could &#39;serve&#39; you this data. Now, you have arbitrary data from a socket to allocate. </p>
+
+<p>There are two kinds of bases for data: those in which there is a type of request which always, without exception, returns the same data, every time, and those which are enormously useless and must be scrapped in favor of something you can use.</p>
+
+<p>This is also true if you call your &quot;data base&quot; a &quot;web site&quot;, as it happens.</p>
+
+<p>If you have the former, you: request data be delivered in fixed chunks, process it, remember the <em>request</em>, save the <em>result</em>, and anything else may be immediately and comfortably forgotten.</p>
+
+<h4 id="toc_61">&#8230;lisp</h4>
+
+<p>I can&#39;t help you there, at the moment.</p>
+
+<h4 id="toc_62">You are significantly underestimating the complexity of a modern operating system.</h4>
+
+<p>I have enough room in RAM to load a DVD and watch the entire thing.</p>
+
+<h4 id="toc_63">You cannot eliminate garbage without abandoning Unix.</h4>
+
+<p>Happily, Unix now comes on Flash USB drives, with costs similar to a cheap night out wherever the hacker is found in native habitat. </p>
+
+<p>Fusing this to the motherboard is not a hard problem.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sam Atman</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-17T13:02:00-08:00" pubdate data-updated="true">Jan 17<span>th</span>, 2014</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://mnemnion.github.io/blog/2014/01/17/there-is-no-garbage/" data-via="" data-counturl="http://mnemnion.github.io/blog/2014/01/17/there-is-no-garbage/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/01/17/concurrency-is-an-artifact/" title="Previous Post: Concurrency Is An Artifact">&laquo; Concurrency Is An Artifact</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/01/17/there-is-no-garbage/">There Is No Garbage</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/01/17/concurrency-is-an-artifact/">Concurrency Is an Artifact</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/01/12/those-dadgum-adders/">Those Dadgum Adders</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/01/12/a-simple-closure-in-forth/">A Simple Closure in Forth</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/01/08/state-of-forth/">State of Forth, 2014</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/mnemnion">@mnemnion</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'mnemnion',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Sam Atman -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
