@@ -37,7 +37,7 @@ Now we need a word to add the values of three addresses together.
 ```text
 : add-advance  \ ( a1 a2 a3 -- a1+ a2+ a3+ )
 	\ "add a2 and a3, store value in a1. Advance all three addresses."
-	dup >r -rot dup >r -rot dup >r -rot \ ( a1 a2 a3 -|- a1 a2 a3 )
+	dup>r -rot dup>r -rot dup>r -rot \ ( a1 a2 a3 -|- a1 a2 a3 )
 	@ swap @ +                          \ ( a1 a2+a3 -|- a1 a2 a3 )
 	swap !                              \ ( nil -|- a1 a2 a3      )
 	r> r> r>					         \ ( a1 a2 a3    --        )
@@ -49,7 +49,7 @@ Line by line, shall we?
 
 `dup >r -rot dup >r -rot dup >r -rot` puts a copy of every address on the return stack for later. I'd call this `punt` if I planned to do it frequently. 
 
-`@ swap @ +` takes the two address and adds them together, while `swap !` saves this values to `a1`. 
+`@ swap @ +` takes the values from the two address and adds them together, while `swap !` saves the result to `a1`. 
 
 `r> r> r>` is the anti-punt, basically. We could do the `cell +` call inline with it, but I feel this way is clearer: the `cell + rot cell + rot cell + rot` adds one cell width to each address, advancing it. 
 
