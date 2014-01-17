@@ -135,7 +135,7 @@
 <span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class='text'><span class='line'>: add-advance  \ ( a1 a2 a3 -- a1+ a2+ a3+ )
 </span><span class='line'>  \ &quot;add a2 and a3, store value in a1. Advance all three addresses.&quot;
-</span><span class='line'>  dup &gt;r -rot dup &gt;r -rot dup &gt;r -rot \ ( a1 a2 a3 -|- a1 a2 a3 )
+</span><span class='line'>  dup&gt;r -rot dup&gt;r -rot dup&gt;r -rot \ ( a1 a2 a3 -|- a1 a2 a3 )
 </span><span class='line'>  @ swap @ +                          \ ( a1 a2+a3 -|- a1 a2 a3 )
 </span><span class='line'>  swap !                              \ ( nil -|- a1 a2 a3      )
 </span><span class='line'>  r&gt; r&gt; r&gt;                            \ ( a1 a2 a3    --        )
@@ -147,7 +147,7 @@
 
 <p><code>dup &gt;r -rot dup &gt;r -rot dup &gt;r -rot</code> puts a copy of every address on the return stack for later. I&#39;d call this <code>punt</code> if I planned to do it frequently. </p>
 
-<p><code>@ swap @ +</code> takes the two address and adds them together, while <code>swap !</code> saves this values to <code>a1</code>. </p>
+<p><code>@ swap @ +</code> takes the values from the two address and adds them together, while <code>swap !</code> saves the result to <code>a1</code>. </p>
 
 <p><code>r&gt; r&gt; r&gt;</code> is the anti-punt, basically. We could do the <code>cell +</code> call inline with it, but I feel this way is clearer: the <code>cell + rot cell + rot cell + rot</code> adds one cell width to each address, advancing it. </p>
 
@@ -226,6 +226,8 @@
         <a class="basic-alignment left" href="/blog/2014/01/12/a-simple-closure-in-forth/" title="Previous Post: A Simple Closure in Forth">&laquo; A Simple Closure in Forth</a>
       
       
+        <a class="basic-alignment right" href="/blog/2014/01/17/concurrency-is-an-artifact/" title="Next Post: Concurrency Is An Artifact">Concurrency Is An Artifact &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -237,6 +239,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/01/17/concurrency-is-an-artifact/">Concurrency Is an Artifact</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/01/12/those-dadgum-adders/">Those Dadgum Adders</a>
@@ -252,10 +258,6 @@
     
       <li class="post">
         <a href="/blog/2013/12/19/commentary-on-ax/">Commentary on Ax</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/10/06/executable-representation/">Executable Representation</a>
       </li>
     
   </ul>

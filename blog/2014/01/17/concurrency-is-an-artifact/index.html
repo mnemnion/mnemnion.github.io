@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>A Parenthetical Observation - Mnemnion</title>
+  <title>Concurrency Is An Artifact - Mnemnion</title>
   <meta name="author" content="Sam Atman">
 
   
-  <meta name="description" content="Everyone, when they encounter Lisp for the first time, has trouble with the parentheses. It&#39;s a rite of passage. Everyone who goes on to learn &hellip;">
+  <meta name="description" content="Your concurrency problems are a direct consequence of your software architecture. Concurrency is a consequence of carrying a solution forward without &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://mnemnion.github.io/blog/2013/09/11/a-parenthetical-observation">
+  <link rel="canonical" href="http://mnemnion.github.io/blog/2014/01/17/concurrency-is-an-artifact">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Mnemnion" type="application/atom+xml">
@@ -68,7 +68,7 @@
   
   <header>
     
-      <h1 class="entry-title">A Parenthetical Observation</h1>
+      <h1 class="entry-title">Concurrency Is an Artifact</h1>
     
     
       <p class="meta">
@@ -84,24 +84,40 @@
   
 
 
-<time datetime="2013-09-11T10:38:00-07:00" pubdate data-updated="true">Sep 11<span>th</span>, 2013</time>
+<time datetime="2014-01-17T11:59:00-08:00" pubdate data-updated="true">Jan 17<span>th</span>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>Everyone, when they encounter Lisp for the first time, has trouble with the parentheses. It&#39;s a rite of passage. </p>
+<div class="entry-content"><p>Your concurrency problems are a direct consequence of your software architecture. </p>
 
-<p>Everyone who goes on to learn Lisp develops a <em>very</em> different attitude. I&#39;d like to share an observation that helps understand why.</p>
+<p>Concurrency is a consequence of carrying a solution forward without remembering what it&#39;s trying to solve.</p>
 
-<p>I write a fair amount of Lisp, in a few dialects. I could get that work done without a &quot;)&quot; key on my keyboard. </p>
+<p>Preemptive multitasking is a weird thing to do: you interrupt the computer, with its permission, do something else, then it goes back to what it&#39;s doing. There&#39;s all sorts of complex negotiations; the good news is, it works, usually. </p>
 
-<p>Lisp means never having to close your forms. The delimiters on the left are for you to read, the ones on the right are just a period. </p>
+<p>This is a solution to a hard problem: how to do a bunch of things with only one CPU.</p>
 
-<p>I find it interesting that anathema accumulates around code barriers, rather than internal syntax. Semicolons, significant whitespace, brace placement, and parentheses have all been the subject of holy war, and one may easily find developers who simply refuse to work with certain separation styles unless pressed. At the moment I can&#39;t account for this observation, but I&#39;d like to note that I&#39;ve never seen a holy war over, say, <code>:=</code> vs <code>=</code> vs <code>&lt;-</code>. Perhaps I&#39;m not on the right mailing lists. </p>
+<p>So I&#39;m guess you have 4 CPUs, which makes the architecture fundamentally asisine. </p>
 
-<p>On the other hand, capitalization and underscore vs. slash vs. nothing are certainly capable of eating up arbitrary amounts of bad blood. Never underestimate the geek&#39;s capacity to bikeshed. </p>
+<p>All your concurrency problems stem from this. Do hypervisors have concurrency problems? Wouldn&#39;t know; bet they don&#39;t, because they sensibly allocate processors and memory. </p>
+
+<p>If you took a systems architect from a more sensible time, the 1970s say, and gave them a decent AMD chip, they would first go for a walk with a beer and a tab of acid to consider the implications. They would proceed to write something entirely different from what you have.</p>
+
+<p>It would be entirely based on the idea that they have 4, let&#39;s say, supercomputers of unfathomable power, hooked up to more core memory than they can understand, attached to store counted in units they have never seen before, except in jest.</p>
+
+<p>Would it emulate Unix? Would it create a master control program that emulates multiple Unices?</p>
+
+<p>No. This is not what it would, at all.</p>
+
+<p>It used to be standard practice to rearchitect systems in light of new capabilities. This stopped because of two autistic people with different fixations: Bill Gates and Richard Stallman. My esteem for both men is considerable, in light of the former&#39;s philanthropy and the latter&#39;s stubborn and correct fixation on the privacy and freedom implications of open source systems. </p>
+
+<p>They share a fatal obsession: backward compatibility. Stallman, in particular, has an almost detestable belief that software should be written once and for all. Imagine an artist with the same attitude to painting, or the novel; we would deride them as the martinet that RMS often presents.</p>
+
+<p>There are other, better options: keep the old beasts running, rewrite for new systems, or wait around for awhile until speed gains mean you can emulate. Unix has been under emulation for quite some time.</p>
+
+<p>We have two tricks: speed gains, and writing fresh software. And we appear to be fresh out of bubblegum.</p>
 </div>
 
 
@@ -124,7 +140,7 @@
   
 
 
-<time datetime="2013-09-11T10:38:00-07:00" pubdate data-updated="true">Sep 11<span>th</span>, 2013</time>
+<time datetime="2014-01-17T11:59:00-08:00" pubdate data-updated="true">Jan 17<span>th</span>, 2014</time>
       
 
 
@@ -132,7 +148,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://mnemnion.github.io/blog/2013/09/11/a-parenthetical-observation/" data-via="" data-counturl="http://mnemnion.github.io/blog/2013/09/11/a-parenthetical-observation/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://mnemnion.github.io/blog/2014/01/17/concurrency-is-an-artifact/" data-via="" data-counturl="http://mnemnion.github.io/blog/2014/01/17/concurrency-is-an-artifact/" >Tweet</a>
   
   
   
@@ -141,10 +157,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/09/04/why-i-am-lisp-2/" title="Previous Post: Why I Am Lisp 2">&laquo; Why I Am Lisp 2</a>
+        <a class="basic-alignment left" href="/blog/2014/01/12/those-dadgum-adders/" title="Previous Post: Those Dadgum Adders">&laquo; Those Dadgum Adders</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/10/01/on-decimation/" title="Next Post: On Decimation">On Decimation &raquo;</a>
       
     </p>
   </footer>
