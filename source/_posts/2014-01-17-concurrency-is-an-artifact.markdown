@@ -14,7 +14,7 @@ Preemptive multitasking is a weird thing to do: you interrupt the computer, with
 
 This is a solution to a hard problem: how to do a bunch of things with only one CPU.
 
-So I'm guess you have 4 CPUs, which makes the architecture fundamentally asisine. 
+So I'm guessing you have 4 CPUs, which makes the architecture fundamentally asisine. 
 
 All your concurrency problems stem from this. Do hypervisors have concurrency problems? Wouldn't know; bet they don't, because they sensibly allocate processors and memory. 
 
