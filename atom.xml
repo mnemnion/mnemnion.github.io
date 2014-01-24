@@ -4,7 +4,7 @@
   <title><![CDATA[Mnemnion]]></title>
   <link href="http://mnemnion.github.io/atom.xml" rel="self"/>
   <link href="http://mnemnion.github.io/"/>
-  <updated>2014-01-17T14:27:01-08:00</updated>
+  <updated>2014-01-24T13:41:57-08:00</updated>
   <id>http://mnemnion.github.io/</id>
   <author>
     <name><![CDATA[Sam Atman]]></name>
@@ -12,6 +12,41 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Literal and Figurative Languages]]></title>
+    <link href="http://mnemnion.github.io/blog/2014/01/24/literal-and-figurative-languages/"/>
+    <updated>2014-01-24T12:12:00-08:00</updated>
+    <id>http://mnemnion.github.io/blog/2014/01/24/literal-and-figurative-languages</id>
+    <content type="html"><![CDATA[<p>Axiom: there are no clean separations between programming languages.</p>
+
+<p>Corrolary: if one can be found, someone will design a language specifically to blur the resulting boundary.</p>
+
+<p>The terms high and low level languages are frequently bandied about. If your word of code stretches from Python to C, these are comfortable categories, with room for interesting bikeshed debates on the margins. </p>
+
+<p>At one time, this almost made sense. Languages were either properly interpreted from strings, or compiled into genuine code. Even in those hoary days there were vigorous communities, notably Lisp, Smalltalk and Forth, where these distinctions were blurred or simply did not apply. </p>
+
+<p>This is no longer even vaguely how things work. On the one hand, most interpreted languages are compiled to a bytecode, and many are further optimized from there. LuaJIT in particular can demonstrate superior performance over compiled languages in certain circumstances, in particular cases where the input to a functional cascade can rapidly change character. JIT compilers can keep up with this, while a static compiler by definition cannot optimize for data the program it&#39;s compiling hasn&#39;t seen yet. </p>
+
+<p>One the other side, which I feel is less known, we have OpenCL. This is a decidedly low-level dialect of C, in which pointers are not allowed and &#39;functions&#39; are syntax to allow inlining of code. This is compiled and optimized into multiple dialects (CPU and any available GPUs), on the fly, from strings. A running OpenCL program makes some of the fastest machine code possible from strings in the runtime environment.</p>
+
+<p>Clearly this distinction has completely collapsed. The more interesting division is between literal and figurative languages.</p>
+
+<h2 id="toc_64">What This is Not</h2>
+
+<p>The distinction is not between static and dynamic, nor is it about performance or degree of interactivity. I can happily find orthogonal examples of all of these in both the literal and figurative family.</p>
+
+<p>The distinction is this: a literal language abstracts the hardware, while a figurative language abstracts a problem domain. </p>
+
+<p>Assembly is of course literal, along with Forth and C. Haskell is highly figurative, while the Lisps tend to blur the line in interesting ways: within only Scheme, Racket has a layer that is more hardware oriented, while Chicken delegates this aspect to C. SBCL can dig down as deep as you want, but Lisps in general are figurative in emphasis: invisible garbage collection is a figurative pattern and a pillar of Lisp programming. Despite this, the garbage collector itself has occasionally been written in Lisp. I confess I have trouble understand how this is done; low level Lisp is almost a different language. </p>
+
+<p>Hoon is an interesting case. We think of Nock as a sort of Hermetic seal; above the Nock layer, Hoon is straighforwardly literal. This is not uncommon; Retro, a Forth dialect, targets a very simple virtual machine that is quite literal on the target architectures. Lua is more figurative, but it&#39;s a brisk afternoon&#39;s work to discover how the virtual machine works and how to target it from C, Lua&#39;s home environment. </p>
+
+<p>This intersects with compactness in some ways but not others. Assembly, our most literal, is as complex as the architecture, which has gotten truly gnarly on our flagship systems. </p>
+
+<p>I&#39;m doubling down on Forth because it combines a low mental surface area, a literal machine model, interactivity, and introspection. The &#39;word&#39; is a strangely powerful abstraction. If you want (and I do) a colorful, interactive environment for exploratory systems programming on existing chips, Forth is the natural place to start. If only it had a nice, modern type system&#8230;</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[There is no Garbage]]></title>
@@ -123,7 +158,7 @@
 
 <p>Would it emulate Unix? Would it create a master control program that emulates multiple Unices?</p>
 
-<p>No. This is not what it would, at all.</p>
+<p>No. This is not what it would do, at all.</p>
 
 <p>It used to be standard practice to rearchitect systems in light of new capabilities. This stopped because of two autistic people with different fixations: Bill Gates and Richard Stallman. My esteem for both men is considerable, in light of the former&#39;s philanthropy and the latter&#39;s stubborn and correct fixation on the privacy and freedom implications of open source systems. </p>
 
@@ -131,7 +166,7 @@
 
 <p>There are other, better options: keep the old beasts running, rewrite for new systems, or wait around for awhile until speed gains mean you can emulate. Unix has been under emulation for quite some time.</p>
 
-<p>We have two tricks: speed gains, and writing fresh software. And we appear to be fresh out of bubblegum.</p>
+<p>We have two tricks: speed gains, and writing new software. And we appear to be fresh out of bubblegum.</p>
 ]]></content>
   </entry>
   
