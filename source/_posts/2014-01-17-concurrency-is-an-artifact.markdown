@@ -24,7 +24,7 @@ It would be entirely based on the idea that they have 4, let's say, supercompute
 
 Would it emulate Unix? Would it create a master control program that emulates multiple Unices?
 
-No. This is not what it would, at all.
+No. This is not what it would do, at all.
 
 It used to be standard practice to rearchitect systems in light of new capabilities. This stopped because of two autistic people with different fixations: Bill Gates and Richard Stallman. My esteem for both men is considerable, in light of the former's philanthropy and the latter's stubborn and correct fixation on the privacy and freedom implications of open source systems. 
 
@@ -32,4 +32,4 @@ They share a fatal obsession: backward compatibility. Stallman, in particular, h
 
 There are other, better options: keep the old beasts running, rewrite for new systems, or wait around for awhile until speed gains mean you can emulate. Unix has been under emulation for quite some time.
 
-We have two tricks: speed gains, and writing fresh software. And we appear to be fresh out of bubblegum.
+We have two tricks: speed gains, and writing new software. And we appear to be fresh out of bubblegum.
