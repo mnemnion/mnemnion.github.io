@@ -9,7 +9,7 @@
   <meta name="author" content="Sam Atman">
 
   
-  <meta name="description" content="Axiom: there are no clean separations between programming languages. Corrolary: if one can be found, someone will design a language specifically to &hellip;">
+  <meta name="description" content="This is a simple pattern that points to Forth&#39;s expressiveness and philosophy. Most words do one thing, and do it well. Sometimes you want to do &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +65,135 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/03/plural-forth-words/">Plural Forth Words</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-03T08:16:00-08:00" pubdate data-updated="true">Feb 3<span>rd</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is a simple pattern that points to Forth&#39;s expressiveness and philosophy.</p>
+
+<p>Most words do one thing, and do it well. Sometimes you want to do that thing several times. </p>
+
+<p>In Forth, this is very easy and natural to express. For example, the word <code>key</code> will block until a key is available, and return it. Sometimes, at the REPL in particular, you want to do this multiple times. So we define this word: <code>: keys 0 do key loop ;</code>, and say <code>3 keys</code>. This simply calls <code>key</code> 3 times. </p>
+
+<p>We may approach this level of terseness in other languages, of course. In Lisp we may have <code>(key)</code> and <code>(key 3)</code>, Lua would offer <code>key()</code> and <code>key(3)</code>. Forth words can&#39;t natively know how much of the stack belongs to them, so variadic functions are harder to write. It is impossible to beat the terseness and clarity of <code>key</code> <code>3 keys</code> in use, and the second definition is transparent. </p>
+
+<p>Forth itself uses this custom. <code>cell</code> gives the number of bytes in a cell, while <code>1 cells</code> multiplies 1 by that number, giving the same value. In general, a plural word <strong>must</strong> be proceeded by the number of repetitions. </p>
+
+<p>The syntax of Forth is brutally simple, allowing for a rich semantics. The most important decision: whitespace is (almost) always important. This was made when Fortran was popular; in original Fortran, whitespace is literally never important, meaning <code>foo bar baz</code> and <code>foobarbaz</code> are always the same program. </p>
+
+<p>Consequently, any printable character within a word is fair game. Schemers and friends are accustomed to boolean functions that look like <code>test?</code>, which I&#39;m sure was heady fun after decades of <code>test-p</code>. Forthwriters do this as well. </p>
+
+<p>High-level Forth ends up looking like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>: clickloop
+</span><span class='line'>  begin 
+</span><span class='line'>      event
+</span><span class='line'>      event-respond
+</span><span class='line'>      1 .left?
+</span><span class='line'>  until
+</span><span class='line'>  ;</span></code></pre></td></tr></table></div></figure> 
+
+<p>Anyone can read this. <code>1 .left?</code> is not entirely obvious. The <code>.</code> suggests it&#39;s printing something, and the <code>?</code> suggests that it&#39;s testing something. If it just said <code>left?</code> most Forth programmers would conclude that it&#39;s setting the test that <code>until</code> checks. This is actually handled by <code>event-respond</code>, <code>.left?</code> is a debug function that prints the stack if <code>event-respond</code> leaves values behind. </p>
+
+<p>All of this is customary, and should probably remain so. Parsing within a Forth word breaks some important contracts, notably the dictionary. I&#39;ve been mulling over a modular Forth dialect that parses within a word for exactly one reason, access to words defined in another module that are overloaded. So if you already have an <code>event</code> word, you can say <code>event.:book</code> and get the <code>event</code> word from some other book in your search chain. Since the effect of a vocabulary word is to leave its token on the stack, <code>event .: book</code> could just be the word <code>.:</code> checking the <code>event</code> wordlist for the word <code>book</code>. The compressed form is possibly Forthright, in that the effect is to either interpret or compile a single word. If we used <code>event .: book</code> we would expect 3 words to be compiled, though it is quite possible to have 3 compile-time words (or more) produce a single compiled token, such as <code>: example [ 2 3 + ] literal ;</code> compiles one word, the literal value <code>5</code>. </p>
+
+<p>Adding parsing to Forth words is pure Sith and should be done with great care if at all. Retro supports strings with the simple form <code>&quot;string&quot;</code>, which is superficially cleaner than the Forth <code>.&quot; string&quot;</code>, where the spacemark is important. I actually prefer the latter, which enforces a Forth convention that spaces always trail. Anyone who has dealt with two different assumptions about where spaces belong can feel me on this one, I hope. Similarly, cr/nl is always prefix. These are good conventions. If you need leading whitespace in a string frequently, first: consider that you might actually need trailing whitespace and second, write a word for it. It&#39;s an interesting challenge, try it! </p>
+
+<p>There&#39;s a more subtle problem. The Forth interpreter does this: <code>word? number? if succeed else fail then</code>. Retro has to try <code>string? word? number?</code>; I don&#39;t like anything that breaks the power to redefine a word. Even the absurdity <code>: 1 2 ;</code> is a consequent with value; consider a special vocabulary containing <code>: 10 [char] A ;</code>. Or <code>: 10 10 select.window</code>, which keeps the number <code>10</code> around for just long enough to make the definition. </p>
+
+<p>This imaginary modular forth would try <code>word? module-word? number?</code>, meaning a redefinition of <code>word.:book</code> would block <code>word</code> in the <code>book</code> module. The compiler should complain about any word that contains <code>.:</code>, and be loud about if that word actually blocks a module word. This is better than the user complaining because they need the ability to make a word containing <code>.:</code> for whatever reason, and the compiler won&#39;t let them. </p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/01/26/the-vanguard-generation/">The Vanguard Generation</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-26T14:26:00-08:00" pubdate data-updated="true">Jan 26<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>There is a small but significant group tucked between Generation X and the Millenials. As a member of that generation, it seemed worth pointing us out.</p>
+
+<p>The 20th century may be sharply divided into eras by the chief inventions: the internal combustion engine, nuclear weapons, and the computer network. I could say &quot;computer&quot;, just as one could make a case that the middle technology was the television. But it wasn&#39;t computer which changed us, it was computers, wired together.</p>
+
+<p>The Vanguard generation, in 2014, are clustered between the ages of 30 and 40. In 1994, we were 10 to 20 years old. Simply put, we remember life without the Internet, but learned it during puberty. </p>
+
+<p>There are plenty of people ten or twenty years older who found the Internet in their all-important adolescence. The university experience in America delays adolescence, with the (usually unrecognized) upside of longer plasticity for learning among the inclined, so there are a few Avant Vanguardists. Reduplication and elision, yay! They do not a generation make. </p>
+
+<p>More importantly, they suffered through the September than Never Ended. Their Internet was not our Internet: we are the Vandals and Visigoths who wrecked their kingdom. Sorry about that. Did I mention we were going through puberty? </p>
+
+<p>The Millenials are fish in water. They have never heard an adult ask another &quot;Do you have email?&quot;, only &quot;What&#39;s your email address?&quot;. And so on, and so forth, for all of it. </p>
+
+<p>In the present, the Baby Boomers rule, and Generation X runs it. Soon, Generation X will rule, and the Vanguard will run it; this is the way of the world. </p>
+
+<p>By that time, our very biological existence will rest on the network. It already does, but we have only begun to reap the harvest of internal combustion and all that it brought. In a very real way, the Internet or its heir will rule us, and that&#39;s the optimistic scenario. </p>
+
+<p>To the Vanguard I say this: Keep your memories of the nascent Network. Remember the floppy, and what fits on it. Cherish the freedom of your youth, when, lacking a cell phone, you had to find your friends a terra and your parents had to yell or call around. </p>
+
+<p>More: Understand that our teetering, broken, stringy technology stack was written by Boomers, mostly, and other people who didn&#39;t know any better. Charitably, the technology wasn&#39;t mature, though the luminaries and prophets of the era would vigorously disagree. We&#39;re inheriting it, along with the pride of a lifetime&#39;s work; rather than take it behind the barn and shoot it, let&#39;s gently put it out to pasture and emulation. </p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1092,319 +1221,6 @@ Note that all even-numbered operators and idioms have exactly two expansions, th
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/10/05/the-urbit-has-landed/">The Urbit Has Landed</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-05T10:41:00-07:00" pubdate data-updated="true">Oct 5<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>At long last, <a href="http://urbit.org">Urbit</a> has landed. The Internet is bewildered, flummoxed, and intrigued. </p>
-
-<p>I encountered Urbit (and <a href="http://unqualified-reservations.blogspot.com">Moldbug</a>) when the original <a href="http://moronlab.blogspot.com/">Moron Lab</a> posts dropped on HN. Unless it was through <a href="http://loper-os.org">LoperOS</a>, who incidentally might want to get his tail moving. Either way, I wasn&#39;t programming computers then, and I am now, and that&#39;s not a coincidence. </p>
-
-<p>See this one time, I had a vision. I&#39;m sure my <a href="http://en.wikipedia.org/wiki/Dimethyltryptamine">dimethyltryptamine</a> levels were elevated, since you can&#39;t have visions (or dream) without that being the case. It would be impossible to explain, and has proven very difficult to draw. But what it told me is that the Kabbalah, specifically the <a href="http://en.wikipedia.org/wiki/Sefer_Yetzirah">Tree of Life</a>, holds the key to a Kabbalistic Computer. </p>
-
-<p>So reading the Nock spec was a revelation, because you can map it to the Tree of Life. I haven&#39;t been able to suss out whether this was cgy&#39;s intention, he&#39;s cagey as a mockingbird. He&#39;s also a fellow Yid whose passion for the classics exceeds mine by a full order: it&#39;s improbable in the extreme that this is coincidence. </p>
-
-<p>This whole post will be steeped in Kabbalah. You think Hoon semantics are weird, watch out. At least I&#39;m not making this stuff up. </p>
-
-<h2 id="toc_10">A Grove of Pomegranates</h2>
-
-<p>Kabbalah, and Hermeticism in general, is not religion. Nor is it science. To call it philosophy is merely to acknowledge that it is too old and crufty to be more specifically typed. </p>
-
-<p>It has a non-trivial relationship to actual mathematics. By far the best modern work of Hermetics is Christopher Alexander&#39;s <a href="http://en.wikipedia.org/wiki/The_Nature_of_Order">&quot;Nature of Order&quot;</a>, though I haven&#39;t a clue if Mr. Alexander would consider it to be such a thing. </p>
-
-<p>I mean non-trivial exactly: Hermetics cannot be reduced to mathematics, nor vice versa. Where there is no mapping, one or several await discovery. </p>
-
-<p>Hermetics means &quot;that which is proper to <a href="http://en.wikipedia.org/wiki/Hermes">Hermes</a>&quot;, which should not be misunderstood as a religious sentiment. We might call engineering Vulcanics by the same trick (I consider interchangeable use of Latin and Greek to be strength, not sin); the Rod of Asklepios means medicine and implies no belief whatsoever in Olympian deity. </p>
-
-<p>You will find no Wikipedia article on Hermetics, though <a href="http://en.wikipedia.org/wiki/Hermeticism">Hermeticism</a> is covered. We pick our isms carefully over at Unit of Analogy, and aren&#39;t signing up for this one. There is considerable sympathy. </p>
-
-<p>The Pardesh ha&#39;Rimonim, the grove of pomegranates, is a common image in Kabbalah. Which means &quot;the received&quot;. One will find a QBLH desk at every hotel in Israel. </p>
-
-<p>The Tree of Life (in orthodoxy) is an arrangement of the numbers 1 through 10. Each of these Sephirah (the name for number treated in this fashion) is fractal, containing an entire Tree of Life within it. Furthermore, 1 is 10, and there are four levels which repeat between the Ultimate and the Real. They are called Atziluth, Briah, Yetzirah and Assiah. The manifest is not even Assiah, it is merely our picture of Assiah.</p>
-
-<p>Gibberish? No, <a href="http://en.wikipedia.org/wiki/Yiddish_words_used_in_English">Jargon</a>. You will find the identical scheme in Plato and in Tantric thought. That&#39;s likely to be cribbing, not parallel invention. From whom? Good question.</p>
-
-<p>I will be using jargon, and worse, translating it on the fly into a mapping I completely made up. Can&#39;t be helped.</p>
-
-<p>As a statement about ontology, let&#39;s set it aside for today. According to the <a href="http://en.wikipedia.org/wiki/Terence_McKenna">elves</a>, it&#39;s a diagram of the network layers. How do we go from the conceptual (we have an urge to calculate) to the realized (here is a machine which does so)? </p>
-
-<p>Any which way we want to, of course! What Would <a href="http://en.wikipedia.org/wiki/Isaac_Luria">Ari</a> Do? </p>
-
-<h3 id="toc_11">Lolwhut</h3>
-
-<p>Look, you already have a spaceship written in the language of horse-headed beasts which eat Yahoos. </p>
-
-<p>I&#39;m taking it for granted that you can handle a little colorful metaphor. </p>
-
-<h2 id="toc_12">Layer Zero</h2>
-
-<p>The zero layer is of course physics. Let&#39;s try to stick with things that work on that substrate.</p>
-
-<h2 id="toc_13">Layer One</h2>
-
-<p>This is Atziluth. It is our calculation represented literally, as a calculation. In a word, Nock. </p>
-
-<p>Nock is a work of praeternatural brilliance. I will save all critique for a later post. Let&#39;s pretend it&#39;s perfect, as indeed it is. </p>
-
-<p>Let&#39;s note, though, that to get Layer One running on Layer Zero (our chip) requires a bit of cheating from Layer Three. Can this be avoided? Perhaps.</p>
-
-<h2 id="toc_14">Layer Two</h2>
-
-<p>Layer Two is missing from the Urbit stack, or rather, it is conflated with Layer Three. I see how that happened. It&#39;s tempting. It may even be fixable from within the existing structure. </p>
-
-<p>Let me break down how, in ol&#39; QBLH, something might travel down this ladder. There&#39;s some primal Thirst that is the same thirst no matter what experiences it, anywhere in Universe. So goes the premise. That&#39;s Atziluth. Briah is where an I forms an urge that is a personal thirst. Yetzirah is where this coalesces into an action, in Assiah the action is actually taken, and then the individual experiences a theatrical performance of the act of drinking water, assembled by his or her neural cortex. </p>
-
-<p>Is that last point at all unsettling to you, dear Reader? I should hope not. It is on the firmest of ground, however shaky the rest may be.</p>
-
-<p>That&#39;s the metaphor for our network stack. The Briatic layer is specification of form. In perfection it would be purely declarative, and the form it should take is ancient and not open to debate: it is, should be, ultimately must be, a grammar.</p>
-
-<p>Not a powerful set of gonads. A grammar. <a href="https://github.com/epsil/gll">GLL</a> is totally a thing and for the first time we can make performant grammars that are as expressive as <a href="http://en.wikipedia.org/wiki/P%C4%81%E1%B9%87ini">Pāṇini</a>. </p>
-
-<p>Here&#39;s some Hoon: </p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>         %r
-</span><span class='line'>        =+  yug=(yell q.p.lot)
-</span><span class='line'>        =&gt;  ^+(. .(rex ?~(f.yug rex ['.' (s-co f.yug)])))
-</span><span class='line'>        :-  '~'
-</span><span class='line'>        ?:  &(=(0 d.yug) =(0 m.yug) =(0 h.yug) =(0 s.yug))
-</span><span class='line'>          ['.' 's' '0' rex]
-</span><span class='line'>        =&gt;  ^+(. ?:(=(0 s.yug) . .(rex ['.' 's' (a-co s.yug)])))
-</span><span class='line'>        =&gt;  ^+(. ?:(=(0 m.yug) . .(rex ['.' 'm' (a-co m.yug)])))
-</span><span class='line'>        =&gt;  ^+(. ?:(=(0 h.yug) . .(rex ['.' 'h' (a-co h.yug)])))
-</span><span class='line'>        =&gt;  ^+(. ?:(=(0 d.yug) . .(rex ['.' 'd' (a-co d.yug)])))
-</span><span class='line'>        +.rex
-</span><span class='line'>      ==</span></code></pre></td></tr></table></div></figure>
-
-<p>This, I am told, specifies the syntax of a floating point number. Or some of it does.</p>
-
-<p>This is from the JSON spec:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>number
-</span><span class='line'>    int
-</span><span class='line'>    int frac
-</span><span class='line'>    int exp
-</span><span class='line'>    int frac exp 
-</span><span class='line'>int
-</span><span class='line'>    digit
-</span><span class='line'>    digit1-9 digits
-</span><span class='line'>    - digit
-</span><span class='line'>    - digit1-9 digits 
-</span><span class='line'>frac
-</span><span class='line'>    . digits
-</span><span class='line'>exp
-</span><span class='line'>    e digits
-</span><span class='line'>digits
-</span><span class='line'>    digit
-</span><span class='line'>    digit digits
-</span><span class='line'>e
-</span><span class='line'>    e
-</span><span class='line'>    e+
-</span><span class='line'>    e-
-</span><span class='line'>    E
-</span><span class='line'>    E+
-</span><span class='line'>    E-</span></code></pre></td></tr></table></div></figure>    
-
-<p>The former is executable, the latter is admirably clear. These advantages can be combined profitably. </p>
-
-<p>This is not even a critique of Hoon the language, because we haven&#39;t gotten to Level Three at all. This is an assertion that Hoon is poorly suited to specify any data format which may be expected to be used by anything but the Urbiverse. I consider that a deficit.</p>
-
-<p>Thing is, I&#39;m pretty sure those gonads can be whipped into a nice powerful GLL for parsing binary data. Hoon is not leading the pack as a choice for the first implementation; that&#39;s a simple matter of documentation, namely the lack of it. </p>
-
-<h2 id="toc_15">Level Three</h2>
-
-<p>Level Three is the Executive layer, wherein we get to specify what we want our machine to do. Generally that&#39;s a programming language of some sort. </p>
-
-<p>Here the difference in approach becomes clear. From cgy&#39;s perspective, Urbit&#39;s Level Three is written in Hoon. From my perspective, Urbit&#39;s L3 is written in Hoon, C, Nock and Markdown. </p>
-
-<p>That is because humans execute, not machines. Machines don&#39;t rush to the wall and plug in when they&#39;re low on juice, at least not yet. For a calculation to happen, a person (I can only introduce you to human persons, but let&#39;s not be prejudiced) must know that they want to calculate, and must know how to do it.</p>
-
-<p>I defy you to do anything at all with only Hoon. Without any reference to Urbit&#39;s Markdown files, or rather, their conveniently compiled HTML derivatives. Hell, I can&#39;t do anything with Hoon yet, even with existing documentation. That can only improve and is no criticism at all at this stage of the project. </p>
-
-<h3 id="toc_16">Houyhnhnm</h3>
-
-<p>I could like Hoon. I want to like Hoon. I cannot seriously credit the idea of One Language to Rule Them All. If I could, it would not look even vaguely like either Perl or APL. No offense to the Admiral.</p>
-
-<p>If I could credit the idea of the UrTongue, it would clearly need to be a format capable of usefully embedding any existing or contemplated programming languages, <a href="https://help.github.com/articles/github-flavored-markdown">cleanly and usefully</a>. </p>
-
-<p>I would strongly recommend to anyone considering designing a new language at the present time: The sequence <code>\n```</code> is utterly reserved and I will come down on you like a ton of tiny Internet bricks if you tamper with that convention. I suspect the present dominance of github is sufficient motive to keep it real. </p>
-
-<p>This leads to a couple important questions: Will Hoon, presuming decent tutorials and documentation, prove a pleasant systems language? More specifically and urgently, will it be pleasurable to write parsers and compilers in? </p>
-
-<p>I am sold on one aspect of Hoon: as the Urbit core and bootstrap sequence. Why? Because it&#39;s there, brah. </p>
-
-<p>I think cgy gets this. The deal with Unix is clear: you can have any language you want, as long as it&#39;s C. I hope the same bargain between Urbit and Hoon will prove to be the upgrade we all want. </p>
-
-<p>Again, having a nice tight Layer Two spec would make this all the more likely. </p>
-
-<h2 id="toc_17">Level Four</h2>
-
-<p>You can&#39;t execute without an environment, which is fundamentally about data in aggregate. That&#39;s Urbit, which is fantastic. The surface area is a set of rules on strings that produces a &quot;directory&quot; and you should just <a href="http://www.urbit.org/2013/08/22/Chapter-1-arvo.html">read the docs</a> because they&#39;re pretty good. It&#39;s URL safe, which is nifty. </p>
-
-<p>I am cheerfully unclear on how any of that operates under the hood. I have notions of how it should work, but no way to contrast that to how it does work. It appears to work, in that pre-alpha-software way. I&#39;d wager the problems we&#39;re seeing right now aren&#39;t design-level. </p>
-
-<p>This is the Assiah layer, which is the world you actually wander around in when you go get your drink of water. If anyone is still keeping track. </p>
-
-<h3 id="toc_18">Okay. That was arcane. Your point?</h3>
-
-<p>Here&#39;s a helpful table:</p>
-
-<table border="1" bordercolor="#00000" style="background-color:" width="100%" cellpadding="3" cellspacing="3">
-    <tr>
-        <td><em>Kabbalah</em></td>
-        <td><em>Urbit</em></td>
-        <td><em>Arc</em></td>
-    
-    </tr>
-    <tr>
-        <td>Atziluth</td>
-        <td>Nock</td>
-        <td>AX</td>
-    </tr>
-    <tr>
-        <td>Briah</td>
-        <td>Gonads</td>
-        <td>GGF</td>
-    </tr>
-    <tr>
-        <td>Yezirah</td>
-        <td>Hoon</td>
-        <td>Marmalade</td>
-    </tr>
-    <tr>
-        <td>Assiah</td>
-        <td>Urbit</td>
-        <td>ArcOS/Arcive</td>
-    </tr>
-    <tr>
-        <td> 　 </td>
-        <td>  　</td>
-        <td>  　</td>
-    </tr>
-</table>
-  
-
-<h3 id="toc_19">Huh.</h3>
-
-<p>I&#39;m sure that made everything much clearer!</p>
-
-<p>The names on the right are referents without value in the present. Unless you count a bunch of Markdown and a partially specified grammar description language. From my modest perspective, that&#39;s code, since I can compile it; it does nothing but inform, and even in that capacity is not ready for public consumption. </p>
-
-<p>The Arc doesn&#39;t exist and needn&#39;t be written if Urbit will serve. By the very nature of the name, it&#39;s a huge, ballsy target. It&#39;s utterly vaporous, though I hope to release the first tool in the chain before the end of the year. That would be <a href="http://mnemnion.github.io/blog/2013/08/03/a-tangled-web-we-weave/">Marmalade</a>, the literate Markdown dialect. The first metacircular compiler of Marmalade is in Clojure, but the lovely thing about <a href="https://help.github.com/articles/github-flavored-markdown">Git Flavored Markdown</a> is that one may embed any number of languages in it. Indeed that is rather the point. </p>
-
-<p>In following posts I&#39;ll go over the cake, layer by layer, with less attention to Urbit and more to a hand-rolled, idiosyncratic take on the same domain. I&#39;ll remind the Reader that there&#39;s no substitute for working code, which cgy haz and I haz not. </p>
-
-<p>In the meantime, Urbit is here, utterly fascinating, and on the verge of working. Come check out #urbit on freenode, and join in the madness. </p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/10/01/on-decimation/">On Decimation</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-01T10:20:00-07:00" pubdate data-updated="true">Oct 1<span>st</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I commonly see the word &quot;decimate&quot; used quantitatively, to mean &quot;to reduce by 90%&quot;.</p>
-
-<p>So commonly, in fact, that I consider it correct. </p>
-
-<p>Yes, yes. In Latin, it means &quot;to reduce by 10%&quot;, which doesn&#39;t sound very scary unless you&#39;re a Centurion awaiting the drawing of lots. </p>
-
-<p>That&#39;s Latin. In English, having a word for &quot;knocked down by an order of magnitude&quot; is useful. We have, fortunately, not retained decimation as a form of punishment. &quot;to reduce by 90%&quot; is also closer in feeling to the qualitative meaning, &quot;to desolate emotionally&quot;. </p>
-
-<p>I was prompted to write this when someone described traffic as &quot;literally decimated&quot; when occupancy of a highway reaches a certain number. It occurred to me that he or she was right to do so. Your useage may vary. </p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1420,6 +1236,14 @@ Note that all even-numbered operators and idioms have exactly two expansions, th
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/02/03/plural-forth-words/">Plural Forth Words</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/01/26/the-vanguard-generation/">The Vanguard Generation</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/01/24/literal-and-figurative-languages/">Literal and Figurative Languages</a>
       </li>
     
@@ -1429,14 +1253,6 @@ Note that all even-numbered operators and idioms have exactly two expansions, th
     
       <li class="post">
         <a href="/blog/2014/01/17/concurrency-is-an-artifact/">Concurrency Is an Artifact</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/01/12/those-dadgum-adders/">Those Dadgum Adders</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/01/12/a-simple-closure-in-forth/">A Simple Closure in Forth</a>
       </li>
     
   </ul>

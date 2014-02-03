@@ -4,7 +4,7 @@
   <title><![CDATA[Mnemnion]]></title>
   <link href="http://mnemnion.github.io/atom.xml" rel="self"/>
   <link href="http://mnemnion.github.io/"/>
-  <updated>2014-01-24T13:41:57-08:00</updated>
+  <updated>2014-02-03T09:39:42-08:00</updated>
   <id>http://mnemnion.github.io/</id>
   <author>
     <name><![CDATA[Sam Atman]]></name>
@@ -12,6 +12,81 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Plural Forth Words]]></title>
+    <link href="http://mnemnion.github.io/blog/2014/02/03/plural-forth-words/"/>
+    <updated>2014-02-03T08:16:00-08:00</updated>
+    <id>http://mnemnion.github.io/blog/2014/02/03/plural-forth-words</id>
+    <content type="html"><![CDATA[<p>This is a simple pattern that points to Forth&#39;s expressiveness and philosophy.</p>
+
+<p>Most words do one thing, and do it well. Sometimes you want to do that thing several times. </p>
+
+<p>In Forth, this is very easy and natural to express. For example, the word <code>key</code> will block until a key is available, and return it. Sometimes, at the REPL in particular, you want to do this multiple times. So we define this word: <code>: keys 0 do key loop ;</code>, and say <code>3 keys</code>. This simply calls <code>key</code> 3 times. </p>
+
+<p>We may approach this level of terseness in other languages, of course. In Lisp we may have <code>(key)</code> and <code>(key 3)</code>, Lua would offer <code>key()</code> and <code>key(3)</code>. Forth words can&#39;t natively know how much of the stack belongs to them, so variadic functions are harder to write. It is impossible to beat the terseness and clarity of <code>key</code> <code>3 keys</code> in use, and the second definition is transparent. </p>
+
+<p>Forth itself uses this custom. <code>cell</code> gives the number of bytes in a cell, while <code>1 cells</code> multiplies 1 by that number, giving the same value. In general, a plural word <strong>must</strong> be proceeded by the number of repetitions. </p>
+
+<p>The syntax of Forth is brutally simple, allowing for a rich semantics. The most important decision: whitespace is (almost) always important. This was made when Fortran was popular; in original Fortran, whitespace is literally never important, meaning <code>foo bar baz</code> and <code>foobarbaz</code> are always the same program. </p>
+
+<p>Consequently, any printable character within a word is fair game. Schemers and friends are accustomed to boolean functions that look like <code>test?</code>, which I&#39;m sure was heady fun after decades of <code>test-p</code>. Forthwriters do this as well. </p>
+
+<p>High-level Forth ends up looking like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>: clickloop
+</span><span class='line'>  begin 
+</span><span class='line'>      event
+</span><span class='line'>      event-respond
+</span><span class='line'>      1 .left?
+</span><span class='line'>  until
+</span><span class='line'>  ;</span></code></pre></td></tr></table></div></figure> 
+
+<p>Anyone can read this. <code>1 .left?</code> is not entirely obvious. The <code>.</code> suggests it&#39;s printing something, and the <code>?</code> suggests that it&#39;s testing something. If it just said <code>left?</code> most Forth programmers would conclude that it&#39;s setting the test that <code>until</code> checks. This is actually handled by <code>event-respond</code>, <code>.left?</code> is a debug function that prints the stack if <code>event-respond</code> leaves values behind. </p>
+
+<p>All of this is customary, and should probably remain so. Parsing within a Forth word breaks some important contracts, notably the dictionary. I&#39;ve been mulling over a modular Forth dialect that parses within a word for exactly one reason, access to words defined in another module that are overloaded. So if you already have an <code>event</code> word, you can say <code>event.:book</code> and get the <code>event</code> word from some other book in your search chain. Since the effect of a vocabulary word is to leave its token on the stack, <code>event .: book</code> could just be the word <code>.:</code> checking the <code>event</code> wordlist for the word <code>book</code>. The compressed form is possibly Forthright, in that the effect is to either interpret or compile a single word. If we used <code>event .: book</code> we would expect 3 words to be compiled, though it is quite possible to have 3 compile-time words (or more) produce a single compiled token, such as <code>: example [ 2 3 + ] literal ;</code> compiles one word, the literal value <code>5</code>. </p>
+
+<p>Adding parsing to Forth words is pure Sith and should be done with great care if at all. Retro supports strings with the simple form <code>&quot;string&quot;</code>, which is superficially cleaner than the Forth <code>.&quot; string&quot;</code>, where the spacemark is important. I actually prefer the latter, which enforces a Forth convention that spaces always trail. Anyone who has dealt with two different assumptions about where spaces belong can feel me on this one, I hope. Similarly, cr/nl is always prefix. These are good conventions. If you need leading whitespace in a string frequently, first: consider that you might actually need trailing whitespace and second, write a word for it. It&#39;s an interesting challenge, try it! </p>
+
+<p>There&#39;s a more subtle problem. The Forth interpreter does this: <code>word? number? if succeed else fail then</code>. Retro has to try <code>string? word? number?</code>; I don&#39;t like anything that breaks the power to redefine a word. Even the absurdity <code>: 1 2 ;</code> is a consequent with value; consider a special vocabulary containing <code>: 10 [char] A ;</code>. Or <code>: 10 10 select.window</code>, which keeps the number <code>10</code> around for just long enough to make the definition. </p>
+
+<p>This imaginary modular forth would try <code>word? module-word? number?</code>, meaning a redefinition of <code>word.:book</code> would block <code>word</code> in the <code>book</code> module. The compiler should complain about any word that contains <code>.:</code>, and be loud about if that word actually blocks a module word. This is better than the user complaining because they need the ability to make a word containing <code>.:</code> for whatever reason, and the compiler won&#39;t let them. </p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The Vanguard Generation]]></title>
+    <link href="http://mnemnion.github.io/blog/2014/01/26/the-vanguard-generation/"/>
+    <updated>2014-01-26T14:26:00-08:00</updated>
+    <id>http://mnemnion.github.io/blog/2014/01/26/the-vanguard-generation</id>
+    <content type="html"><![CDATA[<p>There is a small but significant group tucked between Generation X and the Millenials. As a member of that generation, it seemed worth pointing us out.</p>
+
+<p>The 20th century may be sharply divided into eras by the chief inventions: the internal combustion engine, nuclear weapons, and the computer network. I could say &quot;computer&quot;, just as one could make a case that the middle technology was the television. But it wasn&#39;t computer which changed us, it was computers, wired together.</p>
+
+<p>The Vanguard generation, in 2014, are clustered between the ages of 30 and 40. In 1994, we were 10 to 20 years old. Simply put, we remember life without the Internet, but learned it during puberty. </p>
+
+<p>There are plenty of people ten or twenty years older who found the Internet in their all-important adolescence. The university experience in America delays adolescence, with the (usually unrecognized) upside of longer plasticity for learning among the inclined, so there are a few Avant Vanguardists. Reduplication and elision, yay! They do not a generation make. </p>
+
+<p>More importantly, they suffered through the September than Never Ended. Their Internet was not our Internet: we are the Vandals and Visigoths who wrecked their kingdom. Sorry about that. Did I mention we were going through puberty? </p>
+
+<p>The Millenials are fish in water. They have never heard an adult ask another &quot;Do you have email?&quot;, only &quot;What&#39;s your email address?&quot;. And so on, and so forth, for all of it. </p>
+
+<p>In the present, the Baby Boomers rule, and Generation X runs it. Soon, Generation X will rule, and the Vanguard will run it; this is the way of the world. </p>
+
+<p>By that time, our very biological existence will rest on the network. It already does, but we have only begun to reap the harvest of internal combustion and all that it brought. In a very real way, the Internet or its heir will rule us, and that&#39;s the optimistic scenario. </p>
+
+<p>To the Vanguard I say this: Keep your memories of the nascent Network. Remember the floppy, and what fits on it. Cherish the freedom of your youth, when, lacking a cell phone, you had to find your friends a terra and your parents had to yell or call around. </p>
+
+<p>More: Understand that our teetering, broken, stringy technology stack was written by Boomers, mostly, and other people who didn&#39;t know any better. Charitably, the technology wasn&#39;t mature, though the luminaries and prophets of the era would vigorously disagree. We&#39;re inheriting it, along with the pride of a lifetime&#39;s work; rather than take it behind the barn and shoot it, let&#39;s gently put it out to pasture and emulation. </p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Literal and Figurative Languages]]></title>

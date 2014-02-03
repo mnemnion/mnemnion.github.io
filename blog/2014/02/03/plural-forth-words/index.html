@@ -1,0 +1,279 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Plural Forth Words - Mnemnion</title>
+  <meta name="author" content="Sam Atman">
+
+  
+  <meta name="description" content="This is a simple pattern that points to Forth&#39;s expressiveness and philosophy. Most words do one thing, and do it well. Sometimes you want to do &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://mnemnion.github.io/blog/2014/02/03/plural-forth-words">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Mnemnion" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Mnemnion</a></h1>
+  
+    <h2>A Unit of Analogy</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:mnemnion.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Plural Forth Words</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-03T08:16:00-08:00" pubdate data-updated="true">Feb 3<span>rd</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>This is a simple pattern that points to Forth&#39;s expressiveness and philosophy.</p>
+
+<p>Most words do one thing, and do it well. Sometimes you want to do that thing several times. </p>
+
+<p>In Forth, this is very easy and natural to express. For example, the word <code>key</code> will block until a key is available, and return it. Sometimes, at the REPL in particular, you want to do this multiple times. So we define this word: <code>: keys 0 do key loop ;</code>, and say <code>3 keys</code>. This simply calls <code>key</code> 3 times. </p>
+
+<p>We may approach this level of terseness in other languages, of course. In Lisp we may have <code>(key)</code> and <code>(key 3)</code>, Lua would offer <code>key()</code> and <code>key(3)</code>. Forth words can&#39;t natively know how much of the stack belongs to them, so variadic functions are harder to write. It is impossible to beat the terseness and clarity of <code>key</code> <code>3 keys</code> in use, and the second definition is transparent. </p>
+
+<p>Forth itself uses this custom. <code>cell</code> gives the number of bytes in a cell, while <code>1 cells</code> multiplies 1 by that number, giving the same value. In general, a plural word <strong>must</strong> be proceeded by the number of repetitions. </p>
+
+<p>The syntax of Forth is brutally simple, allowing for a rich semantics. The most important decision: whitespace is (almost) always important. This was made when Fortran was popular; in original Fortran, whitespace is literally never important, meaning <code>foo bar baz</code> and <code>foobarbaz</code> are always the same program. </p>
+
+<p>Consequently, any printable character within a word is fair game. Schemers and friends are accustomed to boolean functions that look like <code>test?</code>, which I&#39;m sure was heady fun after decades of <code>test-p</code>. Forthwriters do this as well. </p>
+
+<p>High-level Forth ends up looking like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>: clickloop
+</span><span class='line'>  begin 
+</span><span class='line'>      event
+</span><span class='line'>      event-respond
+</span><span class='line'>      1 .left?
+</span><span class='line'>  until
+</span><span class='line'>  ;</span></code></pre></td></tr></table></div></figure> 
+
+<p>Anyone can read this. <code>1 .left?</code> is not entirely obvious. The <code>.</code> suggests it&#39;s printing something, and the <code>?</code> suggests that it&#39;s testing something. If it just said <code>left?</code> most Forth programmers would conclude that it&#39;s setting the test that <code>until</code> checks. This is actually handled by <code>event-respond</code>, <code>.left?</code> is a debug function that prints the stack if <code>event-respond</code> leaves values behind. </p>
+
+<p>All of this is customary, and should probably remain so. Parsing within a Forth word breaks some important contracts, notably the dictionary. I&#39;ve been mulling over a modular Forth dialect that parses within a word for exactly one reason, access to words defined in another module that are overloaded. So if you already have an <code>event</code> word, you can say <code>event.:book</code> and get the <code>event</code> word from some other book in your search chain. Since the effect of a vocabulary word is to leave its token on the stack, <code>event .: book</code> could just be the word <code>.:</code> checking the <code>event</code> wordlist for the word <code>book</code>. The compressed form is possibly Forthright, in that the effect is to either interpret or compile a single word. If we used <code>event .: book</code> we would expect 3 words to be compiled, though it is quite possible to have 3 compile-time words (or more) produce a single compiled token, such as <code>: example [ 2 3 + ] literal ;</code> compiles one word, the literal value <code>5</code>. </p>
+
+<p>Adding parsing to Forth words is pure Sith and should be done with great care if at all. Retro supports strings with the simple form <code>&quot;string&quot;</code>, which is superficially cleaner than the Forth <code>.&quot; string&quot;</code>, where the spacemark is important. I actually prefer the latter, which enforces a Forth convention that spaces always trail. Anyone who has dealt with two different assumptions about where spaces belong can feel me on this one, I hope. Similarly, cr/nl is always prefix. These are good conventions. If you need leading whitespace in a string frequently, first: consider that you might actually need trailing whitespace and second, write a word for it. It&#39;s an interesting challenge, try it! </p>
+
+<p>There&#39;s a more subtle problem. The Forth interpreter does this: <code>word? number? if succeed else fail then</code>. Retro has to try <code>string? word? number?</code>; I don&#39;t like anything that breaks the power to redefine a word. Even the absurdity <code>: 1 2 ;</code> is a consequent with value; consider a special vocabulary containing <code>: 10 [char] A ;</code>. Or <code>: 10 10 select.window</code>, which keeps the number <code>10</code> around for just long enough to make the definition. </p>
+
+<p>This imaginary modular forth would try <code>word? module-word? number?</code>, meaning a redefinition of <code>word.:book</code> would block <code>word</code> in the <code>book</code> module. The compiler should complain about any word that contains <code>.:</code>, and be loud about if that word actually blocks a module word. This is better than the user complaining because they need the ability to make a word containing <code>.:</code> for whatever reason, and the compiler won&#39;t let them. </p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sam Atman</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-03T08:16:00-08:00" pubdate data-updated="true">Feb 3<span>rd</span>, 2014</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://mnemnion.github.io/blog/2014/02/03/plural-forth-words/" data-via="" data-counturl="http://mnemnion.github.io/blog/2014/02/03/plural-forth-words/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/01/26/the-vanguard-generation/" title="Previous Post: The Vanguard Generation">&laquo; The Vanguard Generation</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/02/03/plural-forth-words/">Plural Forth Words</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/01/26/the-vanguard-generation/">The Vanguard Generation</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/01/24/literal-and-figurative-languages/">Literal and Figurative Languages</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/01/17/there-is-no-garbage/">There Is No Garbage</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/01/17/concurrency-is-an-artifact/">Concurrency Is an Artifact</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/mnemnion">@mnemnion</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'mnemnion',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Sam Atman -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
